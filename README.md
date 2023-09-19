@@ -17,3 +17,13 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
   - create a user account
   - create/update/delete an appointment (cannot update or delete any appointment within 24 hours prior to the date of this appointment, or need to make a phone call if there's a situation)
 
+## Technologies
+
+- Next.js
+- AWS Amplify
+- AWS Lambda
+- AWS Cognito
+- AWS DynamoDB
+- AWS EventBridge
+- AWS SNS
+- AWS SES
