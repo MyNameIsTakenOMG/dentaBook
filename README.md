@@ -31,10 +31,11 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
 
 ## Challenges
 - showing the correct info on a calendar, such as holidays, long weekends, as well as dentist's vacations
-- showing correct time slots based on different types of appointments
+- showing all available time slots based on different types of appointments and dates picked
+- showing the next available date and time without clients picking dates one after another
 - concurrency issue of the same time slots being chosen at the same time
 
 
 ## issues
 - avoid a client making multiple appointments
-- CSRF protection for Lambda functions
+- CSRF/XSS protection for Lambda functions
