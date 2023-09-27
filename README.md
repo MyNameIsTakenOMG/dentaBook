@@ -16,7 +16,7 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
 - Client:
   - create a user account
   - create/update/delete an appointment (cannot update or delete any appointment within 24 hours prior to the date of this appointment, or need to make a phone call if there's a situation)
-  - allow to make appointments without a user account (guest booking option, **downsides:**  unable to view the history of past appointments and modify appointments)
+  - allow to make appointments without a user account (guest booking option, ***downsides:***  unable to view the history of past appointments and modify appointments)
 
 ## Technologies
 
