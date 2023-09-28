@@ -16,7 +16,7 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
 
 - Client:
   - create a user account
-  - create/update/delete an appointment (cannot update or delete any appointment within 24 hours prior to the date of this appointment, or need to make a phone call if there's a situation)
+  - create/update an appointment (can update the data or time the appointment for ***one time*** within 24 hours after this appointment is made, or required to make a phone call if there's a situation( update/cancel the appointment))
   - allow to make appointments without a user account (guest booking option, ***downsides:***  unable to view the history of past appointments and modify appointments, have to fill out personal information form when booking an appointment each time.)
 
 ## Technologies
@@ -41,3 +41,4 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
 ## issues
 - avoid a client making multiple appointments
 - CSRF/XSS protection for Lambda functions
+- consider to apply some limits on how frequently or how much times a client can modify the appointment
