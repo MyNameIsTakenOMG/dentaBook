@@ -1,0 +1,11 @@
+name: App Local CI
+
+on:
+  pull_request:
+    branches: ['main', 'prod']
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo this is a test
