@@ -1,15 +1,15 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-dentabook-dev-235411-authRole",
-      "UnauthRoleArn": "arn:aws:iam::550321497998:role/amplify-dentabook-dev-235411-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::550321497998:role/amplify-dentabook-dev-235411-authRole",
+      "AuthRoleName": "amplify-dentabook-dev-151357-authRole",
+      "UnauthRoleArn": "arn:aws:iam::550321497998:role/amplify-dentabook-dev-151357-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::550321497998:role/amplify-dentabook-dev-151357-authRole",
       "Region": "us-east-2",
-      "DeploymentBucketName": "amplify-dentabook-dev-235411-deployment",
-      "UnauthRoleName": "amplify-dentabook-dev-235411-unauthRole",
-      "StackName": "amplify-dentabook-dev-235411",
-      "StackId": "arn:aws:cloudformation:us-east-2:550321497998:stack/amplify-dentabook-dev-235411/84190d40-61a0-11ee-bed4-065a673a5145",
-      "AmplifyAppId": "d36udfl81u2rqo"
+      "DeploymentBucketName": "amplify-dentabook-dev-151357-deployment",
+      "UnauthRoleName": "amplify-dentabook-dev-151357-unauthRole",
+      "StackName": "amplify-dentabook-dev-151357",
+      "StackId": "arn:aws:cloudformation:us-east-2:550321497998:stack/amplify-dentabook-dev-151357/02ebe180-6221-11ee-95f5-02f75070e3d3",
+      "AmplifyAppId": "d34l85taawlcar"
     }
   }
 }
