@@ -60,18 +60,25 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
   - is_reminder_message_sent
   - is_confirm_message_sent
 - **Appointment**:
+  - entity_type
   - appointment_date
   - appointment_timestamp
-  - appointment_type
   - appointment_status
-  - entity_type
-- **Reserved** 
+  - appointment_type
+- **Reserved**: 
   - reserve_date
   - reserve_timestamp
   - reserve_type
   - entity_type
-  - email
+  - ~~email~~
   - expire_timestamp
+- **Issue**:
+  - entity_type
+  - appointment_date
+  - appointment_timestamp
+  - appointment_status
+  - appointment_type
+  - email
 ### Access Patterns
 - `getClientByClientId` (primary key(PK) + sort key(SK))
 - `getAppointmentsByClientId` (primary key(PK))
