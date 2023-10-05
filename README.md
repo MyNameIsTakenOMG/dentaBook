@@ -41,4 +41,39 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
 
 - avoid a client making multiple appointments
 - CSRF/XSS protection for Lambda functions
-- consider to apply some limits on how frequently or how much times a client can modify the appointment
+- consider applying some limits on how frequently or how many times a client can modify the appointment
+
+## Database Design (DynamoDB)
+### Entities
+- **Client**:
+  - email
+  - phone number
+  - family_name
+  - given_name
+  - ~~password~~
+  - entity_type
+  - isRegistered
+  - role
+  - re-exam_interval
+  - next_appointment
+  - last_appointment
+  - is_reminder_message_sent
+  - is_confirm_message_sent
+- **Appointment**:
+  - appointment_date
+  - appointment_timestamp
+  - appointment_type
+  - appointment_status
+  - entity_type
+- **Reserved** 
+  - reserve_date
+  - reserve_timestamp
+  - reserve_type
+  - entity_type
+  - email
+  - expire_timestamp
+### Access Patterns
+- `getClientByClientId` (primary key(PK) + sort key(SK))
+- `getAppointmentsByClientId` (primary key(PK))
+- `getAppointmentByAppointmentId` (primary key(PK) + sort key(SK))
+- `getAppointmentsByAppointmentId` (primary key(SK))
