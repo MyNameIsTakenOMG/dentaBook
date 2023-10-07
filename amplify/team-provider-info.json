@@ -11,5 +11,37 @@
       "StackId": "arn:aws:cloudformation:us-east-2:550321497998:stack/amplify-dentabook-dev-151357/02ebe180-6221-11ee-95f5-02f75070e3d3",
       "AmplifyAppId": "d34l85taawlcar"
     }
+  },
+  "ftauth": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-dentabook-ftauth-130858-authRole",
+      "UnauthRoleArn": "arn:aws:iam::550321497998:role/amplify-dentabook-ftauth-130858-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::550321497998:role/amplify-dentabook-ftauth-130858-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-dentabook-ftauth-130858-deployment",
+      "UnauthRoleName": "amplify-dentabook-ftauth-130858-unauthRole",
+      "StackName": "amplify-dentabook-ftauth-130858",
+      "StackId": "arn:aws:cloudformation:us-east-2:550321497998:stack/amplify-dentabook-ftauth-130858/0ad93770-646b-11ee-814e-025b3f6e3345",
+      "AmplifyAppId": "d34l85taawlcar",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-dentabook-ftauth-130858-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
+    },
+    "categories": {
+      "auth": {
+        "dentabook085e066c": {}
+      },
+      "function": {
+        "dentabook085e066cPostConfirmation": {
+          "deploymentBucketName": "amplify-dentabook-ftauth-130858-deployment",
+          "s3Key": "amplify-builds/dentabook085e066cPostConfirmation-4b5477397a6479315154-build.zip"
+        },
+        "dentabookawsSDK": {
+          "deploymentBucketName": "amplify-dentabook-ftauth-130858-deployment",
+          "s3Key": "amplify-builds/dentabookawsSDK-LambdaLayerVersion5e648577-build.zip"
+        }
+      },
+      "storage": {
+        "dynamoftauth": {}
+      }
+    }
   }
 }
