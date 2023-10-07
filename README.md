@@ -30,6 +30,12 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
 - AWS SNS
 - AWS SES
 
+## Workflows
+
+- **Authentication**:
+  <p align='center'>
+    <img src='https://github.com/MyNameIsTakenOMG/project-gifs/blob/main/dentaBook-auth-workflow.PNG' alt='auth workflow' width='500' />
+  </p>
 ## Challenges
 
 - showing the correct info on a calendar, such as holidays, long weekends, as well as dentist's vacations
