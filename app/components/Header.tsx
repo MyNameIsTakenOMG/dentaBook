@@ -1,6 +1,6 @@
 'use client';
 import { Amplify, Auth } from 'aws-amplify';
-import awsExports from '@/src/aws-exports';
+// import awsExports from '@/src/aws-exports';
 import React from 'react';
 import {
   AppBar,
@@ -11,9 +11,18 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material';
+import createTheme from '@mui/material/styles/createTheme'
+import ThemeProvider from '@mui/material/styles/ThemeProvider'
 import MenuIcon from '@mui/icons-material/Menu';
+import { blue } from '@mui/material/colors';
 
-Amplify.configure({ ...awsExports, ssr: true });
+// Amplify.configure({ ...awsExports, ssr: true });
+
+const typographyTheme = createTheme({
+  typography: {
+    fontFamily: ["Rubik", "sans-serif"].join(','),
+  }
+})
 
 export default function Header() {
   return (
@@ -21,18 +30,21 @@ export default function Header() {
       position="fixed"
       color="transparent"
       sx={{
-        maxWidth: '1200px',
+        // maxWidth: '1200px',
+        width: '100%',
         backgroundColor: 'rgba(255,255,255,0.9)',
         boxShadow: 'unset',
-        backdropFilter: 'blur(10px)',
-        opacity: 0.7,
-        left: { xs: 0, lg: 'calc((100% - 1200px) / 2)' },
+        backdropFilter: 'blur(8px)',
+        // opacity: 0.9,
+        // left: { xs: 0, lg: 'calc((100% - 1200px) / 2)' },
       }}
     >
       <Toolbar
         sx={{
           px: { xs: '16px', md: '24px', lg: '48px' },
           width: '100%',
+          maxWidth: '1200px',
+          marginLeft: { xs: 0, lg: 'calc((100% - 1200px) / 2)' }
         }}
       >
         <IconButton
@@ -44,18 +56,23 @@ export default function Header() {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          News
-        </Typography>
-        <Stack direction={'row'} columnGap={2}>
-          <Typography variant="body1" component="div" sx={{ flexGrow: 1 }}>
-            News
+        <ThemeProvider theme={typographyTheme}>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, color: '#1a73e8' }}>
+            Dr.Gao D.D.S
           </Typography>
-          <Typography variant="body1" component="div" sx={{ flexGrow: 1 }}>
-            News
+        </ThemeProvider>
+        <Box sx={{ display: 'flex', flexFlow: 'row nowrap', columnGap: 6, flexGrow: 1 }}>
+          <Typography variant="body1" component="div" >
+            Home
           </Typography>
-        </Stack>
-        <Button color="inherit">Login</Button>
+          <Typography variant="body1" component="div" >
+            Services
+          </Typography>
+          <Typography variant="body1" component="div" >
+            About
+          </Typography>
+        </Box>
+        <Button color="inherit" size='medium' variant='outlined' disableElevation sx={{ borderRadius: '50px' }}>Login</Button>
       </Toolbar>
     </AppBar>
   );
