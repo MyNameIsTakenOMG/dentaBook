@@ -15,6 +15,7 @@ import createTheme from '@mui/material/styles/createTheme'
 import ThemeProvider from '@mui/material/styles/ThemeProvider'
 import MenuIcon from '@mui/icons-material/Menu';
 import { blue } from '@mui/material/colors';
+import Link from 'next/link';
 
 // Amplify.configure({ ...awsExports, ssr: true });
 
@@ -58,19 +59,28 @@ export default function Header() {
         </IconButton>
         <ThemeProvider theme={typographyTheme}>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1, color: '#1a73e8' }}>
-            Dr.Gao D.D.S
+            Dr.Gao Family Dentistry
           </Typography>
         </ThemeProvider>
         <Box sx={{ display: 'flex', flexFlow: 'row nowrap', columnGap: 6, flexGrow: 1 }}>
-          <Typography variant="body1" component="div" >
-            Home
-          </Typography>
-          <Typography variant="body1" component="div" >
-            Services
-          </Typography>
-          <Typography variant="body1" component="div" >
-            About
-          </Typography>
+          <Link href='#landing'>
+            <Typography variant="body1" component="div" >
+              Home
+            </Typography>
+          </Link>
+          <Link href='#services'>
+            <Typography variant="body1" component="div" >
+              Services
+            </Typography>
+          </Link>
+          <Link href='#about'>
+            <Typography variant="body1" component="div" >
+              About
+            </Typography>
+          </Link>
+          {/* <Typography variant="body1" component="div" >
+            Reviews
+          </Typography> */}
         </Box>
         <Button color="inherit" size='medium' variant='outlined' disableElevation sx={{ borderRadius: '50px' }}>Login</Button>
       </Toolbar>
