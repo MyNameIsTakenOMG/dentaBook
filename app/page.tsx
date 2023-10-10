@@ -444,8 +444,8 @@ export default function Home() {
             </Stack>
             <Button
               variant="contained"
+              disableElevation
               sx={{
-                boxShadow: 'unset',
                 borderRadius: '50px',
                 alignSelf: 'start',
               }}
@@ -459,8 +459,8 @@ export default function Home() {
               height="450"
               style={{ border: 0 }}
               referrerPolicy="no-referrer-when-downgrade"
-              src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCx3Uo94LTZOlfnyMM_NbzJbPgKpyFnv_c&q=EjU4MTMxIFlvbmdlIFN0IHVuaXQgMjAyLCBUaG9ybmhpbGwsIE9OIEwzVCAyQzYsIENhbmFkYSIkGiIKFgoUChIJE82ed30sK4gRL66QeAndBJASCHVuaXQgMjAy
-8131 Yonge St unit 202, Thornhill, ON L3T 2C6, Canada"
+              src={`https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_EMBED_MAP_API_KEY}&q=EjU4MTMxIFlvbmdlIFN0IHVuaXQgMjAyLCBUaG9ybmhpbGwsIE9OIEwzVCAyQzYsIENhbmFkYSIkGiIKFgoUChIJE82ed30sK4gRL66QeAndBJASCHVuaXQgMjAy
+8131 Yonge St unit 202, Thornhill, ON L3T 2C6, Canada`}
               allowFullScreen
             ></iframe>
           </Box>
