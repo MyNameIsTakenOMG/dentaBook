@@ -173,7 +173,7 @@ export default function Home() {
           mb: '3rem',
         }}>
         <ThemeProvider theme={typographyTheme}>
-          <Typography variant='h6' sx={{ maxWidth: '400px', textAlign: 'center', mb: '4rem' }}>The Main Features Of Our Services To Serve Our <span style={{ color: blue['A200'] }}>Patients</span>.</Typography>
+          <Typography variant='h6' sx={{ maxWidth: '400px', textAlign: 'center', mb: '4rem', mt: '2rem' }}>The Main Features Of Our Services To Serve Our <span style={{ color: blue['A200'] }}>Patients</span>.</Typography>
         </ThemeProvider>
         <Box sx={{
           display: 'flex',
@@ -207,7 +207,7 @@ export default function Home() {
 
       {/* about section  */}
       <Box
-        id='services'
+        id='about'
         sx={{
           width: '100%',
           // height: '100vh',
@@ -247,6 +247,24 @@ export default function Home() {
           </Box>
         </Box>
       </Box>
+
+      {/* clinic info and map section  */}
+      <Box
+        id='about'
+        sx={{
+          width: '100%',
+          // height: '100vh',
+          padding: '3rem',
+          display: 'flex',
+          flexFlow: 'column',
+          alignItems: 'center',
+          mb: '3rem',
+          border: '1px solid black'
+        }}>
+        <Paper elevation={5} sx={{ display: 'flex', flexFlow: 'row nowrap', width: '100%', maxWidth: '1200px' }}>
+
+        </Paper>
+      </Box>
     </main>
-  );
+  )
 }
