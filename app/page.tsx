@@ -57,6 +57,7 @@ const services = [
 
 export default function Home() {
   const isModalOpen = useAppSelector((state) => state.auth.isModalOpen);
+  const authInfo = useAppSelector((state) => state.auth.authInfo);
   const dispatch = useAppDispatch();
 
   return (
@@ -107,20 +108,24 @@ export default function Home() {
                   sx={{ borderRadius: '50px' }}
                   disableElevation
                 >
-                  Book as Guest
+                  {authInfo ? 'Book Now' : 'Book as Guest'}
                 </Button>
               </Box>
               <Box sx={{ width: '50%' }}>
-                <Button
-                  variant="outlined"
-                  sx={{ borderRadius: '50px' }}
-                  disableElevation
-                  onClick={() => {
-                    dispatch(openModal());
-                  }}
-                >
-                  Login
-                </Button>
+                {authInfo ? (
+                  <Typography>Welcome, {authInfo.given_name}</Typography>
+                ) : (
+                  <Button
+                    variant="outlined"
+                    sx={{ borderRadius: '50px' }}
+                    disableElevation
+                    onClick={() => {
+                      dispatch(openModal());
+                    }}
+                  >
+                    Login
+                  </Button>
+                )}
               </Box>
             </Stack>
           </Stack>

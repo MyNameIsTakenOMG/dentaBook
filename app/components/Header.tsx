@@ -9,6 +9,7 @@ import {
   IconButton,
   Stack,
   Toolbar,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import createTheme from '@mui/material/styles/createTheme';
@@ -16,8 +17,8 @@ import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import MenuIcon from '@mui/icons-material/Menu';
 import { blue } from '@mui/material/colors';
 import Link from 'next/link';
-import { useAppDispatch } from '../store';
-import { openModal } from '../store/authSlice';
+import { useAppDispatch, useAppSelector } from '../store';
+import { clearAuthInfo, loadErrorInfo, openModal } from '../store/authSlice';
 
 // Amplify.configure({ ...awsExports, ssr: true });
 
@@ -29,6 +30,7 @@ const typographyTheme = createTheme({
 
 export default function Header() {
   const dispatch = useAppDispatch();
+  const authInfo = useAppSelector((state) => state.auth.authInfo);
 
   return (
     <AppBar
@@ -97,18 +99,46 @@ export default function Header() {
             Reviews
           </Typography> */}
         </Box>
-        <Button
-          onClick={() => {
-            dispatch(openModal());
-          }}
-          color="inherit"
-          size="medium"
-          variant="outlined"
-          disableElevation
-          sx={{ borderRadius: '50px' }}
-        >
-          Login
-        </Button>
+        {authInfo ? (
+          <Stack direction={'row'} sx={{ columnGap: '0.5rem' }}>
+            <Tooltip title={authInfo.email}>
+              <Typography variant="body2">
+                Hi, {authInfo.email.slice(6)}...
+              </Typography>
+            </Tooltip>
+            <Button
+              onClick={async () => {
+                try {
+                  await Auth.signOut();
+                  dispatch(clearAuthInfo());
+                } catch (error: any) {
+                  console.log('sign out error: ' + error.message);
+                  dispatch(loadErrorInfo(error.message));
+                }
+              }}
+              color="inherit"
+              size="medium"
+              variant="outlined"
+              disableElevation
+              sx={{ borderRadius: '50px' }}
+            >
+              Logout
+            </Button>
+          </Stack>
+        ) : (
+          <Button
+            onClick={() => {
+              dispatch(openModal());
+            }}
+            color="inherit"
+            size="medium"
+            variant="outlined"
+            disableElevation
+            sx={{ borderRadius: '50px' }}
+          >
+            Login
+          </Button>
+        )}
       </Toolbar>
     </AppBar>
   );
