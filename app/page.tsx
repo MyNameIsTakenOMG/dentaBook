@@ -283,7 +283,6 @@ export default function Home() {
           flexFlow: 'column',
           alignItems: 'center',
           mb: '3rem',
-          border: '1px solid black',
         }}
       >
         <ThemeProvider theme={typographyTheme}>
@@ -330,7 +329,7 @@ export default function Home() {
           >
             <Paper
               elevation={3}
-              sx={{ width: '480%', minHeight: '480px', p: '1rem' }}
+              sx={{ width: '80%', minHeight: '480px', p: '1rem' }}
             >
               <Typography>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -365,7 +364,6 @@ export default function Home() {
           flexFlow: 'column',
           alignItems: 'center',
           mb: '3rem',
-          border: '1px solid black',
         }}
       >
         <Box
