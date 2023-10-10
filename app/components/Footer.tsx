@@ -19,9 +19,14 @@ export default function Footer() {
         justifyContent: 'space-between',
       }}
     >
-      <Typography variant="body2" color={'white'}>
-        Copyright All Rights Reserved &copy; 2023
-      </Typography>
+      <Stack direction={'row'} sx={{ columnGap: '1rem' }}>
+        <Typography variant="body2" color={'white'}>
+          &copy; 2023, developed by Sean Fang
+        </Typography>
+        <Typography variant="body2" color={'white'}>
+          email: fangzhengonly@gmail.com
+        </Typography>
+      </Stack>
       <Stack direction={'row'} sx={{ columnGap: '1rem', color: 'white' }}>
         <Link href="#landing">
           <Typography variant="body1" component="div">

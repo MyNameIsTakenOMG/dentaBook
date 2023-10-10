@@ -11,21 +11,25 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material';
-import createTheme from '@mui/material/styles/createTheme'
-import ThemeProvider from '@mui/material/styles/ThemeProvider'
+import createTheme from '@mui/material/styles/createTheme';
+import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import MenuIcon from '@mui/icons-material/Menu';
 import { blue } from '@mui/material/colors';
 import Link from 'next/link';
+import { useAppDispatch } from '../store';
+import { openModal } from '../store/authSlice';
 
 // Amplify.configure({ ...awsExports, ssr: true });
 
 const typographyTheme = createTheme({
   typography: {
-    fontFamily: ["Rubik", "sans-serif"].join(','),
-  }
-})
+    fontFamily: ['Rubik', 'sans-serif'].join(','),
+  },
+});
 
 export default function Header() {
+  const dispatch = useAppDispatch();
+
   return (
     <AppBar
       position="fixed"
@@ -45,7 +49,7 @@ export default function Header() {
           px: { xs: '16px', md: '24px', lg: '48px' },
           width: '100%',
           maxWidth: '1200px',
-          marginLeft: { xs: 0, lg: 'calc((100% - 1200px) / 2)' }
+          marginLeft: { xs: 0, lg: 'calc((100% - 1200px) / 2)' },
         }}
       >
         <IconButton
@@ -58,23 +62,34 @@ export default function Header() {
           <MenuIcon />
         </IconButton>
         <ThemeProvider theme={typographyTheme}>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1, color: '#1a73e8' }}>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1, color: '#1a73e8' }}
+          >
             Dr.Gao Family Dentistry
           </Typography>
         </ThemeProvider>
-        <Box sx={{ display: 'flex', flexFlow: 'row nowrap', columnGap: 6, flexGrow: 1 }}>
-          <Link href='#landing'>
-            <Typography variant="body1" component="div" >
+        <Box
+          sx={{
+            display: 'flex',
+            flexFlow: 'row nowrap',
+            columnGap: 6,
+            flexGrow: 1,
+          }}
+        >
+          <Link href="#landing">
+            <Typography variant="body1" component="div">
               Home
             </Typography>
           </Link>
-          <Link href='#services'>
-            <Typography variant="body1" component="div" >
+          <Link href="#services">
+            <Typography variant="body1" component="div">
               Services
             </Typography>
           </Link>
-          <Link href='#about'>
-            <Typography variant="body1" component="div" >
+          <Link href="#about">
+            <Typography variant="body1" component="div">
               About
             </Typography>
           </Link>
@@ -82,7 +97,18 @@ export default function Header() {
             Reviews
           </Typography> */}
         </Box>
-        <Button color="inherit" size='medium' variant='outlined' disableElevation sx={{ borderRadius: '50px' }}>Login</Button>
+        <Button
+          onClick={() => {
+            dispatch(openModal());
+          }}
+          color="inherit"
+          size="medium"
+          variant="outlined"
+          disableElevation
+          sx={{ borderRadius: '50px' }}
+        >
+          Login
+        </Button>
       </Toolbar>
     </AppBar>
   );

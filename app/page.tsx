@@ -19,31 +19,11 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
+import AuthenticatorModal from './AuthenticatorModal';
+import { useAppDispatch, useAppSelector } from './store';
+import { openModal } from './store/authSlice';
 
 // Amplify.configure({ ...awsExports, ssr: true });
-
-const formFields = {
-  signUp: {
-    email: {
-      order: 1,
-    },
-    phone_number: {
-      order: 2,
-    },
-    given_name: {
-      order: 3,
-    },
-    family_name: {
-      order: 4,
-    },
-    password: {
-      order: 5,
-    },
-    confirm_password: {
-      order: 6,
-    },
-  },
-};
 
 const typographyTheme = createTheme({
   typography: {
@@ -76,35 +56,13 @@ const services = [
 ];
 
 export default function Home() {
-  // const services = {
-  //   async handleSignUp(formData: any) {
-  //     let { username, password, attributes } = formData;
-  //     return Auth.signUp({
-  //       username,
-  //       password,
-  //       attributes: {
-  //         ...attributes,
-  //         'custom:role': 'client',
-  //       },
-  //       autoSignIn: {
-  //         enabled: true,
-  //       },
-  //     });
-  //   },
-  // };
+  const isModalOpen = useAppSelector((state) => state.auth.isModalOpen);
+  const dispatch = useAppDispatch();
 
   return (
     <main className={styles.main}>
-      {/* <Authenticator services={services} formFields={formFields}>
-        {({ user, signOut }) => {
-          return (
-            <main>
-              <h1>Hello {user?.username}</h1>
-              <button onClick={signOut}>Sign out</button>
-            </main>
-          );
-        }}
-      </Authenticator> */}
+      {/* authenticator modal */}
+      {isModalOpen && <AuthenticatorModal />}
 
       {/* section landing  */}
       <Box
@@ -157,8 +115,11 @@ export default function Home() {
                   variant="outlined"
                   sx={{ borderRadius: '50px' }}
                   disableElevation
+                  onClick={() => {
+                    dispatch(openModal());
+                  }}
                 >
-                  Register
+                  Login
                 </Button>
               </Box>
             </Stack>
