@@ -7,12 +7,12 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import '@aws-amplify/ui-react/styles.css';
 import { Amplify } from 'aws-amplify';
-// import awsExports from '../src/aws-exports';
+import awsExports from '../src/aws-exports';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import StoreProvider from './store/StoreProvider';
 
-// Amplify.configure({ ...awsExports, ssr: true });
+Amplify.configure({ ...awsExports, ssr: true });
 
 const inter = Inter({ subsets: ['latin'] });
 

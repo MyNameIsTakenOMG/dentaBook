@@ -1,6 +1,6 @@
 'use client';
 import { Amplify, Auth } from 'aws-amplify';
-// import awsExports from '@/src/aws-exports';
+import awsExports from '@/src/aws-exports';
 
 import Image from 'next/image';
 import styles from './page.module.css';
@@ -23,7 +23,7 @@ import AuthenticatorModal from './AuthenticatorModal';
 import { useAppDispatch, useAppSelector } from './store';
 import { openModal } from './store/authSlice';
 
-// Amplify.configure({ ...awsExports, ssr: true });
+Amplify.configure({ ...awsExports, ssr: true });
 
 const typographyTheme = createTheme({
   typography: {
@@ -63,7 +63,7 @@ export default function Home() {
   return (
     <main className={styles.main}>
       {/* authenticator modal */}
-      {isModalOpen && <AuthenticatorModal />}
+      {isModalOpen === true ? <AuthenticatorModal /> : null}
 
       {/* section landing  */}
       <Box
@@ -111,9 +111,15 @@ export default function Home() {
                   {authInfo ? 'Book Now' : 'Book as Guest'}
                 </Button>
               </Box>
-              <Box sx={{ width: '50%' }}>
+              <Box
+                sx={{ width: '50%', display: 'flex', flexFlow: 'row nowrap' }}
+              >
                 {authInfo ? (
-                  <Typography>Welcome, {authInfo.given_name}</Typography>
+                  <ThemeProvider theme={typographyTheme}>
+                    <Typography sx={{ alignSelf: 'center' }}>
+                      Welcome, {authInfo.given_name}!
+                    </Typography>
+                  </ThemeProvider>
                 ) : (
                   <Button
                     variant="outlined"

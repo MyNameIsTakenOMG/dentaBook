@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-interface AuthState {
+export interface AuthState {
   isModalOpen: boolean;
   isAuth: boolean;
   authInfo: {
@@ -8,6 +8,7 @@ interface AuthState {
     phone_number: string;
     family_name: string;
     given_name: string;
+    'custom:role': string;
   } | null;
   error: null | string;
 }
@@ -37,6 +38,7 @@ const authSlice = createSlice({
         phone_number: action.payload.phone_number,
         family_name: action.payload.family_name,
         given_name: action.payload.given_name,
+        'custom:role': action.payload['custom:role'],
       };
     },
     loadErrorInfo: (state, action) => {

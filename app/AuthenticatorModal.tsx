@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import styles from './page.module.css';
 import { Amplify, Auth } from 'aws-amplify';
@@ -9,7 +11,7 @@ import { Button } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useAppDispatch } from './store';
 import { closeModal } from './store/authSlice';
-Amplify.configure(awsExports);
+Amplify.configure({ ...awsExports, ssr: true });
 
 const formFields = {
   signUp: {
