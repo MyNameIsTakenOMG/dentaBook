@@ -116,12 +116,16 @@ export default function Home() {
               >
                 {authInfo ? (
                   <ThemeProvider theme={typographyTheme}>
-                    <Typography sx={{ alignSelf: 'center' }}>
+                    <Typography
+                      data-cy="home-landing-welcome"
+                      sx={{ alignSelf: 'center' }}
+                    >
                       Welcome, {authInfo.given_name}!
                     </Typography>
                   </ThemeProvider>
                 ) : (
                   <Button
+                    data-cy="home-landing-login-btn"
                     variant="outlined"
                     sx={{ borderRadius: '50px' }}
                     disableElevation

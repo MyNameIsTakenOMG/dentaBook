@@ -224,12 +224,13 @@ export default function Header() {
         </Box>
         {authInfo !== null ? (
           <Stack direction={'row'} sx={{ columnGap: '0.5rem' }}>
-            <Tooltip title={authInfo.email}>
+            <Tooltip data-cy="header-tooltip-title" title={authInfo.email}>
               <Typography variant="body2" sx={{ alignSelf: 'center' }}>
                 Hi, {authInfo.email.slice(0, 6)}...
               </Typography>
             </Tooltip>
             <Button
+              data-cy="header-logout-btn"
               onClick={async () => {
                 try {
                   await Auth.signOut();
@@ -250,6 +251,7 @@ export default function Header() {
           </Stack>
         ) : (
           <Button
+            data-cy="header-login-btn"
             onClick={() => {
               dispatch(openModal());
             }}

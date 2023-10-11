@@ -64,6 +64,7 @@ export default function AuthenticatorModal() {
         services={services}
       ></Authenticator>
       <Button
+        data-cy="auth-modal-close-btn"
         sx={{ position: 'fixed', top: 0, left: 0, zIndex: 1500 }}
         variant="contained"
         color="error"
