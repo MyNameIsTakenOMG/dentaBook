@@ -1,6 +1,6 @@
 import { defineConfig } from 'cypress';
 // AWS exports
-const awsConfig = require('./src/aws-exports.js');
+// const awsConfig = require('./src/aws-exports.js');
 
 export default defineConfig({
   e2e: {
@@ -9,7 +9,7 @@ export default defineConfig({
     },
     baseUrl: 'http://localhost:3000',
   },
-  env: {
-    awsConfig: awsConfig.default,
-  },
+  // env: {
+  //   awsConfig: awsConfig.default,
+  // },
 });
