@@ -21,7 +21,9 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import AuthenticatorModal from './AuthenticatorModal';
 import { useAppDispatch, useAppSelector } from './store';
-import { openModal } from './store/authSlice';
+import { openModal as openAuthModal } from './store/authSlice';
+import { openModal as openBookModal } from './store/bookSlice';
+import BookModal from './BookModal';
 
 Amplify.configure({ ...awsExports, ssr: true });
 
@@ -56,14 +58,17 @@ const services = [
 ];
 
 export default function Home() {
-  const isModalOpen = useAppSelector((state) => state.auth.isModalOpen);
+  const isAuthModalOpen = useAppSelector((state) => state.auth.isModalOpen);
   const authInfo = useAppSelector((state) => state.auth.authInfo);
   const dispatch = useAppDispatch();
 
   return (
     <main className={styles.main}>
       {/* authenticator modal */}
-      {isModalOpen === true ? <AuthenticatorModal /> : null}
+      {isAuthModalOpen === true ? <AuthenticatorModal /> : null}
+
+      {/* book_an_appointment modal  */}
+      <BookModal />
 
       {/* section landing  */}
       <Box
@@ -104,6 +109,9 @@ export default function Home() {
             <Stack direction={'row'}>
               <Box sx={{ width: '50%' }}>
                 <Button
+                  onClick={() => {
+                    dispatch(openBookModal());
+                  }}
                   variant="contained"
                   sx={{ borderRadius: '50px' }}
                   disableElevation
@@ -130,7 +138,7 @@ export default function Home() {
                     sx={{ borderRadius: '50px' }}
                     disableElevation
                     onClick={() => {
-                      dispatch(openModal());
+                      dispatch(openAuthModal());
                     }}
                   >
                     Login

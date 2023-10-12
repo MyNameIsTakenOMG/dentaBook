@@ -11,6 +11,7 @@ import awsExports from '../src/aws-exports';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import StoreProvider from './store/StoreProvider';
+import DateCalendarProvider from './DateCalendarProvider';
 
 Amplify.configure({ ...awsExports, ssr: true });
 
@@ -29,11 +30,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className} suppressHydrationWarning={true}>
-        <StoreProvider>
-          <Header />
-          {children}
-          <Footer />
-        </StoreProvider>
+        <DateCalendarProvider>
+          <StoreProvider>
+            <Header />
+            {children}
+            <Footer />
+          </StoreProvider>
+        </DateCalendarProvider>
       </body>
     </html>
   );
