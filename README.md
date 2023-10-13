@@ -5,6 +5,7 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
 ## Features
 
 - Admin:
+  - check calendar for daily schedule
   - add/update/delete **_vacations_**
   - add/update/delete **_date_for_next_appointment_** for clients
   - add/update/delete **_re-examination_interval_** for clients
