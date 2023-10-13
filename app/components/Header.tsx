@@ -203,17 +203,17 @@ export default function Header() {
             flexGrow: 1,
           }}
         >
-          <Link href="#landing">
+          <Link href="/#landing">
             <Typography variant="body1" component="div">
               Home
             </Typography>
           </Link>
-          <Link href="#services">
+          <Link href="/#services">
             <Typography variant="body1" component="div">
               Services
             </Typography>
           </Link>
-          <Link href="#about">
+          <Link href="/#about">
             <Typography variant="body1" component="div">
               About
             </Typography>

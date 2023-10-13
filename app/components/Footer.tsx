@@ -28,17 +28,17 @@ export default function Footer() {
         </Typography>
       </Stack>
       <Stack direction={'row'} sx={{ columnGap: '1rem', color: 'white' }}>
-        <Link href="#landing">
+        <Link href="/#landing">
           <Typography variant="body1" component="div">
             Home
           </Typography>
         </Link>
-        <Link href="#services">
+        <Link href="/#services">
           <Typography variant="body1" component="div">
             Services
           </Typography>
         </Link>
-        <Link href="#about">
+        <Link href="/#about">
           <Typography variant="body1" component="div">
             About
           </Typography>

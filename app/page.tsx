@@ -257,7 +257,7 @@ export default function Home() {
 
       {/* about section  */}
       <Box
-        id="services"
+        id="about"
         sx={{
           width: '100%',
           // height: '100vh',
