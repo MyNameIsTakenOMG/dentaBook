@@ -91,5 +91,6 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
 - `getAppointmentsByClientId` (primary key(PK))
 - `getAppointmentByAppointmentId` (primary key(PK) + sort key(SK))
 - `getAppointmentsByAppointmentId` (primary key(SK))
-- `getIssuesByEntityType` (GSI)
+- `getUnresolvedIssuesByEntityType` (GSI)
+- `getResolvedIssuesByEntityTypeWithTimeRange` (GSI)
 - `getReservesByEntityType` (GSI)
