@@ -26,7 +26,7 @@ import {
 } from '../store/authSlice';
 import { ThunkDispatch, CombinedState, AnyAction } from '@reduxjs/toolkit';
 import { AuthState } from '../store/authSlice';
-// import { usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 Amplify.configure({ ...awsExports, ssr: true });
 
@@ -37,9 +37,9 @@ const typographyTheme = createTheme({
 });
 
 export default function Header() {
-  // // not render the component when the admin page is being visited
-  // const pathname = usePathname();
-  // if (pathname === '/admin') return <></>;
+  // not render the component when the admin page is being visited
+  const pathname = usePathname();
+  if (pathname === '/admin') return <></>;
 
   const dispatch: ThunkDispatch<
     CombinedState<{

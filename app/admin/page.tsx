@@ -13,7 +13,12 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  MenuItem,
+  Select,
   Stack,
+  Tab,
+  Tabs,
+  TextField,
   Typography,
 } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
@@ -159,6 +164,7 @@ const DashboardContents = ({ selectedIndex }: { selectedIndex: number }) => {
   if (selectedIndex === 0) {
     return (
       <Calendar
+        defaultView="week"
         localizer={localizer}
         step={30}
         timeslots={1}
@@ -250,9 +256,26 @@ const DashboardContents = ({ selectedIndex }: { selectedIndex: number }) => {
               p: '0.5rem',
             }}
           >
-            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: '1.5rem' }}>
-              History
-            </Typography>
+            <Stack direction={'row'} justifyContent={'space-between'}>
+              <Typography
+                variant="h6"
+                sx={{ fontWeight: 'bold', mb: '1.5rem' }}
+              >
+                History
+              </Typography>
+              <Stack
+                direction={'row'}
+                columnGap={'1.5rem'}
+                alignItems={'start'}
+              >
+                <Select size="small">
+                  <MenuItem>Last Week</MenuItem>
+                  <MenuItem>Last Month</MenuItem>
+                  <MenuItem>Last 3 Months</MenuItem>
+                </Select>
+                <Button variant="contained">search</Button>
+              </Stack>
+            </Stack>
             {/* history of vacations  */}
             <Box
               sx={{
@@ -280,8 +303,253 @@ const DashboardContents = ({ selectedIndex }: { selectedIndex: number }) => {
   }
   // clients
   else if (selectedIndex === 2) {
+    return (
+      <>
+        <Typography variant="h6" sx={{ position: 'sticky', top: 0 }}>
+          Clients
+        </Typography>
+        <Divider />
+        <Stack
+          direction={'column'}
+          rowGap={'1rem'}
+          sx={{ width: '100%', maxWidth: '1200px' }}
+        >
+          <Box
+            sx={{
+              width: '50%',
+              border: '1px solid black',
+              display: 'flex',
+              flexFlow: 'column',
+              rowGap: '1rem',
+              p: '0.5rem',
+            }}
+          >
+            <Stack direction={'column'} rowGap={'0.5rem'}>
+              <Typography variant="body1">Search users</Typography>
+              <Stack
+                direction={'row'}
+                columnGap={'0.5rem'}
+                alignItems={'center'}
+              >
+                <TextField size="small" label="Phone number" />
+                <Button variant="contained" size="small">
+                  Go
+                </Button>
+              </Stack>
+            </Stack>
+          </Box>
+          <Divider />
+          <Box
+            sx={{
+              width: '100%',
+              border: '1px solid black',
+              display: 'flex',
+              flexFlow: 'row',
+              columnGap: '1rem',
+              p: '0.5rem',
+            }}
+          >
+            <Box
+              sx={{
+                width: '50%',
+                display: 'flex',
+                flexFlow: 'column',
+                rowGap: '1rem',
+              }}
+            >
+              <Typography variant="body1">User Information</Typography>
+              <Stack direction={'row'} columnGap={'0.8rem'}>
+                <TextField size="small" label="Given Name" />
+                <TextField size="small" label="Family Name" />
+              </Stack>
+              <TextField size="small" type="tel" label="Phone Number" />
+              <TextField size="small" type="email" label="Email" />
+              <Typography variant="body2">
+                Is registered? <span style={{ fontWeight: 'bold' }}>Yes</span>
+              </Typography>
+              <Typography variant="body2">Last appointment: date</Typography>
+              <Typography variant="body2">Next appointment: date</Typography>
+              <Stack direction={'row'} justifyContent={'space-between'}>
+                <Typography variant="body2">
+                  re-exam interval: interval
+                </Typography>
+                <Button variant="contained" size="small">
+                  update
+                </Button>
+              </Stack>
+            </Box>
+            <Box
+              sx={{
+                width: '50%',
+                display: 'flex',
+                flexFlow: 'column',
+                rowGap: '1rem',
+              }}
+            >
+              <Typography variant="body1">Appointment</Typography>
+              <Stack direction={'column'} rowGap={'0.8rem'}>
+                <Typography variant="body2">Upcoming</Typography>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexFlow: 'row',
+                    justifyContent: 'space-between',
+                    border: '1px solid lightblue',
+                    p: '0.8rem 1.2rem',
+                    borderRadius: '10px',
+                  }}
+                >
+                  <Stack direction={'column'}>
+                    <Typography variant="body2">Date</Typography>
+                    <Typography variant="body1">2023-09-21</Typography>
+                  </Stack>
+                  <Stack direction={'column'}>
+                    <Typography variant="body2">Type</Typography>
+                    <Typography variant="body1">type</Typography>
+                  </Stack>
+                  <Stack
+                    direction={'row'}
+                    columnGap={'0.5rem'}
+                    sx={{ alignItems: 'center' }}
+                  >
+                    <Button size="small" variant="contained" color="warning">
+                      update
+                    </Button>
+                    <Button size="small" variant="contained" color="error">
+                      cancel
+                    </Button>
+                  </Stack>
+                </Box>
+                <Divider />
+                <Typography variant="body2">Past</Typography>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexFlow: 'row',
+                    justifyContent: 'space-between',
+                    border: '1px solid lightblue',
+                    p: '0.8rem 1.2rem',
+                    borderRadius: '10px',
+                  }}
+                >
+                  <Stack direction={'column'}>
+                    <Typography variant="body2">Date</Typography>
+                    <Typography variant="body1">2023-09-21</Typography>
+                  </Stack>
+                  <Stack direction={'column'}>
+                    <Typography variant="body2">Type</Typography>
+                    <Typography variant="body1">type</Typography>
+                  </Stack>
+                  <Stack
+                    direction={'row'}
+                    columnGap={'0.5rem'}
+                    sx={{ alignItems: 'center' }}
+                  >
+                    <Button
+                      disabled
+                      size="small"
+                      variant="contained"
+                      color="warning"
+                    >
+                      attended
+                    </Button>
+                  </Stack>
+                </Box>
+              </Stack>
+            </Box>
+          </Box>
+        </Stack>
+      </>
+    );
   }
   // issues
   else if (selectedIndex === 3) {
+    return (
+      <>
+        <Typography variant="h6" sx={{ position: 'sticky', top: 0 }}>
+          Issues
+        </Typography>
+        <Divider />
+        <Stack direction={'column'} rowGap={'1rem'} sx={{ width: '1000px' }}>
+          <Box sx={{ borderBottom: '1.5rem', borderColor: 'divider' }}>
+            <Tabs>
+              <Tab label="Unresolved" id="unresolved" />
+              <Tab label="Resolved" id="resolved" />
+            </Tabs>
+          </Box>
+          {/* unresolved  */}
+          <Box
+            sx={{
+              display: 'flex',
+              flexFlow: 'row',
+              justifyContent: 'space-between',
+              border: '1px solid lightblue',
+              p: '0.8rem 1.2rem',
+              borderRadius: '10px',
+            }}
+          >
+            <Stack direction={'column'}>
+              <Typography variant="body2">Year</Typography>
+              <Typography variant="body1">2023</Typography>
+            </Stack>
+            <Stack direction={'column'}>
+              <Typography variant="body2">Duration</Typography>
+              <Typography variant="body1">Aug13 - Aug28</Typography>
+            </Stack>
+            <Stack
+              direction={'row'}
+              columnGap={'0.5rem'}
+              sx={{ alignItems: 'center' }}
+            >
+              <Button size="small" variant="contained" color="warning">
+                resolve
+              </Button>
+            </Stack>
+          </Box>
+          {/* resolved  */}
+          <Stack
+            direction={'row'}
+            alignItems={'center'}
+            columnGap={'1.5rem'}
+            sx={{ width: '60%' }}
+          >
+            <Select size="small">
+              <MenuItem>Last Week</MenuItem>
+              <MenuItem>Last Month</MenuItem>
+              <MenuItem>Last 3 Months</MenuItem>
+            </Select>
+            <Button variant="contained">search</Button>
+          </Stack>
+          <Box
+            sx={{
+              display: 'flex',
+              flexFlow: 'row',
+              justifyContent: 'space-between',
+              border: '1px solid lightblue',
+              p: '0.8rem 1.2rem',
+              borderRadius: '10px',
+            }}
+          >
+            <Stack direction={'column'}>
+              <Typography variant="body2">Year</Typography>
+              <Typography variant="body1">2023</Typography>
+            </Stack>
+            <Stack direction={'column'}>
+              <Typography variant="body2">Duration</Typography>
+              <Typography variant="body1">Aug13 - Aug28</Typography>
+            </Stack>
+            <Stack
+              direction={'row'}
+              columnGap={'0.5rem'}
+              sx={{ alignItems: 'center' }}
+            >
+              <Button disabled size="small" variant="contained" color="error">
+                Resolved
+              </Button>
+            </Stack>
+          </Box>
+        </Stack>
+      </>
+    );
   }
 };
