@@ -67,6 +67,7 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
   - ~~password~~
   - entity_type
   - ~~isRegistered~~
+  - isActive
   - role
   - re-exam_interval
   - appointment_date
@@ -104,6 +105,7 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
 ### Access Patterns
 - `getClientByClientId` (primary key(PK) + sort key(SK)) : `PK=c#<id>` and `SK=c#<id>`
 - `getAppointmentsByClientId` (primary key(PK)) : `PK=c#<id>`
+- `getActiveClientsByEntityType`  (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(client)` and `GSI-SK=c#<isActive=true>`
 - `getAppointmentByDateAndTimestamp` (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(appointment)` and `GSI-SK=a#<date>#<timestamp>`
 - `getAppointmentsByDate` (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(appointment)` and `GSI-SK begins_with=a#<date>`
 - `getAppointmentsByDateWithRange` (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(appointment)` and `GSI-SK between (a#<date1>, a#<date2>)`
