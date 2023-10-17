@@ -27,6 +27,7 @@ import { ThunkDispatch, CombinedState, AnyAction } from '@reduxjs/toolkit';
 import { AuthState } from '../store/authSlice';
 import { usePathname } from 'next/navigation';
 import HeaderDrawer from './header-components/HeaderDrawer';
+import { blue } from '@mui/material/colors';
 
 Amplify.configure({ ...awsExports, ssr: true });
 
@@ -189,7 +190,7 @@ export default function Header() {
             edge="start"
             color="inherit"
             aria-label="menu"
-            sx={{ mr: 2 }}
+            sx={{ mr: 2, display: { xs: 'inline-flex', sm: 'none' } }}
             onClick={() => {
               setOpenDrawer((prevState) => !prevState);
             }}
@@ -198,33 +199,49 @@ export default function Header() {
           </IconButton>
           <ThemeProvider theme={typographyTheme}>
             <Typography
-              variant="h6"
+              variant={'h6'}
               component="div"
-              sx={{ flexGrow: 1, color: '#1a73e8' }}
+              sx={{
+                flexGrow: 1,
+                color: '#1a73e8',
+                fontSize: { xs: '1rem', md: '1.25rem' },
+              }}
             >
               Dr.Gao Family Dentistry
             </Typography>
           </ThemeProvider>
           <Box
             sx={{
-              display: 'flex',
+              display: { xs: 'none', sm: 'flex' },
               flexFlow: 'row nowrap',
               columnGap: 6,
               flexGrow: 1,
             }}
           >
             <Link href="/#landing">
-              <Typography variant="body1" component="div">
+              <Typography
+                variant="body1"
+                component="div"
+                sx={{ fontSize: { xs: '1rem', md: '1.25rem' } }}
+              >
                 Home
               </Typography>
             </Link>
             <Link href="/#services">
-              <Typography variant="body1" component="div">
+              <Typography
+                variant="body1"
+                component="div"
+                sx={{ fontSize: { xs: '1rem', md: '1.25rem' } }}
+              >
                 Services
               </Typography>
             </Link>
             <Link href="/#about">
-              <Typography variant="body1" component="div">
+              <Typography
+                variant="body1"
+                component="div"
+                sx={{ fontSize: { xs: '1rem', md: '1.25rem' } }}
+              >
                 About
               </Typography>
             </Link>
@@ -232,16 +249,21 @@ export default function Header() {
               Reviews
             </Typography> */}
           </Box>
-          {authInfo !== null ? (
-            <Stack direction={'row'} sx={{ columnGap: '0.5rem' }}>
+          <Stack direction={'row'} sx={{ columnGap: '0.5rem' }}>
+            {authInfo !== null && (
               <Tooltip data-cy="header-tooltip-title" title={authInfo.email}>
-                <Typography variant="body2" sx={{ alignSelf: 'center' }}>
+                <Typography
+                  variant="body2"
+                  sx={{ alignSelf: 'center', color: blue['500'] }}
+                >
                   Hi, {authInfo.email.slice(0, 6)}...
                 </Typography>
               </Tooltip>
-              <Button
-                data-cy="header-logout-btn"
-                onClick={async () => {
+            )}
+            <Button
+              data-cy="header-login-btn"
+              onClick={async () => {
+                if (authInfo !== null) {
                   try {
                     await Auth.signOut();
                     dispatch(clearAuthInfo());
@@ -249,31 +271,21 @@ export default function Header() {
                     console.log('sign out error: ' + error.message);
                     dispatch(loadErrorInfo(error.message));
                   }
-                }}
-                color="inherit"
-                size="medium"
-                variant="outlined"
-                disableElevation
-                sx={{ borderRadius: '50px' }}
-              >
-                Logout
-              </Button>
-            </Stack>
-          ) : (
-            <Button
-              data-cy="header-login-btn"
-              onClick={() => {
-                dispatch(openModal());
+                } else dispatch(openModal());
               }}
               color="inherit"
-              size="medium"
+              size="small"
               variant="outlined"
               disableElevation
-              sx={{ borderRadius: '50px' }}
+              sx={{
+                borderRadius: '50px',
+                fontSize: { xs: '0.75rem', md: '0.875rem' },
+                p: { xs: '3px 9px', md: '5px 15px' },
+              }}
             >
-              Login
+              {authInfo !== null ? 'Logout' : 'Login'}
             </Button>
-          )}
+          </Stack>
         </Toolbar>
       </AppBar>
       <HeaderDrawer openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} />

@@ -34,12 +34,7 @@ export default function HeaderDrawer({
   const dispatch = useAppDispatch();
 
   const drawerContent = (
-    <Box
-      onClick={() => {
-        setOpenDrawer((prevState) => !prevState);
-      }}
-      sx={{ textAlign: 'center' }}
-    >
+    <Box sx={{ textAlign: 'center', color: blue['500'] }}>
       <Stack direction={'column'} sx={{ my: 2 }}>
         <Typography variant="h6">Dr.Gao</Typography>
         <Typography variant="h6">Family Dentistry</Typography>

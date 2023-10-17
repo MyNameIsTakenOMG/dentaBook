@@ -28,13 +28,14 @@ describe('auth e2e', () => {
       'include.text',
       'Welcome'
     );
+    cy.get('[data-cy="header-login-btn"]').should('include.text', 'Logout');
 
     // log out the user
-    cy.get('[data-cy="header-logout-btn"]').click();
+    cy.get('[data-cy="header-login-btn"]').click();
     cy.wait(1000);
 
     // check if the auth state is reset after logout
-    cy.get('[data-cy="header-login-btn"]').should('be.visible');
+    cy.get('[data-cy="header-login-btn"]').should('include.text', 'Login');
     cy.get('[data-cy="home-landing-login-btn"]').should('be.visible');
   });
 });
