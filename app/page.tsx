@@ -19,11 +19,11 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import AuthenticatorModal from './AuthenticatorModal';
+import AuthenticatorModal from './components/AuthenticatorModal';
 import { useAppDispatch, useAppSelector } from './store';
 import { openModal as openAuthModal } from './store/authSlice';
 import { openModal as openBookModal } from './store/bookSlice';
-import BookModal from './BookModal';
+import BookModal from './components/BookModal';
 
 Amplify.configure({ ...awsExports, ssr: true });
 

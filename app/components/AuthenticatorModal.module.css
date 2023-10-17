@@ -1,0 +1,3 @@
+.custom-zIndex[data-amplify-authenticator][data-variation="modal"] {
+  z-index: 1200;
+}

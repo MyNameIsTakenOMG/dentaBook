@@ -1,7 +1,7 @@
 'use client';
 import { Amplify, Auth, Hub } from 'aws-amplify';
 import awsExports from '@/src/aws-exports';
-import React, { Dispatch, useEffect } from 'react';
+import React, { Dispatch, useEffect, useState } from 'react';
 import {
   AppBar,
   Box,
@@ -15,7 +15,6 @@ import {
 import createTheme from '@mui/material/styles/createTheme';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import MenuIcon from '@mui/icons-material/Menu';
-import { blue } from '@mui/material/colors';
 import Link from 'next/link';
 import { useAppDispatch, useAppSelector } from '../store/index';
 import {
@@ -27,6 +26,7 @@ import {
 import { ThunkDispatch, CombinedState, AnyAction } from '@reduxjs/toolkit';
 import { AuthState } from '../store/authSlice';
 import { usePathname } from 'next/navigation';
+import HeaderDrawer from './header-components/HeaderDrawer';
 
 Amplify.configure({ ...awsExports, ssr: true });
 
@@ -37,7 +37,7 @@ const typographyTheme = createTheme({
 });
 
 export default function Header() {
-  // not render the component when the admin page is being visited
+  // remember to comment out the two lines below
   const pathname = usePathname();
   if (pathname === '/admin') return <></>;
 
@@ -51,14 +51,15 @@ export default function Header() {
     Dispatch<AnyAction> = useAppDispatch();
   const authInfo = useAppSelector((state) => state.auth.authInfo);
 
-  console.log('authInfo: ', authInfo);
+  // console.log('authInfo: ', authInfo);
+  const [openDrawer, setOpenDrawer] = useState(false);
 
   useEffect(() => {
     // load auth info for the first time
     Auth.currentAuthenticatedUser()
       .then((user) => {
         console.log('user already logged in: ', user);
-        const { email_verified, phone_number_verified, sub, ...others } =
+        const { email_verified, phone_number_verified, ...others } =
           user?.attributes;
         dispatch(loadAuthInfo({ ...others }));
       })
@@ -68,8 +69,8 @@ export default function Header() {
     // listen to auth events
     const stopListen = Hub.listen('auth', (data) => {
       console.log('data: ', data);
-      let { sub, email_verified, phone_number_verified, ...others } =
-        data.payload.data.attributes;
+      let { email_verified, phone_number_verified, ...others } =
+        data.payload.data?.attributes;
 
       switch (data?.payload?.event) {
         case 'configured':
@@ -161,89 +162,108 @@ export default function Header() {
   }, []);
 
   return (
-    <AppBar
-      position="fixed"
-      color="transparent"
-      sx={{
-        // maxWidth: '1200px',
-        width: '100%',
-        backgroundColor: 'rgba(255,255,255,0.9)',
-        boxShadow: 'unset',
-        backdropFilter: 'blur(8px)',
-        // opacity: 0.9,
-        // left: { xs: 0, lg: 'calc((100% - 1200px) / 2)' },
-      }}
-    >
-      <Toolbar
+    <>
+      <AppBar
+        position="fixed"
+        color="transparent"
         sx={{
-          px: { xs: '16px', md: '24px', lg: '48px' },
+          // maxWidth: '1200px',
           width: '100%',
-          maxWidth: '1200px',
-          marginLeft: { xs: 0, lg: 'calc((100% - 1200px) / 2)' },
+          backgroundColor: 'rgba(255,255,255,0.9)',
+          boxShadow: 'unset',
+          backdropFilter: 'blur(8px)',
+          // opacity: 0.9,
+          // left: { xs: 0, lg: 'calc((100% - 1200px) / 2)' },
         }}
       >
-        <IconButton
-          size="large"
-          edge="start"
-          color="inherit"
-          aria-label="menu"
-          sx={{ mr: 2 }}
-        >
-          <MenuIcon />
-        </IconButton>
-        <ThemeProvider theme={typographyTheme}>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ flexGrow: 1, color: '#1a73e8' }}
-          >
-            Dr.Gao Family Dentistry
-          </Typography>
-        </ThemeProvider>
-        <Box
+        <Toolbar
           sx={{
-            display: 'flex',
-            flexFlow: 'row nowrap',
-            columnGap: 6,
-            flexGrow: 1,
+            px: { xs: '16px', md: '24px', lg: '48px' },
+            width: '100%',
+            maxWidth: '1200px',
+            marginLeft: { xs: 0, lg: 'calc((100% - 1200px) / 2)' },
           }}
         >
-          <Link href="/#landing">
-            <Typography variant="body1" component="div">
-              Home
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+            onClick={() => {
+              setOpenDrawer((prevState) => !prevState);
+            }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <ThemeProvider theme={typographyTheme}>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1, color: '#1a73e8' }}
+            >
+              Dr.Gao Family Dentistry
             </Typography>
-          </Link>
-          <Link href="/#services">
-            <Typography variant="body1" component="div">
-              Services
-            </Typography>
-          </Link>
-          <Link href="/#about">
-            <Typography variant="body1" component="div">
-              About
-            </Typography>
-          </Link>
-          {/* <Typography variant="body1" component="div" >
-            Reviews
-          </Typography> */}
-        </Box>
-        {authInfo !== null ? (
-          <Stack direction={'row'} sx={{ columnGap: '0.5rem' }}>
-            <Tooltip data-cy="header-tooltip-title" title={authInfo.email}>
-              <Typography variant="body2" sx={{ alignSelf: 'center' }}>
-                Hi, {authInfo.email.slice(0, 6)}...
+          </ThemeProvider>
+          <Box
+            sx={{
+              display: 'flex',
+              flexFlow: 'row nowrap',
+              columnGap: 6,
+              flexGrow: 1,
+            }}
+          >
+            <Link href="/#landing">
+              <Typography variant="body1" component="div">
+                Home
               </Typography>
-            </Tooltip>
+            </Link>
+            <Link href="/#services">
+              <Typography variant="body1" component="div">
+                Services
+              </Typography>
+            </Link>
+            <Link href="/#about">
+              <Typography variant="body1" component="div">
+                About
+              </Typography>
+            </Link>
+            {/* <Typography variant="body1" component="div" >
+              Reviews
+            </Typography> */}
+          </Box>
+          {authInfo !== null ? (
+            <Stack direction={'row'} sx={{ columnGap: '0.5rem' }}>
+              <Tooltip data-cy="header-tooltip-title" title={authInfo.email}>
+                <Typography variant="body2" sx={{ alignSelf: 'center' }}>
+                  Hi, {authInfo.email.slice(0, 6)}...
+                </Typography>
+              </Tooltip>
+              <Button
+                data-cy="header-logout-btn"
+                onClick={async () => {
+                  try {
+                    await Auth.signOut();
+                    dispatch(clearAuthInfo());
+                  } catch (error: any) {
+                    console.log('sign out error: ' + error.message);
+                    dispatch(loadErrorInfo(error.message));
+                  }
+                }}
+                color="inherit"
+                size="medium"
+                variant="outlined"
+                disableElevation
+                sx={{ borderRadius: '50px' }}
+              >
+                Logout
+              </Button>
+            </Stack>
+          ) : (
             <Button
-              data-cy="header-logout-btn"
-              onClick={async () => {
-                try {
-                  await Auth.signOut();
-                  dispatch(clearAuthInfo());
-                } catch (error: any) {
-                  console.log('sign out error: ' + error.message);
-                  dispatch(loadErrorInfo(error.message));
-                }
+              data-cy="header-login-btn"
+              onClick={() => {
+                dispatch(openModal());
               }}
               color="inherit"
               size="medium"
@@ -251,25 +271,12 @@ export default function Header() {
               disableElevation
               sx={{ borderRadius: '50px' }}
             >
-              Logout
+              Login
             </Button>
-          </Stack>
-        ) : (
-          <Button
-            data-cy="header-login-btn"
-            onClick={() => {
-              dispatch(openModal());
-            }}
-            color="inherit"
-            size="medium"
-            variant="outlined"
-            disableElevation
-            sx={{ borderRadius: '50px' }}
-          >
-            Login
-          </Button>
-        )}
-      </Toolbar>
-    </AppBar>
+          )}
+        </Toolbar>
+      </AppBar>
+      <HeaderDrawer openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} />
+    </>
   );
 }

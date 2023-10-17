@@ -78,42 +78,30 @@ export default function ProfilePage() {
             >
               {menu_item_list.map((item, index) => {
                 return (
-                  <>
-                    {index !== menu_item_list.length - 1 ? (
-                      <ListItemButton
-                        sx={{ p: '1.5rem 1rem' }}
-                        key={index}
-                        selected={selectedIndex === index}
-                        onClick={(e) => handleListItemClick(e, index)}
-                      >
-                        <ListItemText
-                          primary={item}
-                          sx={{
-                            color: 'inherit',
-                          }}
-                        />
-                      </ListItemButton>
-                    ) : null}
-                  </>
+                  <ListItemButton
+                    sx={{
+                      p: '1.5rem 1rem',
+                      borderTop:
+                        index === menu_item_list.length - 1
+                          ? '1px solid lightgrey'
+                          : 'unset',
+                    }}
+                    key={index}
+                    selected={selectedIndex === index}
+                    onClick={(e) => handleListItemClick(e, index)}
+                  >
+                    <ListItemText
+                      primary={item}
+                      sx={{
+                        color:
+                          index === menu_item_list.length - 1
+                            ? 'red'
+                            : 'inherit',
+                      }}
+                    />
+                  </ListItemButton>
                 );
               })}
-              {/* render the last item -- log out  */}
-              <Divider />
-              <ListItemButton
-                sx={{ p: '1.5rem 1rem' }}
-                key={menu_item_list.length - 1}
-                selected={selectedIndex === menu_item_list.length - 1}
-                onClick={(e) =>
-                  handleListItemClick(e, menu_item_list.length - 1)
-                }
-              >
-                <ListItemText
-                  primary={menu_item_list[menu_item_list.length - 1]}
-                  sx={{
-                    color: 'red',
-                  }}
-                />
-              </ListItemButton>
             </List>
           </Box>
           <Box sx={{ width: '60%', display: 'flex', flexFlow: 'column' }}>

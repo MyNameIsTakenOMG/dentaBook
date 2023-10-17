@@ -11,7 +11,7 @@ import awsExports from '../src/aws-exports';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import StoreProvider from './store/StoreProvider';
-import DateCalendarProvider from './DateCalendarProvider';
+import DateCalendarProvider from './components/DateCalendarProvider';
 
 Amplify.configure({ ...awsExports, ssr: true });
 
