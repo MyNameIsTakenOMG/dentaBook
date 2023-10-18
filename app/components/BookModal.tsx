@@ -56,7 +56,8 @@ export default function BookModal() {
             position: 'absolute',
             left: '50%',
             transform: 'translateX(-50%)',
-            width: '600px',
+            width: '100%',
+            maxWidth: '600px',
             minHeight: '100vh',
             bgcolor: 'background.paper',
             display: 'flex',
@@ -132,6 +133,8 @@ const StepperContents = ({
   selectedAppmtType: string;
   stepNaviButtons: ReactNode;
 }) => {
+  const [openMoreOptions, setOpenMoreOptions] = useState(false);
+
   if (activeStep === steps.length) {
     return (
       <Box sx={{ p: '1.5rem' }}>
@@ -196,45 +199,86 @@ const StepperContents = ({
             );
           })}
         </Box>
+        <Divider />
         {/* appointment date & time section  */}
-        <Typography
-          variant="h6"
-          sx={{ alignSelf: 'center', color: grey['500'], fontWeight: 'bold' }}
+        <Stack
+          direction={'column'}
+          rowGap={'0.5rem'}
+          alignItems={'center'}
+          sx={{
+            bgcolor: grey['200'],
+            mb: '1.5rem',
+            p: '0.8rem',
+            borderRadius: '20px',
+          }}
         >
-          Select Date and Time
-        </Typography>
-        {/* calendar  */}
-        <DateCalendar disableHighlightToday={false} disablePast={true} />
-        {/* available time slots  */}
-        <Stack direction={'column'}>
-          <Typography color={grey['500']}>Morning</Typography>
-          <Box sx={{ display: 'flex', flexFlow: 'row' }}>
-            <Box
+          <Typography variant="body1">
+            The next available appointment is on:
+          </Typography>
+          <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+            date and time of the available appointment
+          </Typography>
+          <Button disableElevation variant="contained">
+            Schedule it
+          </Button>
+          <Divider />
+          <Button
+            disableElevation
+            variant="outlined"
+            color="warning"
+            onClick={() => {
+              setOpenMoreOptions((pre) => !pre);
+            }}
+          >
+            More options
+          </Button>
+        </Stack>
+        {openMoreOptions && (
+          <>
+            <Typography
+              variant="h6"
               sx={{
-                width: '25%',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                p: '0.5rem',
+                alignSelf: 'center',
+                color: grey['500'],
+                fontWeight: 'bold',
               }}
             >
-              <Paper
-                elevation={3}
-                sx={{
-                  width: '95%',
-                  height: '40px',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  cursor: 'pointer',
-                  '&:hover': { outline: '1px solid blue' },
-                }}
-              >
-                <Typography>9:30am</Typography>
-              </Paper>
-            </Box>
-          </Box>
-        </Stack>
+              Select Date and Time
+            </Typography>
+            {/* calendar  */}
+            <DateCalendar disableHighlightToday={false} disablePast={true} />
+            {/* available time slots  */}
+            <Stack direction={'column'}>
+              <Typography color={grey['500']}>Morning</Typography>
+              <Box sx={{ display: 'flex', flexFlow: 'row' }}>
+                <Box
+                  sx={{
+                    width: '25%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    p: '0.5rem',
+                  }}
+                >
+                  <Paper
+                    elevation={3}
+                    sx={{
+                      width: '95%',
+                      height: '40px',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      cursor: 'pointer',
+                      '&:hover': { outline: '1px solid blue' },
+                    }}
+                  >
+                    <Typography>9:30am</Typography>
+                  </Paper>
+                </Box>
+              </Box>
+            </Stack>
+          </>
+        )}
         {stepNaviButtons}
       </Box>
     );

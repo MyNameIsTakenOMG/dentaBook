@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-interface BookState {
+export interface BookState {
   isModalOpen: boolean;
 }
 

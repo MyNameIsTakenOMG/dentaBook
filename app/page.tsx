@@ -259,6 +259,7 @@ export default function Home() {
                   sx={{
                     // width: { xs: '100%', sm: '45%', lg: '30%' },
                     maxWidth: 360,
+                    height: '100%',
                     display: 'flex',
                     flexFlow: 'column nowrap',
                   }}
@@ -279,7 +280,13 @@ export default function Home() {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button variant="contained" disableElevation>
+                    <Button
+                      variant="contained"
+                      disableElevation
+                      onClick={() => {
+                        dispatch(openBookModal());
+                      }}
+                    >
                       Book Now
                     </Button>
                   </CardActions>
@@ -489,6 +496,9 @@ export default function Home() {
                 disableElevation
                 sx={{
                   borderRadius: '50px',
+                }}
+                onClick={() => {
+                  dispatch(openBookModal());
                 }}
               >
                 Book an appointment

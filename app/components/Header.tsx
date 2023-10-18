@@ -214,8 +214,8 @@ export default function Header() {
             sx={{
               display: { xs: 'none', sm: 'flex' },
               flexFlow: 'row nowrap',
-              columnGap: 6,
-              flexGrow: 1,
+              columnGap: 3,
+              flexGrow: 3,
             }}
           >
             <Link href="/#landing">
@@ -245,9 +245,17 @@ export default function Header() {
                 About
               </Typography>
             </Link>
-            {/* <Typography variant="body1" component="div" >
-              Reviews
-            </Typography> */}
+            {/* {authInfo !== null && ( */}
+            <Link href="/profile">
+              <Typography
+                variant="body1"
+                component="div"
+                sx={{ fontSize: { xs: '1rem', md: '1.25rem' } }}
+              >
+                Profile
+              </Typography>
+            </Link>
+            {/* )} */}
           </Box>
           <Stack direction={'row'} sx={{ columnGap: '0.5rem' }}>
             {authInfo !== null && (

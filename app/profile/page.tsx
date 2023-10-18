@@ -1,24 +1,28 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './page.module.css';
 
-import { Amplify, Auth } from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
 import awsExports from '@/src/aws-exports';
 import {
   Box,
-  Divider,
   IconButton,
   List,
   ListItemButton,
-  ListItemIcon,
   ListItemText,
   Pagination,
+  Select,
+  SelectChangeEvent,
   Stack,
   Typography,
 } from '@mui/material';
+import MenuItem from '@mui/material/MenuItem';
 import { grey } from '@mui/material/colors';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
+import BookModal from '../components/BookModal';
+import { useAppDispatch } from '../store';
+import { openModal as openBookModal } from '../store/bookSlice';
 
 Amplify.configure({ ...awsExports, ssr: true });
 
@@ -30,17 +34,22 @@ const menu_item_list = [
 ];
 
 export default function ProfilePage() {
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
-
+  const [selected, setSelected] = useState<number | string>(0);
   const handleListItemClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     index: number
   ) => {
-    setSelectedIndex(index);
+    setSelected(index);
+  };
+  const handleSelectChange = (event: SelectChangeEvent) => {
+    setSelected(event.target.value);
   };
 
   return (
     <main className={styles.main}>
+      {/* book_an_appointment modal for updating date and time of the upcoming appointment  */}
+      <BookModal />
+
       <Box
         sx={{
           width: '100%',
@@ -55,21 +64,46 @@ export default function ProfilePage() {
         <Box
           sx={{
             display: 'flex',
-            flexFlow: 'row',
+            flexFlow: { xs: 'column', md: 'row' },
             width: '100%',
             maxWidth: '1200px',
-            justifyContent: 'space-between',
+            justifyContent: { xs: 'unset', md: 'space-between' },
             mt: '3rem',
-            p: '2rem',
+            p: { xs: '0', md: '2rem' },
           }}
         >
-          <Box sx={{ width: '40%', display: 'flex', flexFlow: 'column' }}>
+          <Box
+            sx={{
+              width: { xs: '100%', md: '30%' },
+              display: 'flex',
+              flexFlow: 'column',
+            }}
+          >
+            {/* mini list  */}
+            <Select
+              sx={{ display: { xs: 'block', md: 'none' } }}
+              value={
+                typeof selected === 'number'
+                  ? menu_item_list[selected]
+                  : selected
+              }
+              onChange={handleSelectChange}
+            >
+              {menu_item_list.map((item) => {
+                return (
+                  <MenuItem key={item} value={item}>
+                    {item}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+
             <List
               component="nav"
-              aria-label="main mailbox folders"
               sx={{
+                display: { xs: 'none', md: 'block' },
                 width: '100%',
-                maxWidth: 360,
+                maxWidth: 270,
                 bgcolor: grey['100'],
                 borderRadius: '30px',
                 overflow: 'hidden',
@@ -87,7 +121,9 @@ export default function ProfilePage() {
                           : 'unset',
                     }}
                     key={index}
-                    selected={selectedIndex === index}
+                    selected={
+                      selected === index || selected === menu_item_list[index]
+                    }
                     onClick={(e) => handleListItemClick(e, index)}
                   >
                     <ListItemText
@@ -104,8 +140,25 @@ export default function ProfilePage() {
               })}
             </List>
           </Box>
-          <Box sx={{ width: '60%', display: 'flex', flexFlow: 'column' }}>
-            <ProfileContents selectedIndex={selectedIndex} />
+          <Box
+            sx={{
+              width: { xs: '100%', md: '70%' },
+              display: 'flex',
+              flexFlow: 'column',
+            }}
+          >
+            <Box
+              sx={{
+                width: '100%',
+                maxWidth: '750px',
+                p: { xs: '1.5rem 0', md: '1.5rem' },
+                display: 'flex',
+                flexFlow: 'column',
+                rowGap: '1rem',
+              }}
+            >
+              <ProfileContents selected={selected} />
+            </Box>
           </Box>
         </Box>
       </Box>
@@ -113,19 +166,12 @@ export default function ProfilePage() {
   );
 }
 
-const ProfileContents = ({ selectedIndex }: { selectedIndex: number }) => {
-  if (selectedIndex === 0) {
+const ProfileContents = ({ selected }: { selected: number | string }) => {
+  const dispatch = useAppDispatch();
+
+  if (selected === 0 || menu_item_list[0] === selected) {
     return (
-      <Box
-        sx={{
-          width: '100%',
-          maxWidth: '600px',
-          p: '1.5rem',
-          display: 'flex',
-          flexFlow: 'column',
-          rowGap: '1rem',
-        }}
-      >
+      <>
         <Stack direction={'column'}>
           <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
             User Profile
@@ -155,7 +201,7 @@ const ProfileContents = ({ selectedIndex }: { selectedIndex: number }) => {
               borderRadius: '10px',
               px: '1.5rem',
               border: '1px solid lightgrey',
-              width: '50%',
+              width: { xs: '100%', md: '50%' },
             }}
           >
             <Typography variant="body2" color={grey['400']}>
@@ -171,7 +217,7 @@ const ProfileContents = ({ selectedIndex }: { selectedIndex: number }) => {
               borderRadius: '10px',
               px: '1.5rem',
               border: '1px solid lightgrey',
-              width: '50%',
+              width: { xs: '100%', md: '50%' },
             }}
           >
             <Typography variant="body2" color={grey['400']}>
@@ -203,7 +249,7 @@ const ProfileContents = ({ selectedIndex }: { selectedIndex: number }) => {
               borderRadius: '10px',
               px: '1.5rem',
               border: '1px solid lightgrey',
-              width: '50%',
+              width: { xs: '100%', md: '50%' },
             }}
           >
             <Typography variant="body2" color={grey['400']}>
@@ -219,7 +265,7 @@ const ProfileContents = ({ selectedIndex }: { selectedIndex: number }) => {
               borderRadius: '10px',
               px: '1.5rem',
               border: '1px solid lightgrey',
-              width: '50%',
+              width: { xs: '100%', md: '50%' },
             }}
           >
             <Typography variant="body2" color={grey['400']}>
@@ -230,20 +276,11 @@ const ProfileContents = ({ selectedIndex }: { selectedIndex: number }) => {
             </Typography>
           </Stack>
         </Box>
-      </Box>
+      </>
     );
-  } else if (selectedIndex === 1) {
+  } else if (selected === 1 || menu_item_list[1] === selected) {
     return (
-      <Box
-        sx={{
-          width: '100%',
-          maxWidth: '600px',
-          p: '1.5rem',
-          display: 'flex',
-          flexFlow: 'column',
-          rowGap: '1rem',
-        }}
-      >
+      <>
         <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
           Next Appointment
         </Typography>
@@ -254,6 +291,7 @@ const ProfileContents = ({ selectedIndex }: { selectedIndex: number }) => {
             display: 'flex',
             justifyContent: 'space-between',
             border: '1px solid lightgray',
+            overflowX: 'auto',
           }}
         >
           <Stack direction={'column'} sx={{ justifyContent: 'center' }}>
@@ -273,25 +311,20 @@ const ProfileContents = ({ selectedIndex }: { selectedIndex: number }) => {
             </Typography>
           </Stack>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <IconButton>
+            <IconButton
+              onClick={() => {
+                dispatch(openBookModal());
+              }}
+            >
               <EditCalendarIcon />
             </IconButton>
           </Box>
         </Box>
-      </Box>
+      </>
     );
-  } else if (selectedIndex === 2) {
+  } else if (selected === 2 || menu_item_list[2] === selected) {
     return (
-      <Box
-        sx={{
-          width: '100%',
-          maxWidth: '600px',
-          p: '1.5rem',
-          display: 'flex',
-          flexFlow: 'column',
-          rowGap: '1rem',
-        }}
-      >
+      <>
         <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
           History of Appointments
         </Typography>
@@ -303,9 +336,13 @@ const ProfileContents = ({ selectedIndex }: { selectedIndex: number }) => {
             display: 'flex',
             justifyContent: 'space-between',
             border: '1px solid lightgray',
+            overflowX: 'auto',
           }}
         >
-          <Stack direction={'row'} sx={{ width: '50%', alignItems: 'center' }}>
+          <Stack
+            direction={'column'}
+            sx={{ width: '50%', alignItems: 'start' }}
+          >
             <Typography variant="body2" color={grey['400']}>
               Date & Time
             </Typography>
@@ -313,7 +350,10 @@ const ProfileContents = ({ selectedIndex }: { selectedIndex: number }) => {
               date and time
             </Typography>
           </Stack>
-          <Stack direction={'row'} sx={{ width: '50%', alignItems: 'center' }}>
+          <Stack
+            direction={'column'}
+            sx={{ width: '50%', alignItems: 'start' }}
+          >
             <Typography variant="body2" color={grey['400']}>
               Appointment Type
             </Typography>
@@ -329,9 +369,13 @@ const ProfileContents = ({ selectedIndex }: { selectedIndex: number }) => {
             display: 'flex',
             justifyContent: 'space-between',
             border: '1px solid lightgray',
+            overflowX: 'auto',
           }}
         >
-          <Stack direction={'row'} sx={{ width: '50%', alignItems: 'center' }}>
+          <Stack
+            direction={'column'}
+            sx={{ width: '50%', alignItems: 'start' }}
+          >
             <Typography variant="body2" color={grey['400']}>
               Date & Time
             </Typography>
@@ -339,33 +383,10 @@ const ProfileContents = ({ selectedIndex }: { selectedIndex: number }) => {
               date and time
             </Typography>
           </Stack>
-          <Stack direction={'row'} sx={{ width: '50%', alignItems: 'center' }}>
-            <Typography variant="body2" color={grey['400']}>
-              Appointment Type
-            </Typography>
-            <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
-              appointment type
-            </Typography>
-          </Stack>
-        </Box>
-        <Box
-          sx={{
-            borderRadius: '10px',
-            p: '1rem',
-            display: 'flex',
-            justifyContent: 'space-between',
-            border: '1px solid lightgray',
-          }}
-        >
-          <Stack direction={'row'} sx={{ width: '50%', alignItems: 'center' }}>
-            <Typography variant="body2" color={grey['400']}>
-              Date & Time
-            </Typography>
-            <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
-              date and time
-            </Typography>
-          </Stack>
-          <Stack direction={'row'} sx={{ width: '50%', alignItems: 'center' }}>
+          <Stack
+            direction={'column'}
+            sx={{ width: '50%', alignItems: 'start' }}
+          >
             <Typography variant="body2" color={grey['400']}>
               Appointment Type
             </Typography>
@@ -385,24 +406,15 @@ const ProfileContents = ({ selectedIndex }: { selectedIndex: number }) => {
         >
           <Pagination count={3} color="primary" />
         </Box>
-      </Box>
+      </>
     );
-  } else if (selectedIndex === 3) {
+  } else if (selected === 3 || menu_item_list[3] === selected) {
     return (
-      <Box
-        sx={{
-          width: '100%',
-          maxWidth: '600px',
-          p: '1.5rem',
-          display: 'flex',
-          flexFlow: 'column',
-          rowGap: '1rem',
-        }}
-      >
+      <>
         <Typography variant="h6" color={grey['400']}>
           User is logged out...
         </Typography>
-      </Box>
+      </>
     );
   }
 };
