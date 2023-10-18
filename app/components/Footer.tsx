@@ -20,19 +20,35 @@ export default function Footer() {
         backgroundColor: blue['600'],
         p: '1rem 5rem',
         display: 'flex',
-        flexFlow: 'row nowrap',
+        flexFlow: { xs: 'column-reverse nowrap', sm: 'row nowrap' },
         justifyContent: 'space-between',
+        gap: '1rem',
       }}
     >
-      <Stack direction={'row'} sx={{ columnGap: '1rem' }}>
+      <Box
+        sx={{
+          gap: '1rem',
+          display: 'flex',
+          flexFlow: { xs: 'column nowrap', sm: 'row nowrap' },
+          alignItems: 'center',
+        }}
+      >
         <Typography variant="body2" color={'white'}>
           &copy; 2023, developed by Sean Fang
         </Typography>
         <Typography variant="body2" color={'white'}>
-          email: fangzhengonly@gmail.com
+          Email: fangzhengonly@gmail.com
         </Typography>
-      </Stack>
-      <Stack direction={'row'} sx={{ columnGap: '1rem', color: 'white' }}>
+      </Box>
+      <Box
+        sx={{
+          gap: '1rem',
+          color: 'white',
+          display: 'flex',
+          flexFlow: { xs: 'column nowrap', sm: 'row nowrap' },
+          alignItems: 'center',
+        }}
+      >
         <Link href="/#landing">
           <Typography variant="body1" component="div">
             Home
@@ -48,7 +64,7 @@ export default function Footer() {
             About
           </Typography>
         </Link>
-      </Stack>
+      </Box>
     </Box>
   );
 }

@@ -24,6 +24,7 @@ import { useAppDispatch, useAppSelector } from './store';
 import { openModal as openAuthModal } from './store/authSlice';
 import { openModal as openBookModal } from './store/bookSlice';
 import BookModal from './components/BookModal';
+import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 
 Amplify.configure({ ...awsExports, ssr: true });
 
@@ -70,7 +71,7 @@ export default function Home() {
       {/* book_an_appointment modal  */}
       <BookModal />
 
-      {/* section landing  */}
+      {/* landing section  */}
       <Box
         id="landing"
         sx={{
@@ -90,18 +91,34 @@ export default function Home() {
       >
         <Stack
           direction={'row'}
-          sx={{ height: '60vh', width: '100%', maxWidth: '1200px' }}
+          sx={{
+            flexFlow: { xs: 'column', sm: 'row' },
+            justifyContent: { xs: 'end', sm: 'unset' },
+            height: { xs: '90vh', sm: '70vh' },
+            width: '100%',
+            maxWidth: '1200px',
+          }}
         >
-          <Stack direction={'column'} sx={{ width: '50%', p: '2rem' }}>
-            <Typography variant="body1" sx={{ color: blue['500'] }}>
+          <Stack
+            direction={'column'}
+            sx={{
+              width: { xs: '100%', sm: '50%' },
+              p: { xs: '0.5rem 1rem', sm: '1rem 1.5rem' },
+            }}
+          >
+            <Typography variant="body2" sx={{ color: blue['500'] }}>
               SMILE. EVERYDAY.
             </Typography>
             <ThemeProvider theme={typographyTheme}>
-              <Typography variant="h2">Your Teeth Health, We Care</Typography>
+              <Typography variant="h3">Your Teeth Health, We Care</Typography>
             </ThemeProvider>
             <Typography
               variant="body1"
-              sx={{ marginBottom: '3rem', color: grey['600'] }}
+              sx={{
+                display: { sm: 'block' },
+                marginBottom: { xs: '1rem', sm: '2rem' },
+                color: grey['600'],
+              }}
             >
               Teeth health is very important for our lives. Here, at Dr.Gao's
               Dental, your dental health will be taken good care of.
@@ -113,8 +130,13 @@ export default function Home() {
                     dispatch(openBookModal());
                   }}
                   variant="contained"
-                  sx={{ borderRadius: '50px' }}
                   disableElevation
+                  size="small"
+                  sx={{
+                    borderRadius: '50px',
+                    fontSize: { xs: '0.75rem', md: '0.875rem' },
+                    p: { xs: '3px 9px', md: '5px 15px' },
+                  }}
                 >
                   {authInfo ? 'Book Now' : 'Book as Guest'}
                 </Button>
@@ -127,6 +149,7 @@ export default function Home() {
                     <Typography
                       data-cy="home-landing-welcome"
                       sx={{ alignSelf: 'center' }}
+                      variant="body2"
                     >
                       Welcome, {authInfo.given_name}!
                     </Typography>
@@ -135,7 +158,12 @@ export default function Home() {
                   <Button
                     data-cy="home-landing-login-btn"
                     variant="outlined"
-                    sx={{ borderRadius: '50px' }}
+                    size="small"
+                    sx={{
+                      borderRadius: '50px',
+                      fontSize: { xs: '0.75rem', md: '0.875rem' },
+                      p: { xs: '3px 9px', md: '5px 15px' },
+                    }}
                     disableElevation
                     onClick={() => {
                       dispatch(openAuthModal());
@@ -150,7 +178,10 @@ export default function Home() {
           <Stack
             justifyContent={'center'}
             direction={'column'}
-            sx={{ width: '50%', p: '2rem' }}
+            sx={{
+              width: { xs: '100%', sm: '50%' },
+              p: { xs: '0.5rem 1rem', sm: '1rem 1.5rem' },
+            }}
           >
             <Paper
               elevation={5}
@@ -158,10 +189,11 @@ export default function Home() {
                 borderRadius: '20px',
                 backgroundColor: blue['400'],
                 color: 'white',
-                p: '1rem',
+                p: { xs: '0.5rem', sm: '1rem' },
                 display: 'flex',
                 flexFlow: 'column nowrap',
                 rowGap: '0.5rem',
+                fontSize: '0.75rem',
               }}
             >
               <Stack direction={'row'} columnGap={'0.5rem'}>
@@ -209,50 +241,54 @@ export default function Home() {
             <span style={{ color: blue['A200'] }}>Patients</span>.
           </Typography>
         </ThemeProvider>
-        <Box
+        {/* <Box
           sx={{
             display: 'flex',
-            flexFlow: 'row',
+            flexFlow: 'row wrap',
+            gap: '1rem',
             width: '100%',
             maxWidth: '1200px',
-            justifyContent: 'space-between',
+            justifyContent: { xs: 'center', sm: 'start' },
           }}
-        >
+        > */}
+        <Grid2 container spacing={2} sx={{ maxWidth: '1200px' }}>
           {services.map((service, index) => {
             return (
-              <Card
-                key={index}
-                sx={{
-                  width: '30%',
-                  maxWidth: 360,
-                  display: 'flex',
-                  flexFlow: 'column nowrap',
-                }}
-                elevation={5}
-              >
-                <CardMedia
-                  component="img"
-                  alt={service.alt}
-                  height="160"
-                  image={service.img}
-                />
-                <CardContent sx={{ flexGrow: 1 }}>
-                  <Typography gutterBottom variant="h5" component="div">
-                    {service.name}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {service.description}
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button variant="contained" disableElevation>
-                    Book Now
-                  </Button>
-                </CardActions>
-              </Card>
+              <Grid2 key={index} xs={12} sm={6} md={4}>
+                <Card
+                  sx={{
+                    // width: { xs: '100%', sm: '45%', lg: '30%' },
+                    maxWidth: 360,
+                    display: 'flex',
+                    flexFlow: 'column nowrap',
+                  }}
+                  elevation={5}
+                >
+                  <CardMedia
+                    component="img"
+                    alt={service.alt}
+                    height="160"
+                    image={service.img}
+                  />
+                  <CardContent sx={{ flexGrow: 1 }}>
+                    <Typography gutterBottom variant="h5" component="div">
+                      {service.name}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {service.description}
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button variant="contained" disableElevation>
+                      Book Now
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid2>
             );
           })}
-        </Box>
+        </Grid2>
+        {/* </Box> */}
       </Box>
 
       {/* about section  */}
@@ -274,27 +310,28 @@ export default function Home() {
             variant="h6"
             sx={{ maxWidth: '400px', textAlign: 'center', mb: '4rem' }}
           >
-            About Me
+            About <span style={{ color: blue['500'] }}>Me</span>
           </Typography>
         </ThemeProvider>
         <Box
           sx={{
             display: 'flex',
-            flexFlow: 'row',
+            flexFlow: { xs: 'column', md: 'row' },
             width: '100%',
             maxWidth: '1200px',
-            justifyContent: 'space-between',
+            justifyContent: { xs: 'center', md: 'space-between' },
           }}
         >
           <Box
             sx={{
-              width: '50%',
+              width: { xs: '100%', md: '50%' },
               display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'start',
+              justifyContent: { xs: 'center' },
+              alignItems: { md: 'start' },
+              mb: '2rem',
             }}
           >
-            <Card elevation={3} sx={{ width: '360px' }}>
+            <Card elevation={3} sx={{ width: '70%', maxWidth: '360px' }}>
               <CardMedia
                 component="img"
                 alt="dentist"
@@ -305,7 +342,7 @@ export default function Home() {
           </Box>
           <Box
             sx={{
-              width: '50%',
+              width: { xs: '100%', md: '50%' },
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'start',
@@ -313,7 +350,12 @@ export default function Home() {
           >
             <Paper
               elevation={3}
-              sx={{ width: '80%', minHeight: '480px', p: '1rem' }}
+              sx={{
+                width: '70%',
+                maxWidth: '360px',
+                minHeight: '480px',
+                p: '1rem',
+              }}
             >
               <Typography>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -353,27 +395,38 @@ export default function Home() {
         <Box
           sx={{
             display: 'flex',
-            flexFlow: 'row',
+            flexFlow: { xs: 'column', md: 'row' },
             width: '100%',
             maxWidth: '1200px',
             p: '1rem',
+            gap: '1rem',
           }}
         >
           <Box
             sx={{
-              width: '50%',
+              width: { xs: '100%', md: '50%' },
               display: 'flex',
               flexFlow: 'column nowrap',
               rowGap: '1rem',
             }}
           >
-            <Typography variant="h5" sx={{ mb: '2rem' }}>
+            <Typography
+              variant="h5"
+              sx={{ mb: '2rem', width: '80%', alignSelf: 'center' }}
+            >
               Feel free to contact us!
             </Typography>
-            <Stack direction={'row'}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexFlow: { xs: 'column', sm: 'row' },
+                justifyContent: { xs: 'center', sm: 'center' },
+                gap: '1rem',
+              }}
+            >
               <Box
                 sx={{
-                  width: '50%',
+                  width: { xs: '100%', sm: '40%' },
                   display: 'flex',
                   flexFlow: 'column',
                   rowGap: '1rem',
@@ -398,7 +451,13 @@ export default function Home() {
                   <Typography>dentalGao@gmail.com</Typography>
                 </Stack>
               </Box>
-              <Box sx={{ width: '50%' }}>
+              <Box
+                sx={{
+                  width: { xs: '100%', sm: '40%' },
+                  display: 'flex',
+                  flexFlow: 'column',
+                }}
+              >
                 <Typography sx={{ fontWeight: 'bold', mb: '2rem' }}>
                   Working Hours
                 </Typography>
@@ -423,19 +482,27 @@ export default function Home() {
                   </Stack>
                 </Stack>
               </Box>
-            </Stack>
-            <Button
-              variant="contained"
-              disableElevation
-              sx={{
-                borderRadius: '50px',
-                alignSelf: 'start',
-              }}
-            >
-              Book an appointment
-            </Button>
+            </Box>
+            <Box sx={{ display: 'flex', width: '80%', alignSelf: 'center' }}>
+              <Button
+                variant="contained"
+                disableElevation
+                sx={{
+                  borderRadius: '50px',
+                }}
+              >
+                Book an appointment
+              </Button>
+            </Box>
           </Box>
-          <Box sx={{ width: '50%' }}>
+          <Box
+            sx={{
+              width: { xs: '100%', md: '50%' },
+              overflow: 'auto',
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
             <iframe
               width="450"
               height="450"

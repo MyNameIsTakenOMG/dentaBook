@@ -1,5 +1,5 @@
 'use client';
-import { Amplify, Auth, Hub } from 'aws-amplify';
+import { Amplify, Auth } from 'aws-amplify';
 import awsExports from '@/src/aws-exports';
 import {
   Box,
