@@ -20,7 +20,7 @@ import dayjs from '@/app/utils/dayjs'
 import { blue, grey } from '@mui/material/colors';
 // Amplify.configure({ ...awsExports, ssr: true });
 
-export default function SearchAndUpdateModal({
+export default function UpdateAppointmentModal({
   openUpdateModal,
   setOpenUpdateModal,
 }: {

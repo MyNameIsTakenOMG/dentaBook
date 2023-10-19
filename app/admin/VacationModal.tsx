@@ -52,9 +52,9 @@ export default function VacationModal({ openVacationModal, setOpenVacationModal,
               End date:
             </Typography>
             <DatePicker
-              value={startDate}
+              value={endDate}
               onChange={(newValue) => {
-                if (newValue) setStartDate(newValue)
+                if (newValue) setEndDate(newValue)
               }} />
           </Stack>
         </Box>

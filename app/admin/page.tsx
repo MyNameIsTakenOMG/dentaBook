@@ -21,7 +21,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { blue, grey } from '@mui/material/colors';
+import { blue, green, grey } from '@mui/material/colors';
 import LogoutIcon from '@mui/icons-material/Logout';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import FlightIcon from '@mui/icons-material/Flight';
@@ -29,10 +29,13 @@ import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import RunningWithErrorsIcon from '@mui/icons-material/RunningWithErrors';
 import AddIcon from '@mui/icons-material/Add';
 import { Calendar, dayjsLocalizer } from 'react-big-calendar';
-import SearchAndUpdateModal from './SearchAndUpdateModal';
+import UpdateAppointmentModal from './UpdateAppointmentModal';
 
 import dayjs from '@/app/utils/dayjs'
 import VacationModal from './VacationModal';
+import CancelAppointmentModal from './CancelAppointmentModal';
+import IntervalModal from './IntervalModal';
+import ChangeUserStatusModal from './ChangeUserStatusModal';
 
 const localizer = dayjsLocalizer(dayjs);
 
@@ -163,8 +166,16 @@ export default function AdminPage() {
 }
 
 const DashboardContents = ({ selectedIndex }: { selectedIndex: number }) => {
-  // searchAndUpdateModal
+  // updateAppointmentModal
   const [openUpdateModal, setOpenUpdateModal] = useState(false);
+  // CancelAppointmentModal
+  const [openCancelAppointmentModal, setOpenCancelAppointmentModal] = useState(false)
+
+  // intervalModal
+  const [openIntervalModal, setOpenIntervalModal] = useState(false)
+
+  // changeUserStatusModal
+  const [openUserStatusModal, setOpenUserStatusModal] = useState(false)
 
   // vacationModal
   const [openVacationModal, setOpenVacationModal] = useState(false)
@@ -328,12 +339,28 @@ const DashboardContents = ({ selectedIndex }: { selectedIndex: number }) => {
   else if (selectedIndex === 2) {
     return (
       <>
-        {/* book_an_appointment modal 
-      for updating date and time of the upcoming appointment
-      or cancelling the appointment  */}
-        <SearchAndUpdateModal
+        {/* updateAppointment modal 
+      for updating date and time of the upcoming appointment */}
+        <UpdateAppointmentModal
           openUpdateModal={openUpdateModal}
           setOpenUpdateModal={setOpenUpdateModal}
+        />
+        {/* cancelAppointment modal for cancelling the upcoming appointment  */}
+        <CancelAppointmentModal
+          openCancelAppointmentModal={openCancelAppointmentModal}
+          setOpenCancelAppointmentModal={setOpenCancelAppointmentModal}
+        />
+
+        {/* intervalModal for setting intervals for clients  */}
+        <IntervalModal
+          openIntervalModal={openIntervalModal}
+          setOpenIntervalModal={setOpenIntervalModal}
+        />
+
+        {/* changeUserStatusModal for changing user status  */}
+        <ChangeUserStatusModal
+          openUserStatusModal={openUserStatusModal}
+          setOpenUserStatusModal={setOpenUserStatusModal}
         />
 
         <Typography variant="h6" sx={{ position: 'sticky', top: 0 }}>
@@ -357,7 +384,7 @@ const DashboardContents = ({ selectedIndex }: { selectedIndex: number }) => {
             }}
           >
             <Stack direction={'column'} rowGap={'0.5rem'}>
-              <Typography variant="body1">Search users</Typography>
+              <Typography variant="body1" sx={{ fontWeight: 'bold' }}>Search users</Typography>
               <Stack
                 direction={'row'}
                 columnGap={'0.5rem'}
@@ -390,30 +417,32 @@ const DashboardContents = ({ selectedIndex }: { selectedIndex: number }) => {
                 rowGap: '1rem',
               }}
             >
-              <Typography variant="body1">User Information</Typography>
+              <Typography variant="body1" sx={{ fontWeight: 'bold' }}>User Information</Typography>
               <Stack direction={'row'} columnGap={'0.8rem'}>
-                <TextField size="small" label="Given Name" />
-                <TextField size="small" label="Family Name" />
+                <TextField sx={{ width: '50%' }} disabled size="small" label="Given Name" />
+                <TextField sx={{ width: '50%' }} disabled size="small" label="Family Name" />
               </Stack>
-              <TextField size="small" type="tel" label="Phone Number" />
-              <TextField size="small" type="email" label="Email" />
+              <TextField disabled size="small" type="tel" label="Phone Number" />
+              <TextField disabled size="small" type="email" label="Email" />
               <Stack direction={'row'} justifyContent={'space-between'}>
-                <Typography variant="body2">
-                  Is active? <span style={{ fontWeight: 'bold' }}>Yes</span>
-                </Typography>
+                <Stack direction={'row'} columnGap={'1rem'} alignItems={'center'}>
+                  <Typography variant="body1">
+                    Current Status:
+                  </Typography>
+                  <Typography variant='body1' sx={{ p: '0.25rem 0.5rem', borderRadius: '5px', fontWeight: 'bold', color: 'white', backgroundColor: green['500'] }}>Active</Typography>
+                </Stack>
                 <Button
                   disableElevation
                   variant="contained"
                   size="small"
                   color="warning"
+                  onClick={() => { setOpenUserStatusModal(true) }}
                 >
                   update
                 </Button>
               </Stack>
-              <Typography variant="body2">Last appointment: date</Typography>
-              <Typography variant="body2">Next appointment: date</Typography>
               <Stack direction={'row'} justifyContent={'space-between'}>
-                <Typography variant="body2">
+                <Typography variant="body1">
                   re-exam interval: interval
                 </Typography>
                 <Button
@@ -421,6 +450,7 @@ const DashboardContents = ({ selectedIndex }: { selectedIndex: number }) => {
                   variant="contained"
                   size="small"
                   color="warning"
+                  onClick={() => { setOpenIntervalModal(true) }}
                 >
                   update
                 </Button>
@@ -435,7 +465,7 @@ const DashboardContents = ({ selectedIndex }: { selectedIndex: number }) => {
                 rowGap: '1rem',
               }}
             >
-              <Typography variant="body1">Appointment</Typography>
+              <Typography variant="body1" sx={{ fontWeight: 'bold' }}>Appointment</Typography>
               <Stack direction={'column'} rowGap={'0.8rem'}>
                 <Typography variant="body2">Upcoming</Typography>
                 <Box
@@ -477,6 +507,9 @@ const DashboardContents = ({ selectedIndex }: { selectedIndex: number }) => {
                       size="small"
                       variant="contained"
                       color="error"
+                      onClick={() => {
+                        setOpenCancelAppointmentModal(true);
+                      }}
                     >
                       cancel
                     </Button>
