@@ -3,8 +3,8 @@
 import React, { useState } from 'react';
 import styles from './page.module.css';
 
-import { Amplify } from 'aws-amplify';
-import awsExports from '@/src/aws-exports';
+// import { Amplify } from 'aws-amplify';
+// import awsExports from '@/src/aws-exports';
 import {
   Box,
   IconButton,
@@ -24,7 +24,7 @@ import BookModal from '../components/BookModal';
 import { useAppDispatch } from '../store';
 import { openModal as openBookModal } from '../store/bookSlice';
 
-Amplify.configure({ ...awsExports, ssr: true });
+// Amplify.configure({ ...awsExports, ssr: true });
 
 const menu_item_list = [
   'Profile',

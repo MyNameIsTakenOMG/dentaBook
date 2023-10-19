@@ -1,6 +1,6 @@
 'use client';
 import { Amplify, Auth } from 'aws-amplify';
-import awsExports from '@/src/aws-exports';
+// import awsExports from '@/src/aws-exports';
 import {
   Box,
   Divider,
@@ -17,7 +17,7 @@ import { blue } from '@mui/material/colors';
 import { useRouter } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '@/app/store';
 import { openModal } from '@/app/store/authSlice';
-Amplify.configure({ ...awsExports, ssr: true });
+// Amplify.configure({ ...awsExports, ssr: true });
 
 const drawerWidth = 240;
 const navItems = ['Home', 'Services', 'About'];

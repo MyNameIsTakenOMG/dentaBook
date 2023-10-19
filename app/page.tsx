@@ -1,6 +1,6 @@
 'use client';
-import { Amplify, Auth } from 'aws-amplify';
-import awsExports from '@/src/aws-exports';
+// import { Amplify, Auth } from 'aws-amplify';
+// import awsExports from '@/src/aws-exports';
 
 import Image from 'next/image';
 import styles from './page.module.css';
@@ -26,7 +26,7 @@ import { openModal as openBookModal } from './store/bookSlice';
 import BookModal from './components/BookModal';
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 
-Amplify.configure({ ...awsExports, ssr: true });
+// Amplify.configure({ ...awsExports, ssr: true });
 
 const typographyTheme = createTheme({
   typography: {

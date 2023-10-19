@@ -6,12 +6,12 @@ import { Amplify, Auth } from 'aws-amplify';
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
-import awsExports from '@/src/aws-exports';
+// import awsExports from '@/src/aws-exports';
 import { Button } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useAppDispatch } from '../store';
 import { closeModal } from '../store/authSlice';
-Amplify.configure({ ...awsExports, ssr: true });
+// Amplify.configure({ ...awsExports, ssr: true });
 
 const formFields = {
   signUp: {

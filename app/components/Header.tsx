@@ -1,6 +1,6 @@
 'use client';
 import { Amplify, Auth, Hub } from 'aws-amplify';
-import awsExports from '@/src/aws-exports';
+// import awsExports from '@/src/aws-exports';
 import React, { Dispatch, useEffect, useState } from 'react';
 import {
   AppBar,
@@ -29,7 +29,7 @@ import { usePathname } from 'next/navigation';
 import HeaderDrawer from './header-components/HeaderDrawer';
 import { blue } from '@mui/material/colors';
 
-Amplify.configure({ ...awsExports, ssr: true });
+// Amplify.configure({ ...awsExports, ssr: true });
 
 const typographyTheme = createTheme({
   typography: {
@@ -41,6 +41,8 @@ export default function Header() {
   // remember to comment out the two lines below
   const pathname = usePathname();
   if (pathname === '/admin') return <></>;
+
+  return <></>
 
   const dispatch: ThunkDispatch<
     CombinedState<{

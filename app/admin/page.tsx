@@ -1,6 +1,6 @@
 'use client';
-import { Amplify, Auth } from 'aws-amplify';
-import awsExports from '@/src/aws-exports';
+// import { Amplify, Auth } from 'aws-amplify';
+// import awsExports from '@/src/aws-exports';
 import React, { useState } from 'react';
 import styles from './page.module.css';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -29,29 +29,14 @@ import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import RunningWithErrorsIcon from '@mui/icons-material/RunningWithErrors';
 import AddIcon from '@mui/icons-material/Add';
 import { Calendar, dayjsLocalizer } from 'react-big-calendar';
-import dayjs from 'dayjs';
-import { useAppDispatch } from '../store';
 import SearchAndUpdateModal from './SearchAndUpdateModal';
 
-import isBetween from 'dayjs/plugin/isBetween';
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-import localeData from 'dayjs/plugin/localeData';
-import localizedFormat from 'dayjs/plugin/localizedFormat';
-import minMax from 'dayjs/plugin/minMax';
-import utc from 'dayjs/plugin/utc';
-
-dayjs.extend(isBetween);
-dayjs.extend(isSameOrAfter);
-dayjs.extend(isSameOrBefore);
-dayjs.extend(localeData);
-dayjs.extend(localizedFormat);
-dayjs.extend(minMax);
-dayjs.extend(utc);
+import dayjs from '@/app/utils/dayjs'
+import VacationModal from './VacationModal';
 
 const localizer = dayjsLocalizer(dayjs);
 
-Amplify.configure({ ...awsExports, ssr: true });
+// Amplify.configure({ ...awsExports, ssr: true });
 
 export default function AdminPage() {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -88,7 +73,7 @@ export default function AdminPage() {
             position: 'fixed',
             top: 0,
             left: 0,
-            zIndex: 2000,
+            zIndex: 1250,
             bgcolor: grey['50'],
             color: blue['400'],
             borderRight: '1px solid lightblue',
@@ -165,7 +150,7 @@ export default function AdminPage() {
             position: 'fixed',
             top: 0,
             left: 240,
-            zIndex: 2000,
+            zIndex: 1250,
             bgcolor: grey['50'],
             color: blue['400'],
           }}
@@ -180,6 +165,10 @@ export default function AdminPage() {
 const DashboardContents = ({ selectedIndex }: { selectedIndex: number }) => {
   // searchAndUpdateModal
   const [openUpdateModal, setOpenUpdateModal] = useState(false);
+
+  // vacationModal
+  const [openVacationModal, setOpenVacationModal] = useState(false)
+  const [vacationOption, setVacationOption] = useState<'Add' | 'Update' | 'Cancel'>('Add')
 
   // schedule
   if (selectedIndex === 0) {
@@ -197,6 +186,14 @@ const DashboardContents = ({ selectedIndex }: { selectedIndex: number }) => {
   else if (selectedIndex === 1) {
     return (
       <>
+        {/* book_an_appointment modal 
+      for updating date and time of the upcoming appointment
+      or cancelling the appointment  */}
+        <VacationModal
+          openVacationModal={openVacationModal}
+          setOpenVacationModal={setOpenVacationModal}
+          option={vacationOption}
+        />
         <Typography variant="h6" sx={{ position: 'sticky', top: 0 }}>
           Vacations
         </Typography>
@@ -229,6 +226,7 @@ const DashboardContents = ({ selectedIndex }: { selectedIndex: number }) => {
                 variant="contained"
                 disableElevation
                 startIcon={<AddIcon />}
+                onClick={() => { setOpenVacationModal(true); setVacationOption('Add') }}
               >
                 add vacation
               </Button>
@@ -257,10 +255,14 @@ const DashboardContents = ({ selectedIndex }: { selectedIndex: number }) => {
                 columnGap={'0.5rem'}
                 sx={{ alignItems: 'center' }}
               >
-                <Button size="small" variant="contained" color="info">
-                  edit
+                <Button size="small" variant="contained" color="info"
+                  onClick={() => { setOpenVacationModal(true); setVacationOption('Update') }}
+                >
+                  update
                 </Button>
-                <Button size="small" variant="contained" color="error">
+                <Button size="small" variant="contained" color="error"
+                  onClick={() => { setOpenVacationModal(true); setVacationOption('Cancel') }}
+                >
                   cancel
                 </Button>
               </Stack>
@@ -343,6 +345,7 @@ const DashboardContents = ({ selectedIndex }: { selectedIndex: number }) => {
           rowGap={'1rem'}
           sx={{ width: '100%', maxWidth: '1200px' }}
         >
+          {/* search section  */}
           <Box
             sx={{
               width: '50%',
@@ -378,6 +381,7 @@ const DashboardContents = ({ selectedIndex }: { selectedIndex: number }) => {
               p: '0.5rem',
             }}
           >
+            {/* user information section  */}
             <Box
               sx={{
                 width: '50%',
@@ -422,6 +426,7 @@ const DashboardContents = ({ selectedIndex }: { selectedIndex: number }) => {
                 </Button>
               </Stack>
             </Box>
+            {/* user appointments section  */}
             <Box
               sx={{
                 width: '50%',

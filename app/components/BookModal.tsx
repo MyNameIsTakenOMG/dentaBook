@@ -1,7 +1,7 @@
 'use client';
 import React, { ReactNode, useState } from 'react';
-import { Amplify, Auth } from 'aws-amplify';
-import awsExports from '@/src/aws-exports';
+// import { Amplify, Auth } from 'aws-amplify';
+// import awsExports from '@/src/aws-exports';
 import Modal from '@mui/material/Modal';
 import { useAppDispatch, useAppSelector } from '../store';
 import {
@@ -21,7 +21,7 @@ import { closeModal } from '../store/bookSlice';
 import { blue, grey } from '@mui/material/colors';
 import Divider from '@mui/material/Divider';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
-Amplify.configure({ ...awsExports, ssr: true });
+// Amplify.configure({ ...awsExports, ssr: true });
 
 const steps = ['DATE & TIME', 'PATIENT INFO', 'CONFIRM'];
 const appointment_types = [
