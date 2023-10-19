@@ -1,7 +1,7 @@
 'use client';
 import { Amplify, Auth } from 'aws-amplify';
 import awsExports from '@/src/aws-exports';
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './page.module.css';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
@@ -30,13 +30,31 @@ import RunningWithErrorsIcon from '@mui/icons-material/RunningWithErrors';
 import AddIcon from '@mui/icons-material/Add';
 import { Calendar, dayjsLocalizer } from 'react-big-calendar';
 import dayjs from 'dayjs';
+import { useAppDispatch } from '../store';
+import SearchAndUpdateModal from './SearchAndUpdateModal';
+
+import isBetween from 'dayjs/plugin/isBetween';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import localeData from 'dayjs/plugin/localeData';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
+import minMax from 'dayjs/plugin/minMax';
+import utc from 'dayjs/plugin/utc';
+
+dayjs.extend(isBetween);
+dayjs.extend(isSameOrAfter);
+dayjs.extend(isSameOrBefore);
+dayjs.extend(localeData);
+dayjs.extend(localizedFormat);
+dayjs.extend(minMax);
+dayjs.extend(utc);
 
 const localizer = dayjsLocalizer(dayjs);
 
 Amplify.configure({ ...awsExports, ssr: true });
 
 export default function AdminPage() {
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const handleListItemClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -160,6 +178,9 @@ export default function AdminPage() {
 }
 
 const DashboardContents = ({ selectedIndex }: { selectedIndex: number }) => {
+  // searchAndUpdateModal
+  const [openUpdateModal, setOpenUpdateModal] = useState(false);
+
   // schedule
   if (selectedIndex === 0) {
     return (
@@ -305,6 +326,14 @@ const DashboardContents = ({ selectedIndex }: { selectedIndex: number }) => {
   else if (selectedIndex === 2) {
     return (
       <>
+        {/* book_an_appointment modal 
+      for updating date and time of the upcoming appointment
+      or cancelling the appointment  */}
+        <SearchAndUpdateModal
+          openUpdateModal={openUpdateModal}
+          setOpenUpdateModal={setOpenUpdateModal}
+        />
+
         <Typography variant="h6" sx={{ position: 'sticky', top: 0 }}>
           Clients
         </Typography>
@@ -364,16 +393,31 @@ const DashboardContents = ({ selectedIndex }: { selectedIndex: number }) => {
               </Stack>
               <TextField size="small" type="tel" label="Phone Number" />
               <TextField size="small" type="email" label="Email" />
-              <Typography variant="body2">
-                Is registered? <span style={{ fontWeight: 'bold' }}>Yes</span>
-              </Typography>
+              <Stack direction={'row'} justifyContent={'space-between'}>
+                <Typography variant="body2">
+                  Is active? <span style={{ fontWeight: 'bold' }}>Yes</span>
+                </Typography>
+                <Button
+                  disableElevation
+                  variant="contained"
+                  size="small"
+                  color="warning"
+                >
+                  update
+                </Button>
+              </Stack>
               <Typography variant="body2">Last appointment: date</Typography>
               <Typography variant="body2">Next appointment: date</Typography>
               <Stack direction={'row'} justifyContent={'space-between'}>
                 <Typography variant="body2">
                   re-exam interval: interval
                 </Typography>
-                <Button variant="contained" size="small">
+                <Button
+                  disableElevation
+                  variant="contained"
+                  size="small"
+                  color="warning"
+                >
                   update
                 </Button>
               </Stack>
@@ -412,10 +456,23 @@ const DashboardContents = ({ selectedIndex }: { selectedIndex: number }) => {
                     columnGap={'0.5rem'}
                     sx={{ alignItems: 'center' }}
                   >
-                    <Button size="small" variant="contained" color="warning">
+                    <Button
+                      disableElevation
+                      size="small"
+                      variant="contained"
+                      color="warning"
+                      onClick={() => {
+                        setOpenUpdateModal(true);
+                      }}
+                    >
                       update
                     </Button>
-                    <Button size="small" variant="contained" color="error">
+                    <Button
+                      disableElevation
+                      size="small"
+                      variant="contained"
+                      color="error"
+                    >
                       cancel
                     </Button>
                   </Stack>
