@@ -11,6 +11,7 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
   - add/update/delete **_re-examination_interval_** for clients
   - ~~create a user account for a new client (default: **'password'**)~~
   - search for clients' appointment history (including **_date_for_next_appointment_** if there is one)
+  - update clients' current status (active/inactive)
 
 **Note:** either **_date_for_next_appointment_** or **_re-examination_interval_** should be set for each client, or the server won't be able to track the status of appointments of clients.
 
@@ -104,8 +105,9 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
   - expire_timestamp
 ### Access Patterns
 - `getClientByClientId` (primary key(PK) + sort key(SK)) : `PK=c#<id>` and `SK=c#<id>`
-- `getAppointmentsByClientId` (primary key(PK)) : `PK=c#<id>`
-- `getActiveClientsByEntityType`  (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(client)` and `GSI-SK=c#<isActive=true>`
+- `getAppointmentsByClientId` (primary key(PK) + sort key(SK)) : `PK=c#<id>` and `SK begins_with=a#`
+- `getActiveClientsByEntityType`  (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(client)` and `GSI-SK=c#<isActive=active>`
+- `getInactiveClientsByEntityType`  (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(client)` and `GSI-SK=c#<isActive=inactive>`
 - `getAppointmentByDateAndTimestamp` (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(appointment)` and `GSI-SK=a#<date>#<timestamp>`
 - `getAppointmentsByDate` (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(appointment)` and `GSI-SK begins_with=a#<date>`
 - `getAppointmentsByDateWithRange` (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(appointment)` and `GSI-SK between (a#<date1>, a#<date2>)`
