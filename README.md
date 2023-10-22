@@ -51,6 +51,7 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
 - showing all available time slots based on different types of appointments and dates picked
 - showing the next available date and time without clients picking dates one after another
 - concurrency issue of the same time slots being chosen at the same time
+- properly dealing with `cancel appointments`
 
 ## issues
 
