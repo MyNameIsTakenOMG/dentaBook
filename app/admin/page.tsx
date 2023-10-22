@@ -1,7 +1,7 @@
 'use client';
 // import { Amplify, Auth } from 'aws-amplify';
 // import awsExports from '@/src/aws-exports';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './page.module.css';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
@@ -28,14 +28,16 @@ import FlightIcon from '@mui/icons-material/Flight';
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import RunningWithErrorsIcon from '@mui/icons-material/RunningWithErrors';
 import AddIcon from '@mui/icons-material/Add';
-import { Calendar, dayjsLocalizer } from 'react-big-calendar';
+import { Calendar, Views, dayjsLocalizer } from 'react-big-calendar';
 import UpdateAppointmentModal from './UpdateAppointmentModal';
 
-import dayjs from '@/app/utils/dayjs'
+import dayjs from '@/app/utils/dayjs';
 import VacationModal from './VacationModal';
 import CancelAppointmentModal from './CancelAppointmentModal';
 import IntervalModal from './IntervalModal';
 import ChangeUserStatusModal from './ChangeUserStatusModal';
+import AppointmentDetailsModal from './AppointmentDetailsModal';
+import CustomEvent from './CustomEvent';
 
 const localizer = dayjsLocalizer(dayjs);
 
@@ -165,32 +167,148 @@ export default function AdminPage() {
   );
 }
 
+const events = [
+  {
+    start: dayjs('2023-10-22 9:30').toDate(),
+    end: dayjs('2023-10-22 10:30').toDate(),
+    title: 'MRI Registration',
+    resource: {
+      id: '12344556 123@123.com',
+      title: 'given_name family_name',
+      status: 'upcoming', // 'upcoming', 'missed', 'pending','cancelled'
+    },
+  },
+  {
+    start: dayjs('2023-10-22 10:30').toDate(),
+    end: dayjs('2023-10-22 11:30').toDate(),
+    title: 'MRI Registration',
+    resource: {
+      id: '12344556 244@123.com',
+      title: 'given_name family_name',
+      status: 'upcoming', // 'upcoming', 'missed', 'pending','cancelled'
+    },
+  },
+  {
+    start: dayjs('2023-10-22 11:30').toDate(),
+    end: dayjs('2023-10-22 12:30').toDate(),
+    title: 'MRI Registration',
+    resource: {
+      id: '12344556 324@123.com',
+      title: 'given_name family_name',
+      status: 'upcoming', // 'upcoming', 'missed', 'pending','cancelled'
+    },
+  },
+  {
+    start: dayjs('2023-10-22 12:30').toDate(),
+    end: dayjs('2023-10-22 13:30').toDate(),
+    title: 'MRI Registration',
+    resource: {
+      id: '12344556 798@123.com',
+      title: 'given_name family_name',
+      status: 'cancelled', // 'upcoming', 'missed', 'pending','cancelled'
+    },
+  },
+  {
+    start: dayjs('2023-10-22 13:30').toDate(),
+    end: dayjs('2023-10-22 14:30').toDate(),
+    title: 'MRI Registration',
+    resource: {
+      id: '12344556 57@123.com',
+      title: 'given_name family_name',
+      status: 'pending', // 'upcoming', 'missed', 'pending','cancelled'
+    },
+  },
+  {
+    start: dayjs('2023-10-22 14:30').toDate(),
+    end: dayjs('2023-10-22 15:30').toDate(),
+    title: 'ENT Appointment',
+    resource: {
+      id: '12344556 456@123.com',
+      title: 'given_name family_name',
+      status: 'missed', // 'upcoming', 'missed', 'pending','cancelled'
+    },
+  },
+];
+
 const DashboardContents = ({ selectedIndex }: { selectedIndex: number }) => {
   // updateAppointmentModal
   const [openUpdateModal, setOpenUpdateModal] = useState(false);
   // CancelAppointmentModal
-  const [openCancelAppointmentModal, setOpenCancelAppointmentModal] = useState(false)
+  const [openCancelAppointmentModal, setOpenCancelAppointmentModal] =
+    useState(false);
 
   // intervalModal
-  const [openIntervalModal, setOpenIntervalModal] = useState(false)
+  const [openIntervalModal, setOpenIntervalModal] = useState(false);
 
   // changeUserStatusModal
-  const [openUserStatusModal, setOpenUserStatusModal] = useState(false)
+  const [openUserStatusModal, setOpenUserStatusModal] = useState(false);
 
   // vacationModal
-  const [openVacationModal, setOpenVacationModal] = useState(false)
-  const [vacationOption, setVacationOption] = useState<'Add' | 'Update' | 'Cancel'>('Add')
+  const [openVacationModal, setOpenVacationModal] = useState(false);
+  const [vacationOption, setVacationOption] = useState<
+    'Add' | 'Update' | 'Cancel'
+  >('Add');
+
+  // Appointment details modal
+  const views = [Views.MONTH, Views.WEEK, Views.DAY];
+  // Appointment Modal
+  const [openAppointmentModal, setOpenAppointmentModal] = useState(false);
+  // onNavigate
+  const [selectedDate, setSelectedDate] = useState(null);
+  // onSelectEvent
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  // onView
+  const [selectedView, setSelectedView] = useState('day');
+  // onRangeChange
+  // Note: This method is not fired on initial render,
+  // Only as the user navigates through Big Calendar.
+  const onRangeChange = (range: any) => {
+    console.log('the range: ', range);
+  };
+  const onNavigate = (newDate: any) => setSelectedDate(newDate);
+  const onSelectEvent = (event: any) => {
+    if (selectedView === 'week' || selectedView === 'day') {
+      console.log('only triggered with view day or week');
+      setSelectedEvent(event);
+      setOpenAppointmentModal(true);
+    }
+  };
+  const onView = (newView: any) => setSelectedView(newView);
+  useEffect(() => {
+    console.log('the selected date: ', selectedDate);
+    console.log('the selected event: ', selectedEvent);
+    console.log('the selected view: ', selectedView);
+  }, [selectedDate, selectedEvent, selectedView]);
 
   // schedule
   if (selectedIndex === 0) {
     return (
-      <Calendar
-        defaultView="week"
-        localizer={localizer}
-        step={30}
-        timeslots={1}
-        style={{ height: '95vh' }}
-      />
+      <>
+        <AppointmentDetailsModal
+          openAppointmentModal={openAppointmentModal}
+          setOpenAppointmentModal={setOpenAppointmentModal}
+        />
+        <Calendar
+          defaultView="day"
+          localizer={localizer}
+          step={30}
+          timeslots={1}
+          style={{ height: '95vh' }}
+          events={events}
+          views={views}
+          popup
+          min={dayjs('2023-10-21 9:00').toDate()}
+          max={dayjs('2023-10-21 18:30').toDate()}
+          // onNavigate={onNavigate}
+          onSelectEvent={onSelectEvent}
+          onView={onView}
+          onRangeChange={onRangeChange}
+          resourceAccessor={'resource'}
+          components={{
+            event: CustomEvent,
+          }}
+        />
+      </>
     );
   }
   // vacations
@@ -237,7 +355,10 @@ const DashboardContents = ({ selectedIndex }: { selectedIndex: number }) => {
                 variant="contained"
                 disableElevation
                 startIcon={<AddIcon />}
-                onClick={() => { setOpenVacationModal(true); setVacationOption('Add') }}
+                onClick={() => {
+                  setOpenVacationModal(true);
+                  setVacationOption('Add');
+                }}
               >
                 add vacation
               </Button>
@@ -266,13 +387,25 @@ const DashboardContents = ({ selectedIndex }: { selectedIndex: number }) => {
                 columnGap={'0.5rem'}
                 sx={{ alignItems: 'center' }}
               >
-                <Button size="small" variant="contained" color="info"
-                  onClick={() => { setOpenVacationModal(true); setVacationOption('Update') }}
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="info"
+                  onClick={() => {
+                    setOpenVacationModal(true);
+                    setVacationOption('Update');
+                  }}
                 >
                   update
                 </Button>
-                <Button size="small" variant="contained" color="error"
-                  onClick={() => { setOpenVacationModal(true); setVacationOption('Cancel') }}
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="error"
+                  onClick={() => {
+                    setOpenVacationModal(true);
+                    setVacationOption('Cancel');
+                  }}
                 >
                   cancel
                 </Button>
@@ -384,7 +517,9 @@ const DashboardContents = ({ selectedIndex }: { selectedIndex: number }) => {
             }}
           >
             <Stack direction={'column'} rowGap={'0.5rem'}>
-              <Typography variant="body1" sx={{ fontWeight: 'bold' }}>Search users</Typography>
+              <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+                Search users
+              </Typography>
               <Stack
                 direction={'row'}
                 columnGap={'0.5rem'}
@@ -417,26 +552,58 @@ const DashboardContents = ({ selectedIndex }: { selectedIndex: number }) => {
                 rowGap: '1rem',
               }}
             >
-              <Typography variant="body1" sx={{ fontWeight: 'bold' }}>User Information</Typography>
+              <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+                User Information
+              </Typography>
               <Stack direction={'row'} columnGap={'0.8rem'}>
-                <TextField sx={{ width: '50%' }} disabled size="small" label="Given Name" />
-                <TextField sx={{ width: '50%' }} disabled size="small" label="Family Name" />
+                <TextField
+                  sx={{ width: '50%' }}
+                  disabled
+                  size="small"
+                  label="Given Name"
+                />
+                <TextField
+                  sx={{ width: '50%' }}
+                  disabled
+                  size="small"
+                  label="Family Name"
+                />
               </Stack>
-              <TextField disabled size="small" type="tel" label="Phone Number" />
+              <TextField
+                disabled
+                size="small"
+                type="tel"
+                label="Phone Number"
+              />
               <TextField disabled size="small" type="email" label="Email" />
               <Stack direction={'row'} justifyContent={'space-between'}>
-                <Stack direction={'row'} columnGap={'1rem'} alignItems={'center'}>
-                  <Typography variant="body1">
-                    Current Status:
+                <Stack
+                  direction={'row'}
+                  columnGap={'1rem'}
+                  alignItems={'center'}
+                >
+                  <Typography variant="body1">Current Status:</Typography>
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      p: '0.25rem 0.5rem',
+                      borderRadius: '5px',
+                      fontWeight: 'bold',
+                      color: 'white',
+                      backgroundColor: green['500'],
+                    }}
+                  >
+                    Active
                   </Typography>
-                  <Typography variant='body1' sx={{ p: '0.25rem 0.5rem', borderRadius: '5px', fontWeight: 'bold', color: 'white', backgroundColor: green['500'] }}>Active</Typography>
                 </Stack>
                 <Button
                   disableElevation
                   variant="contained"
                   size="small"
                   color="warning"
-                  onClick={() => { setOpenUserStatusModal(true) }}
+                  onClick={() => {
+                    setOpenUserStatusModal(true);
+                  }}
                 >
                   update
                 </Button>
@@ -450,7 +617,9 @@ const DashboardContents = ({ selectedIndex }: { selectedIndex: number }) => {
                   variant="contained"
                   size="small"
                   color="warning"
-                  onClick={() => { setOpenIntervalModal(true) }}
+                  onClick={() => {
+                    setOpenIntervalModal(true);
+                  }}
                 >
                   update
                 </Button>
@@ -465,7 +634,9 @@ const DashboardContents = ({ selectedIndex }: { selectedIndex: number }) => {
                 rowGap: '1rem',
               }}
             >
-              <Typography variant="body1" sx={{ fontWeight: 'bold' }}>Appointment</Typography>
+              <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+                Appointment
+              </Typography>
               <Stack direction={'column'} rowGap={'0.8rem'}>
                 <Typography variant="body2">Upcoming</Typography>
                 <Box
