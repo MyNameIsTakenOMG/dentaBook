@@ -32,7 +32,7 @@
       "function": {
         "dentabook085e066cPostConfirmation": {
           "deploymentBucketName": "amplify-dentabook-ftauth-130858-deployment",
-          "s3Key": "amplify-builds/dentabook085e066cPostConfirmation-4b5477397a6479315154-build.zip"
+          "s3Key": "amplify-builds/dentabook085e066cPostConfirmation-4c6e366e5659774b6939-build.zip"
         },
         "dentabookawsSDK": {
           "deploymentBucketName": "amplify-dentabook-ftauth-130858-deployment",

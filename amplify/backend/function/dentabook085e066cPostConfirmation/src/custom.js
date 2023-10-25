@@ -31,27 +31,45 @@ exports.handler = async (event, context) => {
     event.request.userAttributes;
 
   try {
-    await docClient.send(
-      new PutCommand({
+    // check if this client has booked appointments before
+    // ...
+    const response = await docClient.send(
+      new QueryCommand({
         TableName: process.env.STORAGE_DYNAMOFTAUTH_NAME,
-        Item: {
-          PK: email,
-          SK: email,
-          phone_number,
-          family_name,
-          given_name,
-          role: event.request.userAttributes['custom:role'],
-          reexam_interval: undefined,
-          next_appmt: undefined,
-          last_appmt: undefined,
-          is_reminder_msg_sent: false,
-          is_confirm_msg_sent: false,
-          entity_type: 'user',
-          is_registered: true,
+        KeyConditionExpression: 'PK = :v1 and begins_with(SK, :v2)',
+        ExpressionAttributeValues: {
+          ':v1': `c#${email}`,
+          ':v2': 'c#',
         },
+        Limit: 1,
+        ProjectionExpression: 'PK',
+        ScanIndexForward: false, // reversely searching
       })
     );
-    console.log(`user:${email} profile created successfully`);
+    // if this client has never booked an appointment before
+    // then create a client profile
+    if (response.Items.length === 0) {
+      await docClient.send(
+        new PutCommand({
+          TableName: process.env.STORAGE_DYNAMOFTAUTH_NAME,
+          Item: {
+            PK: `c#${email}`,
+            SK: `c#${email}`,
+            entity_type: 'client',
+            phone_number,
+            family_name,
+            given_name,
+            role: event.request.userAttributes['custom:role'],
+            reexam_interval: undefined,
+            appointment_date: undefined,
+            is_reminder_msg_sent: false,
+            is_confirm_msg_sent: false,
+            is_active: false,
+          },
+        })
+      );
+      console.log(`user:${email} profile created successfully`);
+    }
     // return event;
     context.done(null, event);
   } catch (error) {
