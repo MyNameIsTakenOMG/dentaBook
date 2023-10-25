@@ -69,7 +69,7 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
   - ~~password~~
   - entity_type
   - ~~isRegistered~~
-  - isActive
+  - is_active (true/false)
   - role
   - re-exam_interval
   - appointment_date
@@ -95,6 +95,7 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
   - phone_number
   - family_name
   - given_name
+  - is_resolved (true/false)
 ---
 - **Reserved**: 
   - ~~reserve_date~~
@@ -107,13 +108,13 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
 ### Access Patterns
 - `getClientByClientId` (primary key(PK) + sort key(SK)) : `PK=c#<id>` and `SK=c#<id>`
 - `getAppointmentsByClientId` (primary key(PK) + sort key(SK)) : `PK=c#<id>` and `SK begins_with=a#`
-- `getActiveClientsByEntityType`  (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(client)` and `GSI-SK=c#<isActive=active>`
-- `getInactiveClientsByEntityType`  (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(client)` and `GSI-SK=c#<isActive=inactive>`
+- `getActiveClientsByEntityType`  (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(client)` and `GSI-SK=c#<is_active=true>`
+- `getInactiveClientsByEntityType`  (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(client)` and `GSI-SK=c#<is_active=false>`
 - `getAppointmentByDateAndTimestamp` (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(appointment)` and `GSI-SK=a#<date>#<timestamp>`
 - `getAppointmentsByDate` (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(appointment)` and `GSI-SK begins_with=a#<date>`
 - `getAppointmentsByDateWithRange` (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(appointment)` and `GSI-SK between (a#<date1>, a#<date2>)`
-- `getUnresolvedIssuesByEntityType` (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(issue)` and `GSI-SK begins_with=<status:unresolved>#`
-- `getResolvedIssuesByEntityTypeWithTimeRange` (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(issue)` and `GSI-SK between (<status:resolved>#<date1>, <status:resolved>#<date2>)`
+- `getUnresolvedIssuesByEntityType` (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(issue)` + **--FilterExpression:** `is_resolved=false`
+- `getResolvedIssuesByEntityTypeWithTimeRange` (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(issue)` and `GSI-SK between (i#<date1>, i#<date2>)`
 ---
 - `getReservesByEntityType` (primary key(PK)) : `PK='reserved'`
 - `getReserveByClientId` (primary key(PK) + sort key(SK)) : `PK='reserved'` and `SK=r#<date>#<time>#<c_id>`
