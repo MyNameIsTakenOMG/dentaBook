@@ -50,7 +50,7 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
 - showing the correct info on a calendar, such as holidays, long weekends, as well as dentist's vacations
 - showing all available time slots based on different types of appointments and dates picked
 - showing the next available date and time without clients picking dates one after another
-- ~~concurrency issues of the same timeslots or the timeslots that share overlapping part being chosen at the same time by multiple clients~~ **Solution:** applying OCC(Optimistic Concurrency Control) via creating a `schedule` table in which each item has properties: `PK(s#<date>)`, `appointments([{start:<date>,end:<date>}])`, and `version#<timestamp>` .
+- ~~concurrency issues of the same timeslots or the timeslots that share overlapping part being chosen at the same time by multiple clients~~ **Solution:** applying OCC(Optimistic Concurrency Control) via creating a `schedule` table in which each item has properties: `PK(s#<date>)`, `appointments([{start:<date>,end:<date>}])`, and `version#<timestamp>` (**note:** this `schedule` table doesn't require a GSI and can change relatively frequently, thus merge it with the main table wouldn't be necessary, or it will need more storage space and cost more WCUs).
 - properly dealing with `cancel appointments`
 
 ## issues
@@ -105,7 +105,7 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
   - entity_type
   - ~~email~~
   - expire_timestamp
-### Access Patterns
+### Access Patterns (Main Table)
 - `getClientByClientId` (primary key(PK) + sort key(SK)) : `PK=c#<id>` and `SK=c#<id>`
 - `getAppointmentsByClientId` (primary key(PK) + sort key(SK)) : `PK=c#<id>` and `SK begins_with=a#`
 - `getActiveClientsByEntityType`  (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(client)` and `GSI-SK=c#<is_active=true>`
@@ -118,3 +118,5 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
 ---
 - `getReservesByEntityType` (primary key(PK)) : `PK='reserved'`
 - `getReserveByClientId` (primary key(PK) + sort key(SK)) : `PK='reserved'` and `SK=r#<date>#<time>#<c_id>`
+### Access Patterns (Schedule Table: OCC)
+- `getAppointmentsByDate` (primary key (PK)): `PK=d#<date>`
