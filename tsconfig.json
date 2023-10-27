@@ -36,7 +36,9 @@
     ".next/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "cypress",
+    "cypress.config.ts"
   ],
   "ts-node": {
     "compilerOptions": {
