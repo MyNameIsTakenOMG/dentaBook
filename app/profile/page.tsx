@@ -23,6 +23,7 @@ import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import BookModal from '../components/BookModal';
 import { useAppDispatch } from '../store';
 import { openModal as openBookModal } from '../store/bookSlice';
+import RouteProtector from '../components/RouteProtector';
 
 // Amplify.configure({ ...awsExports, ssr: true });
 
@@ -46,123 +47,125 @@ export default function ProfilePage() {
   };
 
   return (
-    <main className={styles.main}>
-      {/* book_an_appointment modal for updating date and time of the upcoming appointment  */}
-      <BookModal />
+    <RouteProtector>
+      <main className={styles.main}>
+        {/* book_an_appointment modal for updating date and time of the upcoming appointment  */}
+        <BookModal />
 
-      <Box
-        sx={{
-          width: '100%',
-          // height: '100vh',
-          padding: '3rem',
-          display: 'flex',
-          flexFlow: 'column',
-          alignItems: 'center',
-          mb: '3rem',
-        }}
-      >
         <Box
           sx={{
-            display: 'flex',
-            flexFlow: { xs: 'column', md: 'row' },
             width: '100%',
-            maxWidth: '1200px',
-            justifyContent: { xs: 'unset', md: 'space-between' },
-            mt: '3rem',
-            p: { xs: '0', md: '2rem' },
+            // height: '100vh',
+            padding: '3rem',
+            display: 'flex',
+            flexFlow: 'column',
+            alignItems: 'center',
+            mb: '3rem',
           }}
         >
           <Box
             sx={{
-              width: { xs: '100%', md: '30%' },
               display: 'flex',
-              flexFlow: 'column',
-            }}
-          >
-            {/* mini list  */}
-            <Select
-              sx={{ display: { xs: 'block', md: 'none' } }}
-              value={
-                typeof selected === 'number'
-                  ? menu_item_list[selected]
-                  : selected
-              }
-              onChange={handleSelectChange}
-            >
-              {menu_item_list.map((item) => {
-                return (
-                  <MenuItem key={item} value={item}>
-                    {item}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-
-            <List
-              component="nav"
-              sx={{
-                display: { xs: 'none', md: 'block' },
-                width: '100%',
-                maxWidth: 270,
-                bgcolor: grey['100'],
-                borderRadius: '30px',
-                overflow: 'hidden',
-                py: 0,
-              }}
-            >
-              {menu_item_list.map((item, index) => {
-                return (
-                  <ListItemButton
-                    sx={{
-                      p: '1.5rem 1rem',
-                      borderTop:
-                        index === menu_item_list.length - 1
-                          ? '1px solid lightgrey'
-                          : 'unset',
-                    }}
-                    key={index}
-                    selected={
-                      selected === index || selected === menu_item_list[index]
-                    }
-                    onClick={(e) => handleListItemClick(e, index)}
-                  >
-                    <ListItemText
-                      primary={item}
-                      sx={{
-                        color:
-                          index === menu_item_list.length - 1
-                            ? 'red'
-                            : 'inherit',
-                      }}
-                    />
-                  </ListItemButton>
-                );
-              })}
-            </List>
-          </Box>
-          <Box
-            sx={{
-              width: { xs: '100%', md: '70%' },
-              display: 'flex',
-              flexFlow: 'column',
+              flexFlow: { xs: 'column', md: 'row' },
+              width: '100%',
+              maxWidth: '1200px',
+              justifyContent: { xs: 'unset', md: 'space-between' },
+              mt: '3rem',
+              p: { xs: '0', md: '2rem' },
             }}
           >
             <Box
               sx={{
-                width: '100%',
-                maxWidth: '750px',
-                p: { xs: '1.5rem 0', md: '1.5rem' },
+                width: { xs: '100%', md: '30%' },
                 display: 'flex',
                 flexFlow: 'column',
-                rowGap: '1rem',
               }}
             >
-              <ProfileContents selected={selected} />
+              {/* mini list  */}
+              <Select
+                sx={{ display: { xs: 'block', md: 'none' } }}
+                value={
+                  typeof selected === 'number'
+                    ? menu_item_list[selected]
+                    : selected
+                }
+                onChange={handleSelectChange}
+              >
+                {menu_item_list.map((item) => {
+                  return (
+                    <MenuItem key={item} value={item}>
+                      {item}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+
+              <List
+                component="nav"
+                sx={{
+                  display: { xs: 'none', md: 'block' },
+                  width: '100%',
+                  maxWidth: 270,
+                  bgcolor: grey['100'],
+                  borderRadius: '30px',
+                  overflow: 'hidden',
+                  py: 0,
+                }}
+              >
+                {menu_item_list.map((item, index) => {
+                  return (
+                    <ListItemButton
+                      sx={{
+                        p: '1.5rem 1rem',
+                        borderTop:
+                          index === menu_item_list.length - 1
+                            ? '1px solid lightgrey'
+                            : 'unset',
+                      }}
+                      key={index}
+                      selected={
+                        selected === index || selected === menu_item_list[index]
+                      }
+                      onClick={(e) => handleListItemClick(e, index)}
+                    >
+                      <ListItemText
+                        primary={item}
+                        sx={{
+                          color:
+                            index === menu_item_list.length - 1
+                              ? 'red'
+                              : 'inherit',
+                        }}
+                      />
+                    </ListItemButton>
+                  );
+                })}
+              </List>
+            </Box>
+            <Box
+              sx={{
+                width: { xs: '100%', md: '70%' },
+                display: 'flex',
+                flexFlow: 'column',
+              }}
+            >
+              <Box
+                sx={{
+                  width: '100%',
+                  maxWidth: '750px',
+                  p: { xs: '1.5rem 0', md: '1.5rem' },
+                  display: 'flex',
+                  flexFlow: 'column',
+                  rowGap: '1rem',
+                }}
+              >
+                <ProfileContents selected={selected} />
+              </Box>
             </Box>
           </Box>
         </Box>
-      </Box>
-    </main>
+      </main>
+    </RouteProtector>
   );
 }
 

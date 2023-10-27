@@ -338,7 +338,7 @@ export default function Home() {
               mb: '2rem',
             }}
           >
-            <Card elevation={3} sx={{ width: '70%', maxWidth: '360px' }}>
+            <Card elevation={3} sx={{ width: '100%', maxWidth: '360px' }}>
               <CardMedia
                 component="img"
                 alt="dentist"
@@ -358,7 +358,7 @@ export default function Home() {
             <Paper
               elevation={3}
               sx={{
-                width: '70%',
+                width: '100%',
                 maxWidth: '360px',
                 minHeight: '480px',
                 p: '1rem',

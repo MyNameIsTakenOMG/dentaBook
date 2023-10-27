@@ -38,6 +38,7 @@ import IntervalModal from './IntervalModal';
 import ChangeUserStatusModal from './ChangeUserStatusModal';
 import AppointmentDetailsModal from './AppointmentDetailsModal';
 import CustomEvent from './CustomEvent';
+import RouteProtector from '../components/RouteProtector';
 
 const localizer = dayjsLocalizer(dayjs);
 
@@ -53,117 +54,119 @@ export default function AdminPage() {
     setSelectedIndex(index);
   };
   return (
-    <main className={styles.main}>
-      <Box
-        sx={{
-          width: '100%',
-          // height: '100vh',
-          // padding: '3rem 0',
-          display: 'flex',
-          flexFlow: 'column',
-          alignItems: 'center',
-          // mb: '1rem',
-        }}
-      >
-        {/* side bar  */}
+    <RouteProtector>
+      <main className={styles.main}>
         <Box
           sx={{
-            // border: '1px solid black',
-            display: 'flex',
-            flexFlow: 'column nowrap',
-            width: '240px',
-            height: '100vh',
-            p: '0.8rem',
-            rowGap: '1rem',
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            zIndex: 1250,
-            bgcolor: grey['50'],
-            color: blue['400'],
-            borderRight: '1px solid lightblue',
-          }}
-        >
-          <Stack direction={'column'}>
-            <Typography variant="h6">Welcome,</Typography>
-            <Typography variant="body2">this is admin panel.</Typography>
-          </Stack>
-          <Divider />
-          <List component="nav">
-            <ListItemButton
-              selected={selectedIndex === 0}
-              onClick={(event) => handleListItemClick(event, 0)}
-            >
-              <ListItemIcon sx={{ color: blue['400'] }}>
-                <CalendarMonthIcon />
-              </ListItemIcon>
-              <ListItemText primary="Schedule" />
-            </ListItemButton>
-            <ListItemButton
-              selected={selectedIndex === 1}
-              onClick={(event) => handleListItemClick(event, 1)}
-            >
-              <ListItemIcon sx={{ color: blue['400'] }}>
-                <FlightIcon />
-              </ListItemIcon>
-              <ListItemText primary="Vacations" />
-            </ListItemButton>
-            <ListItemButton
-              selected={selectedIndex === 2}
-              onClick={(event) => handleListItemClick(event, 2)}
-            >
-              <ListItemIcon sx={{ color: blue['400'] }}>
-                <PersonSearchIcon />
-              </ListItemIcon>
-              <ListItemText primary="Clients" />
-            </ListItemButton>
-            <ListItemButton
-              selected={selectedIndex === 3}
-              onClick={(event) => handleListItemClick(event, 3)}
-            >
-              <ListItemIcon sx={{ color: blue['400'] }}>
-                <RunningWithErrorsIcon />
-              </ListItemIcon>
-              <ListItemText primary="Issues" />
-            </ListItemButton>
-          </List>
-          <List>
-            <Divider />
-            <ListItemButton
-              sx={{ color: 'red' }}
-              selected={selectedIndex === 4}
-              onClick={(event) => handleListItemClick(event, 4)}
-            >
-              <ListItemIcon sx={{ color: 'red' }}>
-                <LogoutIcon />
-              </ListItemIcon>
-              <ListItemText primary="Log out" />
-            </ListItemButton>
-          </List>
-        </Box>
-        {/* dashboard  */}
-        <Box
-          sx={{
-            // border: '1px solid black',
-            width: 'calc(100% - 240px)',
-            height: '100vh',
-            p: '0.8rem',
-            overflow: 'auto',
+            width: '100%',
+            // height: '100vh',
+            // padding: '3rem 0',
             display: 'flex',
             flexFlow: 'column',
-            rowGap: '1rem',
-            position: 'fixed',
-            top: 0,
-            left: 240,
-            zIndex: 1250,
-            bgcolor: grey['50'],
-            color: blue['400'],
+            alignItems: 'center',
+            // mb: '1rem',
           }}
         >
-          <DashboardContents selectedIndex={selectedIndex} />
+          {/* side bar  */}
+          <Box
+            sx={{
+              // border: '1px solid black',
+              display: 'flex',
+              flexFlow: 'column nowrap',
+              width: '240px',
+              height: '100vh',
+              p: '0.8rem',
+              rowGap: '1rem',
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              zIndex: 1250,
+              bgcolor: grey['50'],
+              color: blue['400'],
+              borderRight: '1px solid lightblue',
+            }}
+          >
+            <Stack direction={'column'}>
+              <Typography variant="h6">Welcome,</Typography>
+              <Typography variant="body2">this is admin panel.</Typography>
+            </Stack>
+            <Divider />
+            <List component="nav">
+              <ListItemButton
+                selected={selectedIndex === 0}
+                onClick={(event) => handleListItemClick(event, 0)}
+              >
+                <ListItemIcon sx={{ color: blue['400'] }}>
+                  <CalendarMonthIcon />
+                </ListItemIcon>
+                <ListItemText primary="Schedule" />
+              </ListItemButton>
+              <ListItemButton
+                selected={selectedIndex === 1}
+                onClick={(event) => handleListItemClick(event, 1)}
+              >
+                <ListItemIcon sx={{ color: blue['400'] }}>
+                  <FlightIcon />
+                </ListItemIcon>
+                <ListItemText primary="Vacations" />
+              </ListItemButton>
+              <ListItemButton
+                selected={selectedIndex === 2}
+                onClick={(event) => handleListItemClick(event, 2)}
+              >
+                <ListItemIcon sx={{ color: blue['400'] }}>
+                  <PersonSearchIcon />
+                </ListItemIcon>
+                <ListItemText primary="Clients" />
+              </ListItemButton>
+              <ListItemButton
+                selected={selectedIndex === 3}
+                onClick={(event) => handleListItemClick(event, 3)}
+              >
+                <ListItemIcon sx={{ color: blue['400'] }}>
+                  <RunningWithErrorsIcon />
+                </ListItemIcon>
+                <ListItemText primary="Issues" />
+              </ListItemButton>
+            </List>
+            <List>
+              <Divider />
+              <ListItemButton
+                sx={{ color: 'red' }}
+                selected={selectedIndex === 4}
+                onClick={(event) => handleListItemClick(event, 4)}
+              >
+                <ListItemIcon sx={{ color: 'red' }}>
+                  <LogoutIcon />
+                </ListItemIcon>
+                <ListItemText primary="Log out" />
+              </ListItemButton>
+            </List>
+          </Box>
+          {/* dashboard  */}
+          <Box
+            sx={{
+              // border: '1px solid black',
+              width: 'calc(100% - 240px)',
+              height: '100vh',
+              p: '0.8rem',
+              overflow: 'auto',
+              display: 'flex',
+              flexFlow: 'column',
+              rowGap: '1rem',
+              position: 'fixed',
+              top: 0,
+              left: 240,
+              zIndex: 1250,
+              bgcolor: grey['50'],
+              color: blue['400'],
+            }}
+          >
+            <DashboardContents selectedIndex={selectedIndex} />
+          </Box>
         </Box>
-      </Box>
-    </main>
+      </main>
+    </RouteProtector>
   );
 }
 

@@ -10,7 +10,7 @@ import { usePathname } from 'next/navigation';
 // Amplify.configure({ ...awsExports, ssr: true });
 
 export default function Footer() {
-  // not render the component when the admin page is being visited
+  // do not render the component when the admin page is being visited
   const pathname = usePathname();
   if (pathname === '/admin') return <></>;
 

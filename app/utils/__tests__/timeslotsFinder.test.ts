@@ -59,16 +59,16 @@ describe('timeslotsFinder', () => {
   it('should find all available slots correctly', () => {
     const original_arr: TimeArrayItem[] = [
       {
-        start: '9:30',
-        end: '11:00',
-      },
-      {
         start: '11:30',
         end: '13:00',
       },
       {
         start: '15:30',
         end: '16:30',
+      },
+      {
+        start: '9:30',
+        end: '11:00',
       },
     ];
     const available_arr: TimeArrayItem[] = timeslotsFinder(
@@ -79,6 +79,7 @@ describe('timeslotsFinder', () => {
       SlotTypes.normal
     );
     console.log('available slots: ', available_arr);
+    expect(available_arr[0]).toStrictEqual({ start: '14:00', end: '15:00' });
     expect(available_arr.length).toBe(4);
   });
   it('should find all available slots when there is no existing slots', () => {
@@ -91,5 +92,10 @@ describe('timeslotsFinder', () => {
     );
     console.log('available slots: ', available_arr);
     expect(available_arr.length).toBe(12);
+    expect(available_arr[0]).toStrictEqual({ start: '9:00', end: '10:30' });
+    expect(available_arr[available_arr.length - 1]).toStrictEqual({
+      start: '16:30',
+      end: '18:00',
+    });
   });
 });
