@@ -47,17 +47,17 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
   </p>
 ## Challenges
 
-- showing the correct info on a calendar, such as holidays, long weekends, as well as dentist's vacations
-- showing all available time slots based on different types of appointments and dates picked
-- showing the next available date and time without clients picking dates one after another
-- ~~concurrency issues of the same timeslots or the timeslots that share overlapping part being chosen at the same time by multiple clients~~ **Solution:** applying OCC(Optimistic Concurrency Control) via creating a `schedule` table in which each item has properties: `PK(s#<date>)`, `appointments([{start:<date>,end:<date>}])`, and `version#<timestamp>` (**note:** this `schedule` table doesn't require a GSI and can change relatively frequently, thus merge it with the main table wouldn't be necessary, or it will need more storage space and cost more WCUs).
+- ~~showing the correct info on a calendar, such as holidays, long weekends, as well as dentist's vacations~~ ✅ **Solution:** adding `customEvent` components for different views when initializing `react-big-calendar`.
+- ~~showing all available time slots based on different types of appointments and dates picked~~ ✅ **Solution:** util function `timeslotsFinder` implemented
+- ~~showing the next available date and time without clients picking dates one after another~~ ✅ **Solution:** util function `timeslotsFinder` implemented
+- ~~concurrency issues of the same timeslots or the timeslots that share overlapping part being chosen at the same time by multiple clients~~✅ **Solution:** applying OCC(Optimistic Concurrency Control) via inserting `schedule` items in which each item has properties: `PK(s#<date>)`, `appointments([{start:<date>,end:<date>}])`, and `version#<timestamp>`.
 - properly dealing with `cancel appointments`
 
 ## issues
 
-- ~~avoid a client making multiple appointments.~~ **Solution:** checking if there's a `upcoming` appointment for the specific client.
+- ~~avoid a client making multiple appointments.~~ ✅ **Solution:** checking if there's an `upcoming` appointment for the specific client.
 - CSRF/XSS protection for Lambda functions
-- consider applying some limits on how frequently or how many times a client can modify the appointment
+- ~~consider applying some limits on how frequently or how many times a client can modify the appointment~~ ✅ **Solution:** adding `num_modify` to each appointment item
 
 ## Database Design (DynamoDB)
 ### Entities
@@ -72,18 +72,18 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
   - is_active (true/false)
   - role
   - re-exam_interval
-  - appointment_date
+  - ~~appointment_date~~
   - ~~next_appointment~~
   - ~~last_appointment~~
   - is_reminder_message_sent
   - is_confirm_message_sent
 - **Appointment**:
   - entity_type
-  - ~~appointment_date~~
-  - ~~appointment_timestamp~~
-  - appointment_date#timestamp
+  - appointment_date
+  - appointment_time
   - appointment_status
   - appointment_type
+  - num_modify
 - **Issue**:
   - entity_type
   - ~~appointment_date~~
@@ -96,6 +96,11 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
   - family_name
   - given_name
   - is_resolved (true/false)
+- **Schedule**:
+  - entity_type ?
+  - schedule_date : `s#<date>`
+  - appointments_array: `[{start,end}...]`
+  - version: `<timestamp>`
 ---
 - **Reserved**: 
   - ~~reserve_date~~
@@ -118,5 +123,5 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
 ---
 - `getReservesByEntityType` (primary key(PK)) : `PK='reserved'`
 - `getReserveByClientId` (primary key(PK) + sort key(SK)) : `PK='reserved'` and `SK=r#<date>#<time>#<c_id>`
-### Access Patterns (Schedule Table: OCC)
+### Access Patterns (Schedule items: OCC, no GSI applied)
 - `getAppointmentsByDate` (primary key (PK)): `PK=d#<date>`
