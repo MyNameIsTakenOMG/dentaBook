@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/book": {
+      "name": "/book",
+      "lambdaFunction": "bookAppointment",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

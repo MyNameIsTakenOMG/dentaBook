@@ -1,0 +1,10 @@
+{
+  "resourceName": "schedule",
+  "tableName": "schedule",
+  "partitionKey": {
+    "fieldName": "PK",
+    "fieldType": "string"
+  },
+  "gsi": [],
+  "triggerFunctions": []
+}

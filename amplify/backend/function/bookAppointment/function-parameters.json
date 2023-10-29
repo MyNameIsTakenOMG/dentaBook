@@ -1,0 +1,13 @@
+{
+  "lambdaLayers": [],
+  "permissions": {
+    "storage": {
+      "dynamoftauth": [
+        "create"
+      ],
+      "schedule": [
+        "create"
+      ]
+    }
+  }
+}

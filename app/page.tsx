@@ -1,11 +1,8 @@
 'use client';
-// import { Amplify, Auth } from 'aws-amplify';
-// import awsExports from '@/src/aws-exports';
+import { Amplify, Auth, API } from 'aws-amplify';
+import awsExports from '@/src/aws-exports';
 
-import Image from 'next/image';
 import styles from './page.module.css';
-import { Authenticator } from '@aws-amplify/ui-react';
-import { useState } from 'react';
 import { Box, Button, Paper, Stack, Typography } from '@mui/material';
 import createTheme from '@mui/material/styles/createTheme';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
@@ -26,7 +23,7 @@ import { openModal as openBookModal } from './store/bookSlice';
 import BookModal from './components/BookModal';
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 
-// Amplify.configure({ ...awsExports, ssr: true });
+Amplify.configure({ ...awsExports, ssr: true });
 
 const typographyTheme = createTheme({
   typography: {
@@ -62,6 +59,23 @@ export default function Home() {
   const isAuthModalOpen = useAppSelector((state) => state.auth.isModalOpen);
   const authInfo = useAppSelector((state) => state.auth.authInfo);
   const dispatch = useAppDispatch();
+
+  const handleTest = async () => {
+    try {
+      const user = await Auth.currentAuthenticatedUser();
+      const token = user.signInUserSession.idToken.jwtToken;
+      console.log('id token: ' + token);
+      const requestInfo = {
+        headers: {
+          Authorization: token,
+        },
+      };
+      const response = await API.get('apiDentaBook', '/book', requestInfo);
+      console.log('response: ' + response);
+    } catch (error) {
+      console.log('error: ', error);
+    }
+  };
 
   return (
     <main className={styles.main}>
@@ -124,7 +138,7 @@ export default function Home() {
               Dental, your dental health will be taken good care of.
             </Typography>
             <Stack direction={'row'}>
-              <Box sx={{ width: '50%' }}>
+              <Box sx={{ width: '50%', display: 'flex', alignItems: 'center' }}>
                 <Button
                   onClick={() => {
                     dispatch(openBookModal());
@@ -173,6 +187,7 @@ export default function Home() {
                   </Button>
                 )}
               </Box>
+              <Button onClick={handleTest}>test authorizer</Button>
             </Stack>
           </Stack>
           <Stack

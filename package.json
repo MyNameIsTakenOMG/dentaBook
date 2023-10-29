@@ -25,7 +25,8 @@
     "react": "latest",
     "react-big-calendar": "^1.8.4",
     "react-dom": "latest",
-    "react-redux": "^8.1.3"
+    "react-redux": "^8.1.3",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.1.4",

@@ -1,4 +1,20 @@
 {
+  "api": {
+    "apiDentaBook": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bookAppointment"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
   "auth": {
     "dentabook085e066c": {
       "customAuth": false,
@@ -38,6 +54,31 @@
     }
   },
   "function": {
+    "bookAppointment": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "dynamoftauth"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "schedule"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "dentabook085e066cPostConfirmation": {
       "build": true,
       "dependsOn": [
@@ -68,6 +109,22 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_bookAppointment_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "bookAppointment"
+        }
+      ]
+    },
+    "AMPLIFY_function_bookAppointment_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "bookAppointment"
+        }
+      ]
+    },
     "AMPLIFY_function_dentabook085e066cPostConfirmation_deploymentBucketName": {
       "usedBy": [
         {
@@ -103,6 +160,10 @@
   },
   "storage": {
     "dynamoftauth": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    },
+    "schedule": {
       "providerPlugin": "awscloudformation",
       "service": "DynamoDB"
     }

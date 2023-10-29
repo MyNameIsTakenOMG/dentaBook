@@ -1,7 +1,7 @@
 'use client';
 import React, { ReactNode, useState } from 'react';
-// import { Amplify, Auth } from 'aws-amplify';
-// import awsExports from '@/src/aws-exports';
+import { Amplify, Auth } from 'aws-amplify';
+import awsExports from '@/src/aws-exports';
 import Modal from '@mui/material/Modal';
 import { useAppDispatch, useAppSelector } from '../store';
 import {
@@ -21,7 +21,8 @@ import { closeModal } from '../store/bookSlice';
 import { blue, grey } from '@mui/material/colors';
 import Divider from '@mui/material/Divider';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
-// Amplify.configure({ ...awsExports, ssr: true });
+import dayjs from '@/app/utils/dayjs';
+Amplify.configure({ ...awsExports, ssr: true });
 
 const steps = ['DATE & TIME', 'PATIENT INFO', 'CONFIRM'];
 const appointment_types = [
@@ -31,21 +32,57 @@ const appointment_types = [
   'Treatment',
   'Dental Exam',
 ];
+const appointment_duration = {
+  Emergency: 'long',
+  Cleaning: 'short',
+  'Dental Implant': 'long',
+  Treatment: 'short',
+  'Dental Exam': 'short',
+};
 
 export default function BookModal() {
   const isModalOpen = useAppSelector((state) => state.book.isModalOpen);
   const dispatch = useAppDispatch();
 
   const [activeStep, setActiveStep] = useState(0);
+  // appointment info section
   const [selectedAppmtType, setSelectedAppmtType] = useState('');
+  const [appmtDate, setAppmtDate] = useState<dayjs.Dayjs | null>(
+    dayjs(undefined)
+  );
+  const [timeslot, setTimeslot] = useState('');
+  const handleTypeChange = (type: string) => {
+    return () => {
+      setSelectedAppmtType(type);
+      // trigger event of fetching appointments via calling api
+      // and timeslotsFinder to find all the availalble time slots
+      // note: may need to move forward multiple times when trying to
+      // find any available slots
+      // custom logic here ...(go to redux to create asyncThunk)
+      // also add a new api route
+    };
+  };
+  // client info section
+  const [family_name, setFamily_name] = useState('');
+  const [given_name, setGiven_name] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone_number, setPhone_number] = useState('');
+
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    if (activeStep === 0) {
+      // check if apointment type and time slot have been chosen
+      if (selectedAppmtType !== '' && timeslot !== '' && appmtDate)
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      else window.alert('please select appointment type or date and time');
+    } else if (activeStep === 1) {
+    }
   };
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-  const handleReset = () => {
+  const handleClose = () => {
     setActiveStep(0);
+    dispatch(closeModal());
   };
 
   return (
@@ -106,8 +143,20 @@ export default function BookModal() {
           {/* stepper contents  */}
           <StepperContents
             activeStep={activeStep}
-            handleReset={handleReset}
+            handleClose={handleClose}
             selectedAppmtType={selectedAppmtType}
+            handleTypeChange={handleTypeChange}
+            appmtDate={appmtDate}
+            setAppmtDate={setAppmtDate}
+            setTimeslot={setTimeslot}
+            email={email}
+            family_name={family_name}
+            given_name={given_name}
+            phone_number={phone_number}
+            setEmail={setEmail}
+            setFamily_name={setFamily_name}
+            setGiven_name={setGiven_name}
+            setPhone_number={setPhone_number}
             stepNaviButtons={
               <StepNaviButtons
                 activeStep={activeStep}
@@ -124,17 +173,41 @@ export default function BookModal() {
 
 const StepperContents = ({
   activeStep,
-  handleReset,
+  handleClose,
   selectedAppmtType,
+  handleTypeChange,
+  appmtDate,
+  setAppmtDate,
+  setTimeslot,
+  family_name,
+  given_name,
+  email,
+  phone_number,
+  setEmail,
+  setFamily_name,
+  setGiven_name,
+  setPhone_number,
   stepNaviButtons,
 }: {
   activeStep: number;
-  handleReset: () => void;
+  handleClose: () => void;
   selectedAppmtType: string;
+  handleTypeChange: (type: string) => () => void;
+  appmtDate: dayjs.Dayjs | null;
+  setAppmtDate: (appmtDate: dayjs.Dayjs | null) => void;
+  setTimeslot: React.Dispatch<React.SetStateAction<string>>;
+  family_name: string;
+  given_name: string;
+  email: string;
+  phone_number: string;
+  setEmail: React.Dispatch<React.SetStateAction<string>>;
+  setFamily_name: React.Dispatch<React.SetStateAction<string>>;
+  setGiven_name: React.Dispatch<React.SetStateAction<string>>;
+  setPhone_number: React.Dispatch<React.SetStateAction<string>>;
   stepNaviButtons: ReactNode;
 }) => {
   const [openMoreOptions, setOpenMoreOptions] = useState(false);
-
+  // finished booking appointments
   if (activeStep === steps.length) {
     return (
       <Box sx={{ p: '1.5rem' }}>
@@ -143,7 +216,7 @@ const StepperContents = ({
         </Typography>
         <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
           <Box sx={{ flex: '1 1 auto' }} />
-          <Button onClick={handleReset}>Reset</Button>
+          <Button onClick={handleClose}>close</Button>
         </Box>
       </Box>
     );
@@ -180,6 +253,7 @@ const StepperContents = ({
                 }}
               >
                 <Paper
+                  onClick={handleTypeChange(type)}
                   elevation={3}
                   sx={{
                     bgcolor: selectedAppmtType === type ? blue['600'] : 'unset',
@@ -246,10 +320,15 @@ const StepperContents = ({
               Select Date and Time
             </Typography>
             {/* calendar  */}
-            <DateCalendar disableHighlightToday={false} disablePast={true} />
+            <DateCalendar
+              value={appmtDate}
+              onChange={(newDate) => setAppmtDate(newDate)}
+              disableHighlightToday={false}
+              disablePast={true}
+            />
             {/* available time slots  */}
             <Stack direction={'column'}>
-              <Typography color={grey['500']}>Morning</Typography>
+              <Typography color={grey['500']}>Time Slots</Typography>
               <Box sx={{ display: 'flex', flexFlow: 'row' }}>
                 <Box
                   sx={{
@@ -272,7 +351,7 @@ const StepperContents = ({
                       '&:hover': { outline: '1px solid blue' },
                     }}
                   >
-                    <Typography>9:30am</Typography>
+                    <Typography>9:30</Typography>
                   </Paper>
                 </Box>
               </Box>
@@ -297,10 +376,34 @@ const StepperContents = ({
           rowGap: '1rem',
         }}
       >
-        <TextField type="text" required label="Family Name" id="family_name" />
-        <TextField type="text" required label="Given Name" id="given_name" />
-        <TextField type="email" required label="Email" id="email" />
-        <TextField type="tel" required label="Phone Number" id="phone_number" />
+        <TextField
+          type="text"
+          required
+          value={family_name}
+          label="Family Name"
+          id="family_name"
+        />
+        <TextField
+          type="text"
+          required
+          value={given_name}
+          label="Given Name"
+          id="given_name"
+        />
+        <TextField
+          type="email"
+          required
+          value={email}
+          label="Email"
+          id="email"
+        />
+        <TextField
+          type="tel"
+          required
+          value={phone_number}
+          label="Phone Number"
+          id="phone_number"
+        />
         {stepNaviButtons}
       </Box>
     );
