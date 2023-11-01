@@ -50,7 +50,7 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
 - ~~showing the correct info on a calendar, such as holidays, long weekends, as well as dentist's vacations~~ ✅ **Solution:** adding `customEvent` components for different views when initializing `react-big-calendar`.
 - ~~showing all available time slots based on different types of appointments and dates picked~~ ✅ **Solution:** util function `timeslotsFinder` implemented
 - ~~showing the next available date and time without clients picking dates one after another~~ ✅ **Solution:** util function `timeslotsFinder` implemented
-- ~~concurrency issues of the same timeslots or the timeslots that share overlapping part being chosen at the same time by multiple clients~~✅ **Solution:** applying **OCC(Optimistic Concurrency Control)** via inserting `schedule` items in which each item has properties: `PK(s#<date>)`, `appointments([{start:<date>,end:<date>}])`, and `version#<timestamp>`.
+- ~~concurrency issues of the same timeslots or the timeslots that share overlapping part being chosen at the same time by multiple clients~~✅ **Solution:** applying **OCC(Optimistic Concurrency Control)** via inserting `date` items in which each item has properties: `PK(d#<date_1>)`, `appts([{start:<time_1>, end:<time_2>, date:<date_1>, type: "root canal",c: "c<email_1>", a: "a#<timestamp_1>", status: "upcoming"}])`, `version#<timestamp>`, `apptNum(number)`.
 - properly dealing with `cancel appointments`
 
 ## issues
@@ -119,13 +119,13 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
 - `getInactiveClientsByEntityType`  (GSI2(PK) + GSI2(SK)) : `GSI2-PK=entity_type(client)` and `GSI2-SK=c#<is_active=false>`
 #### Admin
 - `getClientByPhoneNumber` (GSI2(PK)) : `GSI2-PK=client` + **--FilterExpression:** `phone=:phone`
-- `getAppointmentByDateAndTimestamp` (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(appointment)` and `GSI-SK=a#<date>#<timestamp>`
-- `getAppointmentsByDate` **(day view)** (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(appointment)` and `GSI-SK begins_with=a#<date>`
+- `getAppointmentByClientIdAndTimestamp` (primary key(PK) + sort key(SK)) : `PK=c#<id:email>` and `SK=a#<id:timestamp>`
+- `getAppointmentsByDate` **(day view)** (primary key(PK)) : `PK=d#date_1` 
 - `getAppointmentsByDateWithRange` **(month or week view)** (primary key(PK)) : `PK=date_1` (from `date_1` to `date_2`, need `batchReadItems`)
 - `getUnresolvedIssuesByEntityType` (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(issue)` + **--FilterExpression:** `is_resolved=false`
 - `getResolvedIssuesByEntityTypeWithTimeRange` (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(issue)` and `GSI-SK between (i#<date1>, i#<date2>)`
 ---
 - `getReservesByEntityType` (primary key(PK)) : `PK='reserved'`
 - `getReserveByClientId` (primary key(PK) + sort key(SK)) : `PK='reserved'` and `SK=r#<date>#<time>#<c_id>`
-### Access Patterns (Schedule items: OCC, no GSI applied)
-- `getAppointmentsByDate` (primary key (PK)): `PK=d#<date>`
+~~### Access Patterns (Schedule items: OCC, no GSI applied)~~
+~~- `getAppointmentsByDate` (primary key (PK)): `PK=d#<date>`~~
