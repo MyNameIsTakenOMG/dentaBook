@@ -111,13 +111,17 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
   - ~~email~~
   - expire_timestamp
 ### Access Patterns (Main Table)
+#### Client
 - `getClientByClientId` (primary key(PK) + sort key(SK)) : `PK=c#<id>` and `SK=c#<id>`
 - `getAppointmentsByClientId` (primary key(PK) + sort key(SK)) : `PK=c#<id>` and `SK begins_with=a#`
-- `getActiveClientsByEntityType`  (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(client)` and `GSI-SK=c#<is_active=true>`
-- `getInactiveClientsByEntityType`  (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(client)` and `GSI-SK=c#<is_active=false>`
+#### System
+- `getActiveClientsByEntityType`  (GSI2(PK) + GSI2(SK)) : `GSI2-PK=entity_type(client)` and `GSI2-SK=c#<is_active=true>`
+- `getInactiveClientsByEntityType`  (GSI2(PK) + GSI2(SK)) : `GSI2-PK=entity_type(client)` and `GSI2-SK=c#<is_active=false>`
+#### Admin
+- `getClientByPhoneNumber` (GSI2(PK)) : `GSI2-PK=client` + **--FilterExpression:** `phone=:phone`
 - `getAppointmentByDateAndTimestamp` (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(appointment)` and `GSI-SK=a#<date>#<timestamp>`
-- `getAppointmentsByDate` (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(appointment)` and `GSI-SK begins_with=a#<date>`
-- `getAppointmentsByDateWithRange` (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(appointment)` and `GSI-SK between (a#<date1>, a#<date2>)`
+- `getAppointmentsByDate` **(day view)** (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(appointment)` and `GSI-SK begins_with=a#<date>`
+- `getAppointmentsByDateWithRange` **(month or week view)** (primary key(PK)) : `PK=date_1` (from `date_1` to `date_2`, need `batchReadItems`)
 - `getUnresolvedIssuesByEntityType` (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(issue)` + **--FilterExpression:** `is_resolved=false`
 - `getResolvedIssuesByEntityTypeWithTimeRange` (GSI(PK) + GSI(SK)) : `GSI-PK=entity_type(issue)` and `GSI-SK between (i#<date1>, i#<date2>)`
 ---
