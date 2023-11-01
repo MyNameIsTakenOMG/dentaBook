@@ -110,7 +110,7 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
   - entity_type
   - ~~email~~
   - expire_timestamp
-### Access Patterns (Main Table)
+### Access Patterns
 #### Client
 - `getClientByClientId` (primary key(PK) + sort key(SK)) : `PK=c#<id>` and `SK=c#<id>`
 - `getAppointmentsByClientId` (primary key(PK) + sort key(SK)) : `PK=c#<id>` and `SK begins_with=a#`
