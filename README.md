@@ -21,11 +21,15 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
   - allow to make appointments without a user account (guest booking option, **_downsides:_** unable to view the history of past appointments and modify appointments, have to fill out personal information form when booking an appointment each time.)
 
 - System:
-  - scan all client records in the table to track the status of their appointments every day.
-  - skip the client record whose properties **_date_for_next_appointment_** or **_re-examination_interval_** have not been set.
+  - scan all **active** client records in the table to track the status of their appointments every day.
+  - skip the **inactive** client records whose properties **_date_for_next_appointment_** or **_re-examination_interval_** have not been set and have **no** previous appointment record.
   - if a client record has the property **_date_for_next_appointment_** set up, then send a confirm notification to the client if the **_date_for_next_appointment_** is less than 3 days ahead of the current date and there's no confirm notification that hasn't been sent yet. Otherwise, skip the client record.
   - if a client record has the properties **_re-examination_interval_** and **_last_appointment_** set up, then send a reminder notification to the client if they are due for re-exam and there's no reminder notification that has been sent yet. **_Note:_** If a client hasn't booked an appointment 7 days after they receive the reminder notification, then the system will create an `issue` and send it to the admin for further process.
   - if a client misses their appointment, the system will create an `issue` and send it to the admin for further process.
+  ---
+  - if an `issue` has been created for a certain client with a reason of **pending** , **missed**, or **cancelled**, then turn the client to **inactive** .
+  - each time a client books an appointment, make sure to turn the status to **active** if it was **inactive** before.
+  - if a client who hasn't had properties **_date_for_next_appointment_** or **_re-examination_interval_** set but has previous appointment record(s), but they haven't booked appointments for more than **6 months**, then turn them to **inactive** .
 
 ## Technologies
 
