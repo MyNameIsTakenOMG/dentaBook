@@ -54,7 +54,7 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
 - ~~showing the correct info on a calendar, such as holidays, long weekends, as well as dentist's vacations~~ ✅ **Solution:** adding `customEvent` components for different views when initializing `react-big-calendar`.
 - ~~showing all available time slots based on different types of appointments and dates picked~~ ✅ **Solution:** util function `timeslotsFinder` implemented
 - ~~showing the next available date and time without clients picking dates one after another~~ ✅ **Solution:** util function `timeslotsFinder` implemented
-- ~~concurrency issues of the same timeslots or the timeslots that share overlapping part being chosen at the same time by multiple clients~~✅ **Solution:** applying **OCC(Optimistic Concurrency Control)** via inserting `date` items in which each item has properties: `PK(d#<date_1>)`, `appts([{start:<time_1>, end:<time_2>, date:<date_1>, type: "root canal",c: "c<email_1>", a: "a#<timestamp_1>", status: "upcoming"}])`, `version#<timestamp>`, `apptNum(number)`.
+- ~~concurrency issues of the same timeslots or the timeslots that share overlapping part being chosen at the same time by multiple clients~~✅ **Solution:** applying **OCC(Optimistic Concurrency Control)** via inserting `date` items in which each item has properties: `PK(d#<date_1>)`, `appts([{start:<time_1>, end:<time_2>, date:<date_1>, type: "root canal",c: "c#<email_1>", a: "a#<timestamp_1>", status: "upcoming"}])`, `version#<timestamp>`, `apptNum(number)`.
 - properly dealing with `cancel appointments`
 
 ## issues
