@@ -129,6 +129,8 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
 - `getUnresolvedIssuesByEntityType` (GSI3(PK)) : `GSI3-PK=issue` 
 - `getUnResolvedIssuesWithTimeRange` (GSI3(PK) + GSI3(SK)) : `GSI3-PK=issue` and `GSI3-SK between (i#false#<timestamp_1>, i#false#<timestamp_2>)`
 - `getUnresolvedIssuesNum` (primary key(PK) : `PK=issues`
+- `getVacationsByEntityType` (GSI1(PK)) : `GSI1-PK=vacation`
+- `getVacationsByTimeRange` (GSI1(PK) + GSI1(SK)) : `GSI1-PK=vacation` and `GSI1-SK between (v#<date_1>, v#<date_2>)`
 ---
 - `getReservesByEntityType` (primary key(PK)) : `PK='reserved'`
 - `getReserveByClientId` (primary key(PK) + sort key(SK)) : `PK='reserved'` and `SK=r#<date>#<time>#<c_id>`
