@@ -11,7 +11,7 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
   - add/update/delete **_re-examination_interval_** for clients
   - ~~create a user account for a new client (default: **'password'**)~~
   - search for clients' appointment history (including **_date_for_next_appointment_** if there is one)
-  - update clients' current status (active/inactive)
+  - ~~update clients' current status (active/inactive)~~
 
 **Note:** either **_date_for_next_appointment_** or **_re-examination_interval_** should be set for each client, or the server won't be able to track the status of appointments of clients.
 
