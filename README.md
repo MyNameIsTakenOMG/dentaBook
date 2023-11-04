@@ -43,7 +43,7 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
 - *Boxing Day: December 26 ->
   ```
     if both fall on weekdays(1-5), then return
-    else if both fall on weekends, then christmas= 1, boxing=2
+    else if both fall on weekends( christmas=6 & boxing=0), then christmas= 1, boxing=2
     else if christmas=5 & boxing=6, then boxing+(2 days)->1
     else if christmas=0 & boxing=1, then christmas+(1 day)->1, boxing+(1 day)->2
   ```
