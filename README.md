@@ -30,7 +30,25 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
   - if an `issue` has been created for a certain client with a reason of **pending** , **missed**, or **cancelled**, then turn the client to **inactive** .
   - each time a client books an appointment, make sure to turn the status to **active** if it was **inactive** before.
   - if a client who hasn't had properties **_date_for_next_appointment_** or **_re-examination_interval_** set but has previous appointment record(s), but they haven't booked appointments for more than **6 months**, then turn them to **inactive** .
-
+---
+### Holidays Rules (referred to the City of Toronto: [Designated & Statutory Holidays](https://www.toronto.ca/home/contact-us/statutory-holidays/) )
+- Family Day: 3rd Monday in February
+- Good Friday: always on Friday
+- Victoria Day: Monday before May 25
+- *Canada Day: July 1, but if `date.getDay()` == 6 || 0, then move it to 1
+- Simcoe (Civic) Day: first Monday of August
+- Labour Day: first Monday of September
+- Thanksgiving Day: second Monday of October
+- Christmas Day: December 25 ->
+- Boxing Day: December 26 ->
+  ```
+    if both fall on weekdays(1-5), then return
+    else if both fall on weekends, then christmas= 1, boxing=2
+    else if christmas=5 & boxing=6, then boxing+(2 days)->1
+    else if christmas=0 & boxing=1, then christmas+(1 day)->1, boxing+(1 day)->2
+  ```
+- New Year's Day: January 1, but if `date.getDay()` == 6 || 0, then move it to 1
+---
 ## Technologies
 
 - Next.js
