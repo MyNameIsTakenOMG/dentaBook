@@ -3,7 +3,11 @@
  */
 
 const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
-const { DynamoDBDocumentClient, PutCommand } = require('@aws-sdk/lib-dynamodb');
+const {
+  DynamoDBDocumentClient,
+  PutCommand,
+  QueryCommand,
+} = require('@aws-sdk/lib-dynamodb');
 
 const marshallOptions = {
   // Whether to automatically convert empty strings, blobs, and sets to `null`.
@@ -29,7 +33,6 @@ exports.handler = async (event, context) => {
   console.log('event: ', event.request.userAttributes);
   const { email, phone_number, family_name, given_name } =
     event.request.userAttributes;
-
   try {
     // check if this client has booked appointments before
     // ...
@@ -56,9 +59,9 @@ exports.handler = async (event, context) => {
             PK: `c#${email}`,
             SK: `c#${email}`,
             entity: 'client',
-            phone,
-            fname,
-            gname,
+            phone: phone_number,
+            fname: family_name,
+            gname: given_name,
             role: event.request.userAttributes['custom:role'],
             interval: undefined,
             appmtDate: undefined,

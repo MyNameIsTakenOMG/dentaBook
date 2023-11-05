@@ -10,7 +10,15 @@ export interface AuthState {
     given_name: string;
     'custom:role': string;
   } | null;
-  error: null | string;
+  errorType: 'userInput' | 'internalError' | 'badRequest' | null;
+  error:
+    | string
+    | null
+    | {
+        path: string;
+        message: string;
+      };
+  timestamp: string | null;
 }
 
 const initialState: AuthState = {
@@ -18,6 +26,8 @@ const initialState: AuthState = {
   isLoading: true,
   authInfo: null,
   error: null,
+  errorType: null,
+  timestamp: null,
 };
 
 const authSlice = createSlice({
@@ -46,12 +56,15 @@ const authSlice = createSlice({
       state.isLoading = false;
       state.isModalOpen = false;
       state.error = action.payload.error;
+      state.errorType = action.payload.errorType;
     },
     clearAuthInfo: (state) => {
       state.isLoading = true;
       state.isModalOpen = false;
       state.authInfo = null;
       state.error = null;
+      state.errorType = null;
+      state.timestamp = null;
     },
   },
 });

@@ -1,9 +1,17 @@
 'use client';
 import { Amplify, Auth, API } from 'aws-amplify';
 import awsExports from '@/src/aws-exports';
-
+import Script from 'next/script';
 import styles from './page.module.css';
-import { Box, Button, Paper, Stack, Typography } from '@mui/material';
+import {
+  Alert,
+  Box,
+  Button,
+  Paper,
+  Snackbar,
+  Stack,
+  Typography,
+} from '@mui/material';
 import createTheme from '@mui/material/styles/createTheme';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import { blue, grey } from '@mui/material/colors';
@@ -84,6 +92,13 @@ export default function Home() {
 
       {/* book_an_appointment modal  */}
       <BookModal />
+
+      {/* alert snackbar  */}
+      <Snackbar open={true} autoHideDuration={6000} sx={{ zIndex: 1600 }}>
+        <Alert severity="success" sx={{ width: '100%' }}>
+          this is a success message!
+        </Alert>
+      </Snackbar>
 
       {/* landing section  */}
       <Box
@@ -500,7 +515,7 @@ export default function Home() {
                     <Typography>9:00am-6:00pm</Typography>
                     <Typography>9:00am-6:00pm</Typography>
                     <Typography>9:00am-6:00pm</Typography>
-                    <Typography>9:00am-6:00pm</Typography>
+                    <Typography>Closed</Typography>
                   </Stack>
                 </Stack>
               </Box>

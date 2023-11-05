@@ -5,12 +5,15 @@ on:
     branches: ['main', 'prod']
 
 jobs:
-  cypress-run:
+  jest-cypress-run:
     runs-on: ubuntu-latest
     steps:
       - name: checkout code
         uses: actions/checkout@v4
       # Install NPM dependencies, cache them correctly
+      # and run jest tests
+      - name: jest run
+        run: npm run test
       # and run all Cypress tests
       - name: Cypress run
         uses: cypress-io/github-action@v6

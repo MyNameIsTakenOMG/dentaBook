@@ -1,6 +1,6 @@
+import { apptTypeAndDuration } from '../bookingAppt';
 import {
   NumberArrayItem,
-  SlotTypes,
   TimeArrayItem,
   appointmentArrayConvertor,
   appointmentArrayReverseConvertor,
@@ -76,7 +76,7 @@ describe('timeslotsFinder', () => {
       [14, 18],
       0.5,
       original_arr,
-      SlotTypes.normal
+      apptTypeAndDuration.Cleaning // 1 hr
     );
     console.log('available slots: ', available_arr);
     expect(available_arr[0]).toStrictEqual({ start: '14:00', end: '15:00' });
@@ -88,7 +88,7 @@ describe('timeslotsFinder', () => {
       [14, 18],
       0.5,
       undefined,
-      SlotTypes.long
+      apptTypeAndDuration['Dental Implant'] // 1.5 hrs
     );
     console.log('available slots: ', available_arr);
     expect(available_arr.length).toBe(12);

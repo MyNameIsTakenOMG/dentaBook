@@ -14,18 +14,29 @@ import { closeModal } from '../store/authSlice';
 // Amplify.configure({ ...awsExports, ssr: true });
 
 const formFields = {
+  signIn: {
+    username: {
+      dialCodeList: ['+1'],
+    },
+  },
   signUp: {
     email: {
       order: 1,
     },
     phone_number: {
       order: 2,
+      dialCodeList: ['+1'],
+      pattern: '/^+[0-9]{11}$/',
     },
     given_name: {
       order: 3,
+      pattern: '/^[a-zA-Z]+$/',
+      max: 50,
     },
     family_name: {
       order: 4,
+      pattern: '/^[a-zA-Z]+$/',
+      max: 50,
     },
     password: {
       order: 5,
@@ -42,11 +53,15 @@ export default function AuthenticatorModal() {
   const services = {
     async handleSignUp(formData: any) {
       let { username, password, attributes } = formData;
+      let { phone_number, family_name, given_name, ...others } = attributes;
       return Auth.signUp({
-        username,
+        username: username.toLowerCase(),
         password,
         attributes: {
-          ...attributes,
+          phone_number: phone_number.slice(-10),
+          family_name: family_name.toLowerCase(),
+          given_name: given_name.toLowerCase(),
+          ...others,
           'custom:role': 'client',
         },
         autoSignIn: {

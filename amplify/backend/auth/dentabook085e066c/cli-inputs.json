@@ -2,7 +2,7 @@
   "version": "1",
   "cognitoConfig": {
     "identityPoolName": "dentabook085e066c_identitypool_085e066c",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "dentab085e066c",
     "userPoolName": "dentabook085e066c_userpool_085e066c",
     "autoVerifiedAttributes": [
@@ -81,7 +81,9 @@
     "parentStack": {
       "Ref": "AWS::StackId"
     },
-    "authTriggerConnections": "[\n  {\n    \"triggerType\": \"PostConfirmation\",\n    \"lambdaFunctionName\": \"dentabook085e066cPostConfirmation\"\n  }\n]",
+    "authTriggerConnections": [
+      "{\"triggerType\":\"PostConfirmation\",\"lambdaFunctionName\":\"dentabook085e066cPostConfirmation\"}"
+    ],
     "permissions": []
   }
 }

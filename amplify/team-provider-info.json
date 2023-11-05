@@ -33,7 +33,7 @@
       "function": {
         "dentabook085e066cPostConfirmation": {
           "deploymentBucketName": "amplify-dentabook-ftauth-130858-deployment",
-          "s3Key": "amplify-builds/dentabook085e066cPostConfirmation-4c6e366e5659774b6939-build.zip"
+          "s3Key": "amplify-builds/dentabook085e066cPostConfirmation-2f7a414e337875416d6f-build.zip"
         },
         "dentabookawsSDK": {
           "deploymentBucketName": "amplify-dentabook-ftauth-130858-deployment",
@@ -41,12 +41,15 @@
         },
         "bookAppointment": {
           "deploymentBucketName": "amplify-dentabook-ftauth-130858-deployment",
-          "s3Key": "amplify-builds/bookAppointment-52734d35644b2f386535-build.zip"
+          "s3Key": "amplify-builds/bookAppointment-322b4e70705730436741-build.zip"
+        },
+        "findTimeSlot": {
+          "deploymentBucketName": "amplify-dentabook-ftauth-130858-deployment",
+          "s3Key": "amplify-builds/findTimeSlot-545a4676784d484e7659-build.zip"
         }
       },
       "storage": {
-        "dynamoftauth": {},
-        "schedule": {}
+        "dynamoftauth": {}
       },
       "api": {
         "apiDentaBook": {}

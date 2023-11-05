@@ -3,10 +3,10 @@
   "permissions": {
     "storage": {
       "dynamoftauth": [
-        "create"
-      ],
-      "schedule": [
-        "create"
+        "create",
+        "read",
+        "update",
+        "delete"
       ]
     }
   }

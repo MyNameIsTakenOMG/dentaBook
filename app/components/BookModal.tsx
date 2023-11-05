@@ -1,5 +1,5 @@
 'use client';
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { Amplify, Auth } from 'aws-amplify';
 import awsExports from '@/src/aws-exports';
 import Modal from '@mui/material/Modal';
@@ -17,64 +17,129 @@ import CloseIcon from '@mui/icons-material/Close';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-import { closeModal } from '../store/bookSlice';
+import {
+  closeModal,
+  findAvailableTimeSlots,
+  loadBookingError,
+} from '../store/bookSlice';
 import { blue, grey } from '@mui/material/colors';
 import Divider from '@mui/material/Divider';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import dayjs from '@/app/utils/dayjs';
+import { userInfoSchema } from '../utils/zodSchema';
+import useDebounce from '../hooks/useDebounce';
+import {
+  ApptType,
+  BookingErrorType,
+  appt_types,
+} from '@/app/utils/bookingAppt';
 Amplify.configure({ ...awsExports, ssr: true });
 
 const steps = ['DATE & TIME', 'PATIENT INFO', 'CONFIRM'];
-const appointment_types = [
-  'Emergency',
-  'Cleaning',
-  'Dental Implant',
-  'Treatment',
-  'Dental Exam',
-];
-const appointment_duration = {
-  Emergency: 'long',
-  Cleaning: 'short',
-  'Dental Implant': 'long',
-  Treatment: 'short',
-  'Dental Exam': 'short',
-};
 
 export default function BookModal() {
   const isModalOpen = useAppSelector((state) => state.book.isModalOpen);
   const dispatch = useAppDispatch();
+  const authInfo = useAppSelector((state) => state.auth.authInfo);
 
   const [activeStep, setActiveStep] = useState(0);
   // appointment info section
-  const [selectedAppmtType, setSelectedAppmtType] = useState('');
-  const [appmtDate, setAppmtDate] = useState<dayjs.Dayjs | null>(
+  const [selectedApptType, setSelectedApptType] = useState('');
+  const debouncedType = useDebounce(selectedApptType, 800);
+  const [ApptDate, setApptDate] = useState<dayjs.Dayjs | null>(
     dayjs(undefined)
   );
-  const [timeslot, setTimeslot] = useState('');
+  const [timeslot, setTimeslot] = useState<null | {
+    start: string;
+    end: string;
+  }>(null);
   const handleTypeChange = (type: string) => {
     return () => {
-      setSelectedAppmtType(type);
-      // trigger event of fetching appointments via calling api
-      // and timeslotsFinder to find all the availalble time slots
-      // note: may need to move forward multiple times when trying to
-      // find any available slots
-      // custom logic here ...(go to redux to create asyncThunk)
-      // also add a new api route
+      setSelectedApptType(type);
     };
   };
-  // client info section
-  const [family_name, setFamily_name] = useState('');
-  const [given_name, setGiven_name] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone_number, setPhone_number] = useState('');
+  // trigger calling api to find available time slots
+  useEffect(() => {
+    if (debouncedType !== '') {
+      dispatch(findAvailableTimeSlots(debouncedType as ApptType));
+    }
+    return () => {};
+  }, [debouncedType]);
 
+  // client info section
+  const [userInfo, setUserInfo] = useState({
+    family_name: '',
+    given_name: '',
+    email: '',
+    phone_number: '',
+  });
+  const handleUserInfoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserInfo((pre) => ({
+      ...pre,
+      [e.target.id]: e.target.value,
+    }));
+  };
   const handleNext = () => {
     if (activeStep === 0) {
       // check if apointment type and time slot have been chosen
-      if (selectedAppmtType !== '' && timeslot !== '' && appmtDate)
+      if (selectedApptType !== '' && timeslot && ApptDate) {
+        // then populate the authInfo to the userInfo section
+        // if the client is already logged in
+        if (authInfo) {
+          setUserInfo({
+            family_name: authInfo.family_name,
+            given_name: authInfo.given_name,
+            email: authInfo.email,
+            phone_number: authInfo.phone_number,
+          });
+        }
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      else window.alert('please select appointment type or date and time');
+      } else
+        dispatch(
+          loadBookingError({
+            errorType: BookingErrorType.appt,
+            error: 'Please select type or date&time for the appointment',
+          })
+        );
     } else if (activeStep === 1) {
+      // transform user input data
+      let transformed = {
+        email: userInfo.email.toLowerCase(),
+        phone_number: userInfo.phone_number,
+        family_name: userInfo.family_name.toLowerCase(),
+        given_name: userInfo.given_name.toLowerCase(),
+      };
+      setUserInfo((pre) => ({
+        ...transformed,
+      }));
+      // apply zod validation schema
+      const result = userInfoSchema.safeParse(userInfo);
+      if (result.success) setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      else {
+        let inputError: any = {};
+        result.error.issues.map((issue) => {
+          inputError.path = issue.path[0];
+          inputError.message = issue.message;
+        });
+        dispatch(
+          loadBookingError({
+            errorType: BookingErrorType.user,
+            error: inputError,
+          })
+        );
+      }
+    } else if (activeStep === 2) {
+      // submit all booking data
+      // transform date data first
+      const theDate = `${ApptDate?.year()}-${
+        ApptDate!.month() + 1
+      }-${ApptDate?.date()}`;
+      const time = timeslot;
+      const type = selectedApptType;
+
+      // submit the data to decide if it is available to
+      // book an appointment
+      // ...
     }
   };
   const handleBack = () => {
@@ -144,19 +209,13 @@ export default function BookModal() {
           <StepperContents
             activeStep={activeStep}
             handleClose={handleClose}
-            selectedAppmtType={selectedAppmtType}
+            selectedApptType={selectedApptType}
             handleTypeChange={handleTypeChange}
-            appmtDate={appmtDate}
-            setAppmtDate={setAppmtDate}
+            ApptDate={ApptDate}
+            setApptDate={setApptDate}
             setTimeslot={setTimeslot}
-            email={email}
-            family_name={family_name}
-            given_name={given_name}
-            phone_number={phone_number}
-            setEmail={setEmail}
-            setFamily_name={setFamily_name}
-            setGiven_name={setGiven_name}
-            setPhone_number={setPhone_number}
+            userInfo={userInfo}
+            handleUserInfoChange={handleUserInfoChange}
             stepNaviButtons={
               <StepNaviButtons
                 activeStep={activeStep}
@@ -174,39 +233,42 @@ export default function BookModal() {
 const StepperContents = ({
   activeStep,
   handleClose,
-  selectedAppmtType,
+  selectedApptType,
   handleTypeChange,
-  appmtDate,
-  setAppmtDate,
+  ApptDate,
+  setApptDate,
   setTimeslot,
-  family_name,
-  given_name,
-  email,
-  phone_number,
-  setEmail,
-  setFamily_name,
-  setGiven_name,
-  setPhone_number,
+  userInfo,
+  handleUserInfoChange,
   stepNaviButtons,
 }: {
   activeStep: number;
   handleClose: () => void;
-  selectedAppmtType: string;
+  selectedApptType: string;
   handleTypeChange: (type: string) => () => void;
-  appmtDate: dayjs.Dayjs | null;
-  setAppmtDate: (appmtDate: dayjs.Dayjs | null) => void;
-  setTimeslot: React.Dispatch<React.SetStateAction<string>>;
-  family_name: string;
-  given_name: string;
-  email: string;
-  phone_number: string;
-  setEmail: React.Dispatch<React.SetStateAction<string>>;
-  setFamily_name: React.Dispatch<React.SetStateAction<string>>;
-  setGiven_name: React.Dispatch<React.SetStateAction<string>>;
-  setPhone_number: React.Dispatch<React.SetStateAction<string>>;
+  ApptDate: dayjs.Dayjs | null;
+  setApptDate: (ApptDate: dayjs.Dayjs | null) => void;
+  setTimeslot: React.Dispatch<
+    React.SetStateAction<{
+      start: string;
+      end: string;
+    } | null>
+  >;
+  userInfo: {
+    family_name: string;
+    given_name: string;
+    email: string;
+    phone_number: string;
+  };
+  handleUserInfoChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   stepNaviButtons: ReactNode;
 }) => {
   const [openMoreOptions, setOpenMoreOptions] = useState(false);
+  const errorType = useAppSelector((state) => state.book.errorType);
+  const error = useAppSelector((state) => state.book.error);
+
+  const availableTimeSlots = useAppSelector((state) => state.book.timeslots);
+
   // finished booking appointments
   if (activeStep === steps.length) {
     return (
@@ -240,7 +302,7 @@ const StepperContents = ({
           Appointment Type
         </Typography>
         <Box sx={{ display: 'flex', flexFlow: 'row wrap' }}>
-          {appointment_types.map((type, index) => {
+          {appt_types.map((type, index) => {
             return (
               <Box
                 key={index}
@@ -256,8 +318,8 @@ const StepperContents = ({
                   onClick={handleTypeChange(type)}
                   elevation={3}
                   sx={{
-                    bgcolor: selectedAppmtType === type ? blue['600'] : 'unset',
-                    color: selectedAppmtType === type ? 'white' : blue['600'],
+                    bgcolor: selectedApptType === type ? blue['600'] : 'unset',
+                    color: selectedApptType === type ? 'white' : blue['600'],
                     width: '95%',
                     height: '80px',
                     cursor: 'pointer',
@@ -321,8 +383,8 @@ const StepperContents = ({
             </Typography>
             {/* calendar  */}
             <DateCalendar
-              value={appmtDate}
-              onChange={(newDate) => setAppmtDate(newDate)}
+              value={ApptDate}
+              onChange={(newDate) => setApptDate(newDate)}
               disableHighlightToday={false}
               disablePast={true}
             />
@@ -330,30 +392,46 @@ const StepperContents = ({
             <Stack direction={'column'}>
               <Typography color={grey['500']}>Time Slots</Typography>
               <Box sx={{ display: 'flex', flexFlow: 'row' }}>
-                <Box
-                  sx={{
-                    width: '25%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    p: '0.5rem',
-                  }}
-                >
-                  <Paper
-                    elevation={3}
-                    sx={{
-                      width: '95%',
-                      height: '40px',
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      cursor: 'pointer',
-                      '&:hover': { outline: '1px solid blue' },
-                    }}
-                  >
-                    <Typography>9:30</Typography>
-                  </Paper>
-                </Box>
+                {availableTimeSlots.length !== 0 ? (
+                  <>
+                    {availableTimeSlots.map((timeslot, index) => {
+                      return (
+                        <Box
+                          onClick={() => {
+                            setTimeslot(timeslot);
+                          }}
+                          key={index}
+                          sx={{
+                            width: '25%',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            p: '0.5rem',
+                          }}
+                        >
+                          <Paper
+                            elevation={3}
+                            sx={{
+                              width: '95%',
+                              height: '40px',
+                              display: 'flex',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              cursor: 'pointer',
+                              '&:hover': { outline: '1px solid blue' },
+                            }}
+                          >
+                            <Typography>
+                              {timeslot.start}-{timeslot.end}
+                            </Typography>
+                          </Paper>
+                        </Box>
+                      );
+                    })}
+                  </>
+                ) : (
+                  <></>
+                )}
               </Box>
             </Stack>
           </>
@@ -379,30 +457,78 @@ const StepperContents = ({
         <TextField
           type="text"
           required
-          value={family_name}
+          value={userInfo.family_name}
           label="Family Name"
           id="family_name"
+          onChange={handleUserInfoChange}
+          error={
+            errorType === 'user' &&
+            typeof error !== null &&
+            typeof error !== 'string' &&
+            error?.path === 'family_name'
+          }
+          helperText={
+            typeof error !== null && typeof error !== 'string'
+              ? error?.message
+              : null
+          }
         />
         <TextField
           type="text"
           required
-          value={given_name}
+          value={userInfo.given_name}
           label="Given Name"
           id="given_name"
+          onChange={handleUserInfoChange}
+          error={
+            errorType === 'user' &&
+            typeof error !== null &&
+            typeof error !== 'string' &&
+            error?.path === 'given_name'
+          }
+          helperText={
+            typeof error !== null && typeof error !== 'string'
+              ? error?.message
+              : null
+          }
         />
         <TextField
           type="email"
           required
-          value={email}
+          value={userInfo.email}
           label="Email"
           id="email"
+          onChange={handleUserInfoChange}
+          error={
+            errorType === 'user' &&
+            typeof error !== null &&
+            typeof error !== 'string' &&
+            error?.path === 'email'
+          }
+          helperText={
+            typeof error !== null && typeof error !== 'string'
+              ? error?.message
+              : null
+          }
         />
         <TextField
           type="tel"
           required
-          value={phone_number}
+          value={userInfo.phone_number}
           label="Phone Number"
           id="phone_number"
+          onChange={handleUserInfoChange}
+          error={
+            errorType === 'user' &&
+            typeof error !== null &&
+            typeof error !== 'string' &&
+            error?.path === 'phone_number'
+          }
+          helperText={
+            typeof error !== null && typeof error !== 'string'
+              ? error?.message
+              : null
+          }
         />
         {stepNaviButtons}
       </Box>

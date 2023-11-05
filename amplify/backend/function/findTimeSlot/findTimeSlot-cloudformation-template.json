@@ -27,6 +27,10 @@
     "storagedynamoftauthStreamArn": {
       "Type": "String",
       "Default": "storagedynamoftauthStreamArn"
+    },
+    "functiondentabookawsSDKArn": {
+      "Type": "String",
+      "Default": "functiondentabookawsSDKArn"
     }
   },
   "Conditions": {
@@ -59,12 +63,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "bookAppointment",
+            "findTimeSlot",
             {
               "Fn::Join": [
                 "",
                 [
-                  "bookAppointment",
+                  "findTimeSlot",
                   "-",
                   {
                     "Ref": "env"
@@ -100,7 +104,11 @@
           ]
         },
         "Runtime": "nodejs18.x",
-        "Layers": [],
+        "Layers": [
+          {
+            "Ref": "functiondentabookawsSDKArn"
+          }
+        ],
         "Timeout": 25
       }
     },
@@ -110,12 +118,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "dentabookLambdaRole732cfe41",
+            "dentabookLambdaRoleb5ec374f",
             {
               "Fn::Join": [
                 "",
                 [
-                  "dentabookLambdaRole732cfe41",
+                  "dentabookLambdaRoleb5ec374f",
                   "-",
                   {
                     "Ref": "env"
@@ -204,22 +212,13 @@
             {
               "Effect": "Allow",
               "Action": [
-                "dynamodb:Put*",
-                "dynamodb:Create*",
-                "dynamodb:BatchWriteItem",
-                "dynamodb:PartiQLInsert",
                 "dynamodb:Get*",
                 "dynamodb:BatchGetItem",
                 "dynamodb:List*",
                 "dynamodb:Describe*",
                 "dynamodb:Scan",
                 "dynamodb:Query",
-                "dynamodb:PartiQLSelect",
-                "dynamodb:Update*",
-                "dynamodb:RestoreTable*",
-                "dynamodb:PartiQLUpdate",
-                "dynamodb:Delete*",
-                "dynamodb:PartiQLDelete"
+                "dynamodb:PartiQLSelect"
               ],
               "Resource": [
                 {

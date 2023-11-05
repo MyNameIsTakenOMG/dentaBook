@@ -5,9 +5,9 @@ import { usePathname, useRouter } from 'next/navigation';
 import { Box, Skeleton } from '@mui/material';
 import { grey } from '@mui/material/colors';
 
-// import { Amplify, Auth } from 'aws-amplify';
-// import awsExports from '@/src/aws-exports';
-// Amplify.configure({ ...awsExports, ssr: true });
+import { Amplify } from 'aws-amplify';
+import awsExports from '@/src/aws-exports';
+Amplify.configure({ ...awsExports, ssr: true });
 
 export default function RouteProtector({
   children,

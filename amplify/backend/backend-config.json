@@ -9,6 +9,14 @@
           ],
           "category": "function",
           "resourceName": "bookAppointment"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "findTimeSlot"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -65,15 +73,6 @@
           ],
           "category": "storage",
           "resourceName": "dynamoftauth"
-        },
-        {
-          "attributes": [
-            "Name",
-            "Arn",
-            "StreamArn"
-          ],
-          "category": "storage",
-          "resourceName": "schedule"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -106,6 +105,29 @@
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "LambdaLayer"
+    },
+    "findTimeSlot": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "dynamoftauth"
+        },
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "dentabookawsSDK"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   },
   "parameters": {
@@ -156,14 +178,26 @@
           "resourceName": "dentabookawsSDK"
         }
       ]
+    },
+    "AMPLIFY_function_findTimeSlot_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "findTimeSlot"
+        }
+      ]
+    },
+    "AMPLIFY_function_findTimeSlot_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "findTimeSlot"
+        }
+      ]
     }
   },
   "storage": {
     "dynamoftauth": {
-      "providerPlugin": "awscloudformation",
-      "service": "DynamoDB"
-    },
-    "schedule": {
       "providerPlugin": "awscloudformation",
       "service": "DynamoDB"
     }

@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "storage": {
+      "dynamoftauth": [
+        "read"
+      ]
+    }
+  },
+  "lambdaLayers": [
+    {
+      "type": "ProjectLayer",
+      "resourceName": "dentabookawsSDK",
+      "env": "ftauth",
+      "version": "Always choose latest version",
+      "isLatestVersionSelected": true
+    }
+  ]
+}

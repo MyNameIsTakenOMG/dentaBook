@@ -1,34 +1,19 @@
-// types
-export interface TimeArrayItem {
-  start: string; // 10:30
-  end: string;
-}
-
-export interface NumberArrayItem {
-  start: number; // 10.5
-  end: number;
-}
-
 // time slots finder
 export const timeslotsFinder = (
-  first_half: [number, number], // for exmaple : morning time range 9-13
-  second_half: [number, number], // for exmaple : afternoon time range 14-18
-  interval: number, // how frequently to book appointments, for example: 0.5 (or 30mins)
-  inputArray: TimeArrayItem[] | undefined, // existing appointments, for example: [{start:9:30, end:10:30}]
-  duration: number // the length of the appointment to be booked, for example: 1 (or 60mins)
-): TimeArrayItem[] => {
-  let available: NumberArrayItem[] = [];
-  const getEndPointer = (start_pointer: number): number => {
+  first_half,
+  second_half,
+  interval,
+  inputArray,
+  duration
+) => {
+  let available = [];
+  const getEndPointer = (start_pointer) => {
     return start_pointer + duration;
   };
   // assuming the interval of timeslots is 30mins (or 0.5)
   // if there is no existing timeslot
   if (inputArray === undefined) {
-    const slotsFinder = (
-      start_time: number,
-      end_time: number,
-      getEndPointer: (start_point: number) => number
-    ) => {
+    const slotsFinder = (start_time, end_time, getEndPointer) => {
       let s_point = start_time;
       let e_point = getEndPointer(s_point);
       while (e_point <= end_time) {
@@ -52,11 +37,7 @@ export const timeslotsFinder = (
   let sortedNumArray = mergeSort(numArray);
   let arrayIndex = 0;
 
-  const slotsFinder = (
-    start_time: number,
-    end_time: number,
-    getEndPointer: (start_point: number) => number
-  ) => {
+  const slotsFinder = (start_time, end_time, getEndPointer) => {
     let s_point = start_time;
     let e_point = getEndPointer(s_point);
     while (e_point <= end_time) {
@@ -105,9 +86,7 @@ export const timeslotsFinder = (
 };
 
 // convertor and reverse convertor
-export const appointmentArrayConvertor = (
-  inputArray: TimeArrayItem[]
-): NumberArrayItem[] => {
+export const appointmentArrayConvertor = (inputArray) => {
   return inputArray.map((item) => {
     const { start, end } = item;
     let start_num, end_num;
@@ -126,9 +105,7 @@ export const appointmentArrayConvertor = (
   });
 };
 
-export const appointmentArrayReverseConvertor = (
-  inputArray: NumberArrayItem[]
-): TimeArrayItem[] => {
+export const appointmentArrayReverseConvertor = (inputArray) => {
   return inputArray.map((item) => {
     const { start, end } = item;
     let start_time, end_time;
@@ -148,7 +125,7 @@ export const appointmentArrayReverseConvertor = (
 };
 
 // merge sorting
-export const mergeSort = (inputArray: NumberArrayItem[]): NumberArrayItem[] => {
+export const mergeSort = (inputArray) => {
   if (inputArray.length < 2) {
     return inputArray;
   }
@@ -158,16 +135,13 @@ export const mergeSort = (inputArray: NumberArrayItem[]): NumberArrayItem[] => {
   return merge(mergeSort(leftArr), mergeSort(rightArr));
 };
 
-const merge = (
-  left: NumberArrayItem[],
-  right: NumberArrayItem[]
-): NumberArrayItem[] => {
-  const sortedArr: NumberArrayItem[] = [];
+const merge = (left, right) => {
+  const sortedArr = [];
   while (left.length && right.length) {
     if (left[0].start <= right[0].start) {
-      sortedArr.push(left.shift()!);
+      sortedArr.push(left.shift());
     } else {
-      sortedArr.push(right.shift()!);
+      sortedArr.push(right.shift());
     }
   }
   return [...sortedArr, ...left, ...right];
