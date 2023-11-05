@@ -73,7 +73,7 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
 - ~~showing all available time slots based on different types of appointments and dates picked~~ ✅ **Solution:** util function `timeslotsFinder` implemented
 - ~~showing the next available date and time without clients picking dates one after another~~ ✅ **Solution:** util function `timeslotsFinder` implemented
 - ~~concurrency issues of the same timeslots or the timeslots that share overlapping part being chosen at the same time by multiple clients~~✅ **Solution:** applying **OCC(Optimistic Concurrency Control)** via inserting `date` items in which each item has properties: `PK(d#<date_1>)`, `appts([{start:<time_1>, end:<time_2>, date:<date_1>, type: "root canal",c: "c#<email_1>", a: "a#<timestamp_1>", status: "upcoming"}])`, `version#<timestamp>`, `apptNum(number)`.
-- properly dealing with `cancel appointments`
+- ~~properly dealing with `cancel appointments`~~ ✅ **Solution:** first, turn the client to 'inactive'(active->false). Then when a new appointment is made for the client whether by the admin over a phone call or by the client themselves later, turn it back to 'active'(active->true) 
 
 ## issues
 
