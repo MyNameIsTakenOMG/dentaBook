@@ -78,8 +78,14 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
 ## issues
 
 - ~~avoid a client making multiple appointments.~~ ✅ **Solution:** checking if there's an `upcoming` appointment for the specific client.
-- CSRF/XSS protection for Lambda functions
-- ~~consider applying some limits on how frequently or how many times a client can modify the appointment~~ ✅ **Solution:** adding `num_modify` to each appointment item
+- ~~consider applying some limits on how many times a client can modify the appointment and cancellation rules~~ ✅ **Solution:** adding `num_modify` to each appointment item, for cancellation, ask clients to make phone calls.
+
+## Security concerns
+- CSRF attacks
+- XSS attacks
+- User inputs validations (sanitize user inputs at both client-side & server-side)
+- Prevent spamming & bot attacks : ✅ **Solution:** using reCAPTCHA for booking page and authenticatorModal page(if possible)
+- API protection
 
 ## Database Design (DynamoDB)
 ### Entities
@@ -118,9 +124,9 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
   - family_name
   - given_name
   - is_resolved (true/false)
-- **Schedule**:
-  - entity_type ?
-  - schedule_date : `s#<date>`
+- **Date(Schedule)**:
+  - entity_type : date
+  - schedule_date : `d#<date_1>`
   - appointments_array: `[{start,end}...]`
   - version: `<timestamp>`
 ---
