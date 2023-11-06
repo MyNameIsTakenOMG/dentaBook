@@ -79,6 +79,7 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
 
 - ~~avoid a client making multiple appointments.~~ ✅ **Solution:** checking if there's an `upcoming` appointment for the specific client.
 - ~~consider applying some limits on how many times a client can modify the appointment and cancellation rules~~ ✅ **Solution:** adding `num_modify` to each appointment item, for cancellation, ask clients to make phone calls.
+- ~~limit the time range from which a client can choose for appointment date~~ ✅ **Solution:** Only allow clients to choose a date between this year and next year. (Please refer to `booking_workflow`)
 
 ## Security concerns
 - CSRF attacks
@@ -129,6 +130,9 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
   - schedule_date : `d#<date_1>`
   - appointments_array: `[{start,end}...]`
   - version: `<timestamp>`
+- **Holidays**:
+  - entity_type: holiday
+  - holidays_array: `['2023-9-02',...]`
 ---
 - **Reserved**: 
   - ~~reserve_date~~
