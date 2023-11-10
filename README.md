@@ -108,29 +108,30 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
 ### Entities
 - **Client**:
   - email
-  - phone number
-  - family_name
-  - given_name
+  - phone
+  - fname
+  - gname
   - ~~password~~
-  - entity_type
+  - entity
   - ~~isRegistered~~
-  - is_active (true/false)
+  - active (true/false)
   - role
-  - re-exam_interval
+  - interval
   - ~~appointment_date~~
   - ~~next_appointment~~
   - ~~last_appointment~~
-  - is_reminder_message_sent
-  - is_confirm_message_sent
+  - reminder
+  - confirm
+  - latestAppt
 - **Appointment**:
-  - entity_type
+  - entity
   - appointment_date
   - appointment_time
   - appointment_status
   - appointment_type
   - num_modify
 - **Issue**:
-  - entity_type
+  - entity
   - ~~appointment_date~~
   - ~~appointment_timestamp~~
   - appointment_date#timestamp
@@ -142,15 +143,15 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
   - given_name
   - is_resolved (true/false)
 - **Date(Schedule)**:
-  - entity_type : date
+  - entity : date
   - schedule_date : `d#<date_1>`
   - appointments_array: `[{start,end}...]`
   - version: `<timestamp>`
 - **Holidays**:
-  - entity_type: holiday
+  - entity: holiday
   - holidays_array: `['2023-9-02',...]`
 - **Vacation**:
-  - entity_type: vacation
+  - entity: vacation
   - vacation_start: date_1
   - vacation_end: date_2
 ---
@@ -159,7 +160,7 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
   - ~~reserve_timestamp~~
   - reserve_date#timestamp
   - reserve_type
-  - entity_type
+  - entity
   - ~~email~~
   - expire_timestamp
 ### Access Patterns
