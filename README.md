@@ -76,6 +76,13 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
     <p align='center'>
     <img src='https://github.com/MyNameIsTakenOMG/project-gifs/blob/main/dentaBook-booking_workflow(Lower).PNG' alt='booking workflow' width='600' />
   </p>
+- **Tracking**:
+    <p align='center'>
+    <img src='https://github.com/MyNameIsTakenOMG/project-gifs/blob/main/tracking_workflow(Upper).PNG' alt='tracking workflow' width='600' />
+  </p>
+    <p align='center'>
+    <img src='https://github.com/MyNameIsTakenOMG/project-gifs/blob/main/tracking_workflow(Lower).PNG' alt='tracking workflow' width='600' />
+  </p>
 ## Challenges
 
 - ~~showing the correct info on a calendar, such as holidays, long weekends, as well as dentist's vacations~~ ✅ **Solution:** adding `customEvent` components for different views when initializing `react-big-calendar`.
