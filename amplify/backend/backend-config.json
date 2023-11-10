@@ -24,7 +24,7 @@
     }
   },
   "auth": {
-    "dentabook085e066c": {
+    "dentabookcee0ed10": {
       "customAuth": false,
       "dependsOn": [
         {
@@ -33,7 +33,7 @@
             "Name"
           ],
           "category": "function",
-          "resourceName": "dentabook085e066cPostConfirmation",
+          "resourceName": "dentabookcee0ed10PostConfirmation",
           "triggerProvider": "Cognito"
         }
       ],
@@ -78,7 +78,12 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
-    "dentabook085e066cPostConfirmation": {
+    "dentabookawsSDK": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "LambdaLayer"
+    },
+    "dentabookcee0ed10PostConfirmation": {
       "build": true,
       "dependsOn": [
         {
@@ -100,11 +105,6 @@
       ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
-    },
-    "dentabookawsSDK": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "LambdaLayer"
     },
     "findTimeSlot": {
       "build": true,
@@ -147,22 +147,6 @@
         }
       ]
     },
-    "AMPLIFY_function_dentabook085e066cPostConfirmation_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "dentabook085e066cPostConfirmation"
-        }
-      ]
-    },
-    "AMPLIFY_function_dentabook085e066cPostConfirmation_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "dentabook085e066cPostConfirmation"
-        }
-      ]
-    },
     "AMPLIFY_function_dentabookawsSDK_deploymentBucketName": {
       "usedBy": [
         {
@@ -176,6 +160,22 @@
         {
           "category": "function",
           "resourceName": "dentabookawsSDK"
+        }
+      ]
+    },
+    "AMPLIFY_function_dentabookcee0ed10PostConfirmation_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "dentabookcee0ed10PostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_dentabookcee0ed10PostConfirmation_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "dentabookcee0ed10PostConfirmation"
         }
       ]
     },

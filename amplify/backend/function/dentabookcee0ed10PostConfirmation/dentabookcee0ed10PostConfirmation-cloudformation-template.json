@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "{\"createdOn\":\"Windows\",\"createdBy\":\"Amplify\",\"createdWith\":\"12.6.0\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
+  "Description": "{\"createdOn\":\"Windows\",\"createdBy\":\"Amplify\",\"createdWith\":\"12.7.1\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
   "Parameters": {
     "GROUP": {
       "Type": "String",
@@ -38,11 +38,9 @@
     "env": {
       "Type": "String"
     },
-    "deploymentBucketName": {
-      "Type": "String"
-    },
-    "s3Key": {
-      "Type": "String"
+    "functiondentabookawsSDKArn": {
+      "Type": "String",
+      "Default": "functiondentabookawsSDKArn"
     },
     "storagedynamoftauthName": {
       "Type": "String",
@@ -56,9 +54,11 @@
       "Type": "String",
       "Default": "storagedynamoftauthStreamArn"
     },
-    "functiondentabookawsSDKArn": {
-      "Type": "String",
-      "Default": "functiondentabookawsSDKArn"
+    "deploymentBucketName": {
+      "Type": "String"
+    },
+    "s3Key": {
+      "Type": "String"
     }
   },
   "Conditions": {
@@ -83,12 +83,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "dentabook085e066cPostConfirmation",
+            "dentabookcee0ed10PostConfirmation",
             {
               "Fn::Join": [
                 "",
                 [
-                  "dentabook085e066cPostConfirmation",
+                  "dentabookcee0ed10PostConfirmation",
                   "-",
                   {
                     "Ref": "env"
@@ -131,6 +131,11 @@
         },
         "Runtime": "nodejs18.x",
         "Timeout": 25,
+        "Layers": [
+          {
+            "Ref": "functiondentabookawsSDKArn"
+          }
+        ],
         "Code": {
           "S3Bucket": {
             "Ref": "deploymentBucketName"
@@ -138,12 +143,7 @@
           "S3Key": {
             "Ref": "s3Key"
           }
-        },
-        "Layers": [
-          {
-            "Ref": "functiondentabookawsSDKArn"
-          }
-        ]
+        }
       }
     },
     "LambdaExecutionRole": {
@@ -152,12 +152,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "dentabook085e066cPostConfirmation",
+            "dentabookcee0ed10PostConfirmation",
             {
               "Fn::Join": [
                 "",
                 [
-                  "dentabook085e066cPostConfirmation",
+                  "dentabookcee0ed10PostConfirmation",
                   "-",
                   {
                     "Ref": "env"
@@ -249,7 +249,17 @@
                 "dynamodb:Put*",
                 "dynamodb:Create*",
                 "dynamodb:BatchWriteItem",
-                "dynamodb:PartiQLInsert"
+                "dynamodb:PartiQLInsert",
+                "dynamodb:Get*",
+                "dynamodb:BatchGetItem",
+                "dynamodb:List*",
+                "dynamodb:Describe*",
+                "dynamodb:Scan",
+                "dynamodb:Query",
+                "dynamodb:PartiQLSelect",
+                "dynamodb:Update*",
+                "dynamodb:RestoreTable*",
+                "dynamodb:PartiQLUpdate"
               ],
               "Resource": [
                 {

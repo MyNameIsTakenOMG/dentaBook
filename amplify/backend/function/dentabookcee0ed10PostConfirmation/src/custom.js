@@ -64,9 +64,9 @@ exports.handler = async (event, context) => {
             gname: given_name,
             role: event.request.userAttributes['custom:role'],
             interval: undefined,
-            appmtDate: undefined,
-            reminderSent: false,
-            confirmSent: false,
+            latestAppt: undefined,
+            reminder: undefined,
+            confirm: false,
             active: false,
           },
         })

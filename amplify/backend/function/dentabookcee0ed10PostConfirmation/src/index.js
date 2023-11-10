@@ -4,7 +4,7 @@
 	STORAGE_DYNAMOFTAUTH_ARN
 	STORAGE_DYNAMOFTAUTH_NAME
 	STORAGE_DYNAMOFTAUTH_STREAMARN
-Amplify Params - DO NOT EDIT */ /**
+Amplify Params - DO NOT EDIT *//**
  * @fileoverview
  *
  * This CloudFormation Trigger creates a handler which awaits the other handlers

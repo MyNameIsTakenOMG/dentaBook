@@ -3,23 +3,16 @@
   "modules": [
     "custom"
   ],
-  "parentResource": "dentabook085e066c",
-  "functionName": "dentabook085e066cPostConfirmation",
-  "resourceName": "dentabook085e066cPostConfirmation",
+  "parentResource": "dentabookcee0ed10",
+  "functionName": "dentabookcee0ed10PostConfirmation",
+  "resourceName": "dentabookcee0ed10PostConfirmation",
   "parentStack": "auth",
   "triggerEnvs": "[]",
   "triggerDir": "C:\\snapshot\\amplify-cli\\build\\node_modules\\@aws-amplify\\amplify-category-auth\\provider-utils\\awscloudformation\\triggers\\PostConfirmation",
   "triggerTemplate": "PostConfirmation.json.ejs",
   "triggerEventPath": "PostConfirmation.event.json",
-  "roleName": "dentabook085e066cPostConfirmation",
+  "roleName": "dentabookcee0ed10PostConfirmation",
   "skipEdit": true,
-  "permissions": {
-    "storage": {
-      "dynamoftauth": [
-        "create"
-      ]
-    }
-  },
   "lambdaLayers": [
     {
       "type": "ProjectLayer",
@@ -28,5 +21,14 @@
       "version": "Always choose latest version",
       "isLatestVersionSelected": true
     }
-  ]
+  ],
+  "permissions": {
+    "storage": {
+      "dynamoftauth": [
+        "create",
+        "read",
+        "update"
+      ]
+    }
+  }
 }

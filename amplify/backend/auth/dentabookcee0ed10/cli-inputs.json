@@ -1,10 +1,10 @@
 {
   "version": "1",
   "cognitoConfig": {
-    "identityPoolName": "dentabook085e066c_identitypool_085e066c",
-    "allowUnauthenticatedIdentities": true,
-    "resourceNameTruncated": "dentab085e066c",
-    "userPoolName": "dentabook085e066c_userpool_085e066c",
+    "identityPoolName": "dentabookcee0ed10_identitypool_cee0ed10",
+    "allowUnauthenticatedIdentities": false,
+    "resourceNameTruncated": "dentabcee0ed10",
+    "userPoolName": "dentabookcee0ed10_userpool_cee0ed10",
     "autoVerifiedAttributes": [
       "email"
     ],
@@ -31,10 +31,10 @@
     "userpoolClientReadAttributes": [
       "email"
     ],
-    "userpoolClientLambdaRole": "dentab085e066c_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "dentabcee0ed10_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "085e066c",
-    "resourceName": "dentabook085e066c",
+    "sharedId": "cee0ed10",
+    "resourceName": "dentabookcee0ed10",
     "authSelections": "identityPoolAndUserPool",
     "useDefault": "manual",
     "usernameAttributes": [
@@ -60,7 +60,7 @@
     "dependsOn": [
       {
         "category": "function",
-        "resourceName": "dentabook085e066cPostConfirmation",
+        "resourceName": "dentabookcee0ed10PostConfirmation",
         "triggerProvider": "Cognito",
         "attributes": [
           "Arn",
@@ -81,9 +81,7 @@
     "parentStack": {
       "Ref": "AWS::StackId"
     },
-    "authTriggerConnections": [
-      "{\"triggerType\":\"PostConfirmation\",\"lambdaFunctionName\":\"dentabook085e066cPostConfirmation\"}"
-    ],
-    "permissions": []
+    "permissions": [],
+    "authTriggerConnections": "[\n  {\n    \"triggerType\": \"PostConfirmation\",\n    \"lambdaFunctionName\": \"dentabookcee0ed10PostConfirmation\"\n  }\n]"
   }
 }

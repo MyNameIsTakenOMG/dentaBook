@@ -27,14 +27,7 @@
       "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-dentabook-ftauth-130858-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
     },
     "categories": {
-      "auth": {
-        "dentabook085e066c": {}
-      },
       "function": {
-        "dentabook085e066cPostConfirmation": {
-          "deploymentBucketName": "amplify-dentabook-ftauth-130858-deployment",
-          "s3Key": "amplify-builds/dentabook085e066cPostConfirmation-2f7a414e337875416d6f-build.zip"
-        },
         "dentabookawsSDK": {
           "deploymentBucketName": "amplify-dentabook-ftauth-130858-deployment",
           "s3Key": "amplify-builds/dentabookawsSDK-LambdaLayerVersion5e648577-build.zip"
@@ -46,6 +39,10 @@
         "findTimeSlot": {
           "deploymentBucketName": "amplify-dentabook-ftauth-130858-deployment",
           "s3Key": "amplify-builds/findTimeSlot-545a4676784d484e7659-build.zip"
+        },
+        "dentabookcee0ed10PostConfirmation": {
+          "deploymentBucketName": "amplify-dentabook-ftauth-130858-deployment",
+          "s3Key": "amplify-builds/dentabookcee0ed10PostConfirmation-713142626c5257483458-build.zip"
         }
       },
       "storage": {
@@ -53,6 +50,9 @@
       },
       "api": {
         "apiDentaBook": {}
+      },
+      "auth": {
+        "dentabookcee0ed10": {}
       }
     }
   }

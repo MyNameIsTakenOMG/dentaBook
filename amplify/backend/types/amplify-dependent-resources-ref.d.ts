@@ -7,7 +7,7 @@ export type AmplifyDependentResourcesAttributes = {
     }
   },
   "auth": {
-    "dentabook085e066c": {
+    "dentabookcee0ed10": {
       "AppClientID": "string",
       "AppClientIDWeb": "string",
       "IdentityPoolId": "string",
@@ -25,15 +25,15 @@ export type AmplifyDependentResourcesAttributes = {
       "Name": "string",
       "Region": "string"
     },
-    "dentabook085e066cPostConfirmation": {
+    "dentabookawsSDK": {
+      "Arn": "string"
+    },
+    "dentabookcee0ed10PostConfirmation": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
       "LambdaExecutionRoleArn": "string",
       "Name": "string",
       "Region": "string"
-    },
-    "dentabookawsSDK": {
-      "Arn": "string"
     },
     "findTimeSlot": {
       "Arn": "string",
