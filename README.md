@@ -160,8 +160,8 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
 - `getClientByClientId` (primary key(PK) + sort key(SK)) : `PK=c#<id>` and `SK=c#<id>`
 - `getAppointmentsByClientId` (primary key(PK) + sort key(SK)) : `PK=c#<id>` and `SK begins_with=a#`
 #### System
-- `getActiveClientsByEntityType`  (GSI2(PK) + GSI2(SK)) : `GSI2-PK=entity_type(client)` and `GSI2-SK=c#<is_active=true>`
-- `getInactiveClientsByEntityType`  (GSI2(PK) + GSI2(SK)) : `GSI2-PK=entity_type(client)` and `GSI2-SK=c#<is_active=false>`
+- `getActiveClientsByEntityType`  (GSI2(PK) + GSI2(SK)) : `GSI2-PK=entity_type(client)` and `GSI2-SK begins_with=c#true`
+- `getInactiveClientsByEntityType`  (GSI2(PK) + GSI2(SK)) : `GSI2-PK=entity_type(client)` and `GSI2-SK begins_with=c#false`
 #### Admin
 - `getClientByPhoneNumber` (GSI2(PK)) : `GSI2-PK=client` + **--FilterExpression:** `phone=:phone`
 - `getAppointmentByClientIdAndTimestamp` (primary key(PK) + sort key(SK)) : `PK=c#<id:email>` and `SK=a#<id:timestamp>`
