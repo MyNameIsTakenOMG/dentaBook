@@ -15,15 +15,16 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
 
 **Note:** either **_date_for_next_appointment_** or **_re-examination_interval_** should be set for each client, or the server won't be able to track the status of appointments of clients.
 
+---
 - Client:
   - create a user account
   - create/update an appointment (can update the data or time the appointment for **_one time_** as long as 24 hours before the date and time of the current appointment, or required to make a phone call if there's a situation( update/cancel the appointment))
   - allow to make appointments without a user account (guest booking option, **_downsides:_** unable to view the history of past appointments and modify appointments, have to fill out personal information form when booking an appointment each time.)
 
 **Note:** 
- - each client can only have **one** `upcoming` appointment at any time. (prevent a certain client from booking multiple appointments)
- - when booking a new appointment, a client can only be allowed to choose a date from the rest of the current year and the next year. (making an appointment that is too far from now doesn't make much sense)
-
+ 1. each client can only have **one** `upcoming` appointment at any time. (prevent a certain client from booking multiple appointments)
+ 2. when booking a new appointment, a client can only be allowed to choose a date from the rest of the current year and the next year. (making an appointment that is too far from now doesn't make much sense)
+---
 - System:
   - scan all **active** client records in the table to track the status of their appointments **every day at 20:00**.
   - skip the **inactive** client records whose properties **_date_for_next_appointment_** or **_re-examination_interval_** have not been set and have **no** previous appointment record.
@@ -32,9 +33,9 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
   - if a client misses their appointment, the system will create an `issue` and send it to the admin for further process.
 
 **Note:**
-  - if an `issue` has been created for a certain client with a reason of **pending** , **missed**, or **cancelled**, then turn the client to **inactive** .
-  - each time a client books an appointment, make sure to turn the status to **active** if it was **inactive** before.
-  - if a client who hasn't had properties **_date_for_next_appointment_** or **_re-examination_interval_** set but has previous appointment record(s), but they haven't booked appointments for more than **6 months**, then turn them to **inactive** .
+  1. if an `issue` has been created for a certain client with a reason of **pending** , **missed**, or **cancelled**, then turn the client to **inactive** .
+  2. each time a client books an appointment, make sure to turn the status to **active** if it was **inactive** before.
+  3. if a client who hasn't had properties **_date_for_next_appointment_** or **_re-examination_interval_** set but has previous appointment record(s), but they haven't booked appointments for more than **6 months**, then turn them to **inactive** .
 ---
 ### *Holidays Rules (referred to the City of Toronto: [Designated & Statutory Holidays](https://www.toronto.ca/home/contact-us/statutory-holidays/) )
 - Family Day: 3rd Monday in February
