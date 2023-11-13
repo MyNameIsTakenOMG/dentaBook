@@ -83,8 +83,9 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
   </p>
   
   **Note:**
-  - the api endpoint `/user_upcoming` is used to check if this client does have an upcoming appointment. If yes, then return an error that each client can only has one upcoming appointment.
-  - api endpoint `/user_upcoming` changed to `/clientUpcoming` 
+  - when triggering fetching holidays from Google Calendar API, remember to not only check if holidays have been fetched but also check if the holidays have been sent to the endpoint successfully.
+  - the API endpoint `/user_upcoming` is used to check if this client does have an upcoming appointment. If yes, then return an error that each client can only have one upcoming appointment.
+  - API endpoint `/user_upcoming` changed to `/clientUpcoming` 
 - **Tracking**:
     <p align='center'>
     <img src='https://github.com/MyNameIsTakenOMG/project-gifs/blob/main/tracking_workflow(Upper).PNG' alt='tracking workflow' width='600' />
