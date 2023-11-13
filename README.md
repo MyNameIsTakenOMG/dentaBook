@@ -114,7 +114,8 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
 - ~~Prevent spamming & bot attacks~~ : ✅ **Solution:** using reCAPTCHA for booking page and authenticatorModal page(if possible)
 - API protection
 
-## Custom Algorithm 
+## Custom Algorithm (timeslotsFinder)
+
 
 ## Database Design (DynamoDB)
 ### Entities
