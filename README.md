@@ -24,6 +24,7 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
 **Note:** 
  1. each client can only have **one** `upcoming` appointment at any time. (prevent a certain client from booking multiple appointments)
  2. when booking a new appointment, a client can only be allowed to choose a date from the rest of the current year and the next year. (making an appointment that is too far from now doesn't make much sense)
+ 3. when booking a new appointment, a client can only be allowed to choose a date and time from the next day on, so that it can make sure the timetable for the current date is stable.
 ---
 - System:
   - scan all **active** client records in the table to track the status of their appointments **every day at 20:00**.
