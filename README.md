@@ -99,10 +99,10 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
 ## API endpoints
 - **/findtimeslot**:
   - **Use cases:** This API endpoint is responsible for three use cases:
-    - It is used to find the next available date and all associated available time slots. (client side and admin side)
-    - It is used to find all available time slots(if there are any) for a specific date. (client side)
-    - It is used to keep searching for the next available date and associated time slots by moving forward (**_an extensive usage of first use case_**). 
-  - **Request body:** (admin side)
+    - It is used to find the next available date and all associated available time slots. `(client side and admin side)`
+    - It is used to find all available time slots(if there are any) for a specific date. `(client side)`
+    - It is used to keep searching for the next available date and associated time slots by moving forward (**_an extensive usage of first use case_**). `(admin side)`
+  - **Request body:** 
     ```
       interface BodyType {
         type: ApptType;
