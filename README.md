@@ -130,11 +130,12 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
       - when neither `dateString` nor `pickedDate` is specified, then it will start from the (current date + 1) to find the next available date and time slots.
   - **Response:**
     ```
-    {
-      targetDate 
-      availableTimeslots
+    interface Response {
+      targetDate: undefined | string;
+      availableTimeslots: [] | {start:string;end:string}[]
     }
     ```
+    - when `targetDate` is unspecified in the response body, it means it is the second use case which is the client is picking a certain date to check its available time slots.
     - `targetDate`: `targetDate` is `pickedDate` when it's specified, otherwise it will be the date with available time slots (**format:** `yyyy-mm-dd`,`2023-09-01`).
     - `availableTimeslots`: could be an empty array or an array with time slots (**format:** `[{start:'14:00',end:'15:30'},...]`)
 ## Challenges
