@@ -96,7 +96,9 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
     <img src='https://github.com/MyNameIsTakenOMG/project-gifs/blob/main/tracking_workflow(Lower).PNG' alt='tracking workflow' width='600' />
   </p>
 
-## APIs
+## API endpoints
+- **/findtimeslot**: this API endpoint is responsible for three use cases, 1.) It is used to find the next available date and all associated available time slots. 2.) It is used to find all available time slots(if there are any) for the specific date. 3.) It is used to keep searching for the next available date and associated time slots by moving forward (an extensive usage of point 1). 
+  
 ## Challenges
 
 - ~~showing the correct info on a calendar, such as holidays, long weekends, as well as dentist's vacations~~ ✅ **Solution:** adding `customEvent` components for different views when initializing `react-big-calendar`.
