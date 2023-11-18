@@ -97,11 +97,36 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
   </p>
 
 ## API endpoints
-- **/findtimeslot**: this API endpoint is responsible for three use cases:
-  - It is used to find the next available date and all associated available time slots.
-  - It is used to find all available time slots(if there are any) for a specific date.
-  - It is used to keep searching for the next available date and associated time slots by moving forward (**_an extensive usage of first use case_**). 
-  
+- **/findtimeslot**:
+  - **Use cases:** This API endpoint is responsible for three use cases:
+    - It is used to find the next available date and all associated available time slots.
+    - It is used to find all available time slots(if there are any) for a specific date.
+    - It is used to keep searching for the next available date and associated time slots by moving forward (**_an extensive usage of first use case_**). 
+  - **Request body:**
+    ```
+      interface BodyType {
+        type: ApptType;
+        holidays?: {};
+        dateString?: string;
+        pickedDate?: string; 
+      }
+    ```
+    - `holidays`: holidays for current and next years (**format:** `{'2023': ['2023-01-01',... ], '2024': ['2024-01-01',...] }`)
+    - `dateString`: when dateString is specified (for admin and client), it will start from the (date + 1) to find the next available date and time slots
+    - `pickedDate`: when pickedDate is specified (for client), it will fetch the availability of the specific date
+    - **Note:**
+      - `dateString` and `pickedDate` cannot be specified both, or throw an exception (bad request)
+      - both `dateString` and `pickedDate` are strings of date potion of the given date, for example, "Wed Jul 28 1993"
+      - when neither `dateString` nor `pickedDate` is specified, then it will start from the (current date + 1) to find the next available date and time slots.
+  - **Response:**
+    ```
+    {
+      targetDate 
+      availableTimeslots
+    }
+    ```
+    - `targetDate`: `targetDate` is `pickedDate` when it's specified, otherwise it will be the date with available time slots (**format:** `yyyy-mm-dd`,`2023-09-01`).
+    - `availableTimeslots`: could be an empty array or an array with time slots (**format:** `[{start:'14:00',end:'15:30'},...]`)
 ## Challenges
 
 - ~~showing the correct info on a calendar, such as holidays, long weekends, as well as dentist's vacations~~ ✅ **Solution:** adding `customEvent` components for different views when initializing `react-big-calendar`.
