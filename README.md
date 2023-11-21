@@ -88,6 +88,7 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
   - the API endpoint `/user_upcoming` is used to check if this client does have an upcoming appointment. If yes, then return an error that each client can only have one upcoming appointment.
   - API endpoint `/user_upcoming` changed to `/clientUpcoming`
   - when the API endpoint `/findtimeslots` returns back with `availableTimeslots` and `targetDate` successfully, our DynamoDB table already has vacations and holidays information, so no need to send them back to the client for the sake of cost-saving (Data Transfer price: from aws to the internet)
+  - **move `fetch google calendar events` logic from client side to server side** in order to simplify the process of data sanitization and validation as well as holidays checking.
 - **Tracking**:
     <p align='center'>
     <img src='https://github.com/MyNameIsTakenOMG/project-gifs/blob/main/tracking_workflow(Upper).PNG' alt='tracking workflow' width='600' />
