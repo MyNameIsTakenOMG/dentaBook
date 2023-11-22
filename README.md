@@ -154,7 +154,7 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
 - ~~limit the time range from which a client can choose for appointment date~~ ✅ **Solution:** Only allow clients to choose a date between this year and next year. (Please refer to `booking_workflow`)
 
 ## Security concerns
-- XSS & CSRF attacks : `csrf_token` placed in a `meta` tag ?
+- XSS & CSRF attacks : add `security headers` & educate end users to follow good practices when using the app.
 - User inputs validations (validate and sanitize user inputs at both client-side & server-side)
 - ~~Prevent spamming & bot submission~~: ✅ **Solution:** Use `reCAPTCHA`, `MFA` or `honeypot trap`(the picked one) for the booking page and ~~authenticatorModal page~~(cognito has email verification which can be used for prevent bot submissions).
 - API protection
