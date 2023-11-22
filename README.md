@@ -107,13 +107,11 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
     ```
       interface BodyType {
         type: ApptType;
-        holidays?: {}; 
         dateString?: string; // "Wed Jul 28 1993"
         pickedDate?: string; // "Wed Jul 28 1993"
       }
     ```
     - `type`: **ApptType** (see below)
-    - `holidays`: holidays for current and next years (**format:** `{'2023': ['2023-01-01',... ], '2024': ['2024-01-01',...] }`)
     - `dateString`: when dateString is specified (for admin and client), it will start from the (date + 1) to find the next available date and time slots
     - `pickedDate`: when pickedDate is specified (for client), it will fetch the availability of the specific date
     - `ApptType`:
