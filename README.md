@@ -90,7 +90,8 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
   - when the API endpoint `/findtimeslots` returns back with `availableTimeslots` and `targetDate` successfully, our DynamoDB table already has vacations and holidays information, so no need to send them back to the client for the sake of cost-saving (Data Transfer price: from aws to the internet)
   - **move `fetch google calendar events` logic from client side to server side** in order to simplify the process of data sanitization and validation as well as holidays checking.
   - ~~decouple with SQS, it needs to add **`version`** to the entities: `client`, `appointment`, and `date`. (using `standard queue`).~~
-  - when a client booked an appointment successfully, send a message to SQS queue, which will trigger another lambda function to send booking confirm emails.
+  - using `TransactWrite` to handle all operations in the final step of the booking process (create/update the `date` item, create/update the `client` item, and create the new `appt` item)
+  - when a client books an appointment successfully, send a message to the SQS queue, which will trigger another lambda function to send booking-confirm emails.
 - **Tracking**:
     <p align='center'>
     <img src='https://github.com/MyNameIsTakenOMG/project-gifs/blob/main/tracking_workflow(Upper).PNG' alt='tracking workflow' width='600' />
