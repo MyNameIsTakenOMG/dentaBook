@@ -65,7 +65,7 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
 - AWS Cognito
 - AWS DynamoDB
 - AWS EventBridge
-- AWS SNS
+- AWS SQS
 - AWS SES
 
 ## Workflows
@@ -89,6 +89,7 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
   - API endpoint `/user_upcoming` changed to `/clientUpcoming`
   - when the API endpoint `/findtimeslots` returns back with `availableTimeslots` and `targetDate` successfully, our DynamoDB table already has vacations and holidays information, so no need to send them back to the client for the sake of cost-saving (Data Transfer price: from aws to the internet)
   - **move `fetch google calendar events` logic from client side to server side** in order to simplify the process of data sanitization and validation as well as holidays checking.
+  - decouple with SQS, it needs to add **`version`** to the entities: `client`, `appointment`, and `date`. (using `standard queue`).
 - **Tracking**:
     <p align='center'>
     <img src='https://github.com/MyNameIsTakenOMG/project-gifs/blob/main/tracking_workflow(Upper).PNG' alt='tracking workflow' width='600' />
@@ -179,6 +180,7 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
   - reminder
   - confirm
   - latestAppt
+  - version: number (starting with 1)
 - **Appointment**:
   - entity
   - appointment_date
@@ -186,6 +188,7 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
   - appointment_status
   - appointment_type
   - num_modify
+  - version: number (starting with 1)
 - **Issue**:
   - entity
   - ~~appointment_date~~
@@ -202,7 +205,7 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
   - entity : date
   - schedule_date : `d#<date_1>`
   - appointments_array: `[{start,end}...]`
-  - version: `<timestamp>`
+  - version: number (starting with 1)
 - **Holidays**:
   - entity: holiday
   - holidays_array: `['2023-9-02',...]`
