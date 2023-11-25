@@ -181,6 +181,8 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
   - reminder
   - confirm
   - latestAppt
+  - GSI2-PK
+  - GSI2-SK
   - ~~version: number (starting with 1)~~
 - **Appointment**:
   - entity
