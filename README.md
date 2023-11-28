@@ -93,7 +93,7 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
   - **move `fetch google calendar events` logic from client side to server side** in order to simplify the process of data sanitization and validation as well as holidays checking.
   - ~~decouple with SQS, it needs to add **`version`** to the entities: `client`, `appointment`, and `date`. (using `standard queue`).~~
   - using `TransactWrite` to handle all operations in the final step of the booking process (create/update the `date` item, create/update the `client` item, and create the new `appt` item)
-  - when a client books an appointment successfully, send a message to the SQS queue, which will trigger another lambda function to send booking-confirm emails.
+  - when a client books an appointment successfully, send a booking confirmation email via SES.
 - **Tracking**:
     <p align='center'>
     <img src='https://github.com/MyNameIsTakenOMG/project-gifs/blob/main/tracking_workflow(Upper).PNG' alt='tracking workflow' width='600' />
