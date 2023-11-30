@@ -7,6 +7,7 @@ import localeData from 'dayjs/plugin/localeData';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import minMax from 'dayjs/plugin/minMax';
 import utc from 'dayjs/plugin/utc';
+import isoWeek from 'dayjs/plugin/isoWeek';
 
 dayjs.extend(isBetween);
 dayjs.extend(isSameOrAfter);
@@ -15,5 +16,6 @@ dayjs.extend(localeData);
 dayjs.extend(localizedFormat);
 dayjs.extend(minMax);
 dayjs.extend(utc);
+dayjs.extend(isoWeek);
 
 export default dayjs;

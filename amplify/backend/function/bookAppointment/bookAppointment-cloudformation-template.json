@@ -27,6 +27,10 @@
     "storagedynamoftauthStreamArn": {
       "Type": "String",
       "Default": "storagedynamoftauthStreamArn"
+    },
+    "functiondentabookLayer1Arn": {
+      "Type": "String",
+      "Default": "functiondentabookLayer1Arn"
     }
   },
   "Conditions": {
@@ -100,7 +104,11 @@
           ]
         },
         "Runtime": "nodejs18.x",
-        "Layers": [],
+        "Layers": [
+          {
+            "Ref": "functiondentabookLayer1Arn"
+          }
+        ],
         "Timeout": 25
       }
     },

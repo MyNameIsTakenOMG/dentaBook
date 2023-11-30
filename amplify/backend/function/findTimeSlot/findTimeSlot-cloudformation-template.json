@@ -31,6 +31,10 @@
     "functiondentabookawsSDKArn": {
       "Type": "String",
       "Default": "functiondentabookawsSDKArn"
+    },
+    "functiondentabookLayer1Arn": {
+      "Type": "String",
+      "Default": "functiondentabookLayer1Arn"
     }
   },
   "Conditions": {
@@ -106,7 +110,7 @@
         "Runtime": "nodejs18.x",
         "Layers": [
           {
-            "Ref": "functiondentabookawsSDKArn"
+            "Ref": "functiondentabookLayer1Arn"
           }
         ],
         "Timeout": 25

@@ -16,7 +16,7 @@
   "lambdaLayers": [
     {
       "type": "ProjectLayer",
-      "resourceName": "dentabookawsSDK",
+      "resourceName": "dentabookLayer1",
       "env": "ftauth",
       "version": "Always choose latest version",
       "isLatestVersionSelected": true

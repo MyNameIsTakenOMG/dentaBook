@@ -16,7 +16,9 @@ import { closeModal } from '../store/authSlice';
 const formFields = {
   signIn: {
     username: {
-      dialCodeList: ['+1'],
+      placeholder: 'Enter Your Email Here',
+      isRequired: true,
+      label: 'Email:'
     },
   },
   signUp: {
@@ -26,7 +28,7 @@ const formFields = {
     phone_number: {
       order: 2,
       dialCodeList: ['+1'],
-      pattern: '/^+[0-9]{11}$/',
+      pattern: '/^+[0-9]{10}$/',
     },
     given_name: {
       order: 3,
@@ -73,6 +75,7 @@ export default function AuthenticatorModal() {
   return (
     <div>
       <Authenticator
+        loginMechanisms={['email']}
         className={styles['custom-zIndex']}
         variation="modal"
         formFields={formFields}

@@ -2,7 +2,11 @@
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "{\"createdOn\":\"Windows\",\"createdBy\":\"Amplify\",\"createdWith\":\"12.7.1\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
   "Parameters": {
-    "GROUP": {
+    "DOMAINBLACKLIST": {
+      "Type": "String",
+      "Default": ""
+    },
+    "DOMAINWHITELIST": {
       "Type": "String",
       "Default": ""
     },
@@ -38,9 +42,11 @@
     "env": {
       "Type": "String"
     },
-    "functiondentabookawsSDKArn": {
-      "Type": "String",
-      "Default": "functiondentabookawsSDKArn"
+    "deploymentBucketName": {
+      "Type": "String"
+    },
+    "s3Key": {
+      "Type": "String"
     },
     "storagedynamoftauthName": {
       "Type": "String",
@@ -53,12 +59,6 @@
     "storagedynamoftauthStreamArn": {
       "Type": "String",
       "Default": "storagedynamoftauthStreamArn"
-    },
-    "deploymentBucketName": {
-      "Type": "String"
-    },
-    "s3Key": {
-      "Type": "String"
     },
     "functiondentabookLayer1Arn": {
       "Type": "String",
@@ -87,12 +87,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "dentabookcee0ed10PostConfirmation",
+            "dentabookcee0ed10PreSignup",
             {
               "Fn::Join": [
                 "",
                 [
-                  "dentabookcee0ed10PostConfirmation",
+                  "dentabookcee0ed10PreSignup",
                   "-",
                   {
                     "Ref": "env"
@@ -113,8 +113,11 @@
             "REGION": {
               "Ref": "AWS::Region"
             },
-            "GROUP": {
-              "Ref": "GROUP"
+            "DOMAINWHITELIST": {
+              "Ref": "DOMAINWHITELIST"
+            },
+            "DOMAINBLACKLIST": {
+              "Ref": "DOMAINBLACKLIST"
             },
             "STORAGE_DYNAMOFTAUTH_NAME": {
               "Ref": "storagedynamoftauthName"
@@ -135,11 +138,6 @@
         },
         "Runtime": "nodejs18.x",
         "Timeout": 25,
-        "Layers": [
-          {
-            "Ref": "functiondentabookLayer1Arn"
-          }
-        ],
         "Code": {
           "S3Bucket": {
             "Ref": "deploymentBucketName"
@@ -147,7 +145,12 @@
           "S3Key": {
             "Ref": "s3Key"
           }
-        }
+        },
+        "Layers": [
+          {
+            "Ref": "functiondentabookLayer1Arn"
+          }
+        ]
       }
     },
     "LambdaExecutionRole": {
@@ -156,12 +159,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "dentabookcee0ed10PostConfirmation",
+            "dentabookcee0ed10PreSignup",
             {
               "Fn::Join": [
                 "",
                 [
-                  "dentabookcee0ed10PostConfirmation",
+                  "dentabookcee0ed10PreSignup",
                   "-",
                   {
                     "Ref": "env"
@@ -250,20 +253,13 @@
             {
               "Effect": "Allow",
               "Action": [
-                "dynamodb:Put*",
-                "dynamodb:Create*",
-                "dynamodb:BatchWriteItem",
-                "dynamodb:PartiQLInsert",
                 "dynamodb:Get*",
                 "dynamodb:BatchGetItem",
                 "dynamodb:List*",
                 "dynamodb:Describe*",
                 "dynamodb:Scan",
                 "dynamodb:Query",
-                "dynamodb:PartiQLSelect",
-                "dynamodb:Update*",
-                "dynamodb:RestoreTable*",
-                "dynamodb:PartiQLUpdate"
+                "dynamodb:PartiQLSelect"
               ],
               "Resource": [
                 {

@@ -2,45 +2,19 @@
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "{\"createdOn\":\"Windows\",\"createdBy\":\"Amplify\",\"createdWith\":\"12.7.1\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
   "Parameters": {
-    "GROUP": {
+    "CloudWatchRule": {
       "Type": "String",
-      "Default": ""
+      "Default": "NONE",
+      "Description": " Schedule Expression"
     },
-    "modules": {
-      "Type": "String",
-      "Default": "",
-      "Description": "Comma-delimited list of modules to be executed by a lambda trigger. Sent to resource as an env variable."
-    },
-    "resourceName": {
-      "Type": "String",
-      "Default": ""
-    },
-    "trigger": {
-      "Type": "String",
-      "Default": "true"
-    },
-    "functionName": {
-      "Type": "String",
-      "Default": ""
-    },
-    "roleName": {
-      "Type": "String",
-      "Default": ""
-    },
-    "parentResource": {
-      "Type": "String",
-      "Default": ""
-    },
-    "parentStack": {
-      "Type": "String",
-      "Default": ""
+    "deploymentBucketName": {
+      "Type": "String"
     },
     "env": {
       "Type": "String"
     },
-    "functiondentabookawsSDKArn": {
-      "Type": "String",
-      "Default": "functiondentabookawsSDKArn"
+    "s3Key": {
+      "Type": "String"
     },
     "storagedynamoftauthName": {
       "Type": "String",
@@ -54,11 +28,9 @@
       "Type": "String",
       "Default": "storagedynamoftauthStreamArn"
     },
-    "deploymentBucketName": {
-      "Type": "String"
-    },
-    "s3Key": {
-      "Type": "String"
+    "functiondentabookawsSDKArn": {
+      "Type": "String",
+      "Default": "functiondentabookawsSDKArn"
     },
     "functiondentabookLayer1Arn": {
       "Type": "String",
@@ -83,16 +55,24 @@
         "aws:asset:property": "Code"
       },
       "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "deploymentBucketName"
+          },
+          "S3Key": {
+            "Ref": "s3Key"
+          }
+        },
         "Handler": "index.handler",
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "dentabookcee0ed10PostConfirmation",
+            "fetchUpcomingAppt",
             {
               "Fn::Join": [
                 "",
                 [
-                  "dentabookcee0ed10PostConfirmation",
+                  "fetchUpcomingAppt",
                   "-",
                   {
                     "Ref": "env"
@@ -107,14 +87,8 @@
             "ENV": {
               "Ref": "env"
             },
-            "MODULES": {
-              "Ref": "modules"
-            },
             "REGION": {
               "Ref": "AWS::Region"
-            },
-            "GROUP": {
-              "Ref": "GROUP"
             },
             "STORAGE_DYNAMOFTAUTH_NAME": {
               "Ref": "storagedynamoftauthName"
@@ -134,20 +108,12 @@
           ]
         },
         "Runtime": "nodejs18.x",
-        "Timeout": 25,
         "Layers": [
           {
             "Ref": "functiondentabookLayer1Arn"
           }
         ],
-        "Code": {
-          "S3Bucket": {
-            "Ref": "deploymentBucketName"
-          },
-          "S3Key": {
-            "Ref": "s3Key"
-          }
-        }
+        "Timeout": 25
       }
     },
     "LambdaExecutionRole": {
@@ -156,12 +122,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "dentabookcee0ed10PostConfirmation",
+            "dentabookLambdaRole1e430597",
             {
               "Fn::Join": [
                 "",
                 [
-                  "dentabookcee0ed10PostConfirmation",
+                  "dentabookLambdaRole1e430597",
                   "-",
                   {
                     "Ref": "env"
@@ -250,20 +216,13 @@
             {
               "Effect": "Allow",
               "Action": [
-                "dynamodb:Put*",
-                "dynamodb:Create*",
-                "dynamodb:BatchWriteItem",
-                "dynamodb:PartiQLInsert",
                 "dynamodb:Get*",
                 "dynamodb:BatchGetItem",
                 "dynamodb:List*",
                 "dynamodb:Describe*",
                 "dynamodb:Scan",
                 "dynamodb:Query",
-                "dynamodb:PartiQLSelect",
-                "dynamodb:Update*",
-                "dynamodb:RestoreTable*",
-                "dynamodb:PartiQLUpdate"
+                "dynamodb:PartiQLSelect"
               ],
               "Resource": [
                 {
@@ -301,6 +260,11 @@
         ]
       }
     },
+    "Region": {
+      "Value": {
+        "Ref": "AWS::Region"
+      }
+    },
     "LambdaExecutionRole": {
       "Value": {
         "Ref": "LambdaExecutionRole"
@@ -312,11 +276,6 @@
           "LambdaExecutionRole",
           "Arn"
         ]
-      }
-    },
-    "Region": {
-      "Value": {
-        "Ref": "AWS::Region"
       }
     }
   }

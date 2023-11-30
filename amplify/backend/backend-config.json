@@ -17,6 +17,14 @@
           ],
           "category": "function",
           "resourceName": "findTimeSlot"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "fetchUpcomingAppt"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -34,6 +42,15 @@
           ],
           "category": "function",
           "resourceName": "dentabookcee0ed10PostConfirmation",
+          "triggerProvider": "Cognito"
+        },
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "dentabookcee0ed10PreSignup",
           "triggerProvider": "Cognito"
         }
       ],
@@ -67,6 +84,13 @@
       "dependsOn": [
         {
           "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "dentabookLayer1"
+        },
+        {
+          "attributes": [
             "Name",
             "Arn",
             "StreamArn"
@@ -78,7 +102,7 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
-    "dentabookawsSDK": {
+    "dentabookLayer1": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "LambdaLayer"
@@ -88,19 +112,65 @@
       "dependsOn": [
         {
           "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "dentabookLayer1"
+        },
+        {
+          "attributes": [
             "Name",
             "Arn",
             "StreamArn"
           ],
           "category": "storage",
           "resourceName": "dynamoftauth"
-        },
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "dentabookcee0ed10PreSignup": {
+      "build": true,
+      "dependsOn": [
         {
           "attributes": [
             "Arn"
           ],
           "category": "function",
-          "resourceName": "dentabookawsSDK"
+          "resourceName": "dentabookLayer1"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "dynamoftauth"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "fetchUpcomingAppt": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "dentabookLayer1"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "dynamoftauth"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -111,19 +181,19 @@
       "dependsOn": [
         {
           "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "dentabookLayer1"
+        },
+        {
+          "attributes": [
             "Name",
             "Arn",
             "StreamArn"
           ],
           "category": "storage",
           "resourceName": "dynamoftauth"
-        },
-        {
-          "attributes": [
-            "Arn"
-          ],
-          "category": "function",
-          "resourceName": "dentabookawsSDK"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -147,19 +217,19 @@
         }
       ]
     },
-    "AMPLIFY_function_dentabookawsSDK_deploymentBucketName": {
+    "AMPLIFY_function_dentabookLayer1_deploymentBucketName": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "dentabookawsSDK"
+          "resourceName": "dentabookLayer1"
         }
       ]
     },
-    "AMPLIFY_function_dentabookawsSDK_s3Key": {
+    "AMPLIFY_function_dentabookLayer1_s3Key": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "dentabookawsSDK"
+          "resourceName": "dentabookLayer1"
         }
       ]
     },
@@ -176,6 +246,38 @@
         {
           "category": "function",
           "resourceName": "dentabookcee0ed10PostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_dentabookcee0ed10PreSignup_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "dentabookcee0ed10PreSignup"
+        }
+      ]
+    },
+    "AMPLIFY_function_dentabookcee0ed10PreSignup_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "dentabookcee0ed10PreSignup"
+        }
+      ]
+    },
+    "AMPLIFY_function_fetchUpcomingAppt_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "fetchUpcomingAppt"
+        }
+      ]
+    },
+    "AMPLIFY_function_fetchUpcomingAppt_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "fetchUpcomingAppt"
         }
       ]
     },

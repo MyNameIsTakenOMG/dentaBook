@@ -66,6 +66,15 @@
           "Arn",
           "Name"
         ]
+      },
+      {
+        "category": "function",
+        "resourceName": "dentabookcee0ed10PreSignup",
+        "triggerProvider": "Cognito",
+        "attributes": [
+          "Arn",
+          "Name"
+        ]
       }
     ],
     "thirdPartyAuth": false,
@@ -73,6 +82,9 @@
     "adminQueries": false,
     "triggers": {
       "PostConfirmation": [
+        "custom"
+      ],
+      "PreSignup": [
         "custom"
       ]
     },
@@ -82,6 +94,6 @@
       "Ref": "AWS::StackId"
     },
     "permissions": [],
-    "authTriggerConnections": "[\n  {\n    \"triggerType\": \"PostConfirmation\",\n    \"lambdaFunctionName\": \"dentabookcee0ed10PostConfirmation\"\n  }\n]"
+    "authTriggerConnections": "[\n  {\n    \"triggerType\": \"PostConfirmation\",\n    \"lambdaFunctionName\": \"dentabookcee0ed10PostConfirmation\"\n  },\n  {\n    \"triggerType\": \"PreSignUp\",\n    \"lambdaFunctionName\": \"dentabookcee0ed10PreSignup\"\n  }\n]"
   }
 }

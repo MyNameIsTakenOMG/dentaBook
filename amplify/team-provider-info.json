@@ -28,21 +28,29 @@
     },
     "categories": {
       "function": {
-        "dentabookawsSDK": {
-          "deploymentBucketName": "amplify-dentabook-ftauth-130858-deployment",
-          "s3Key": "amplify-builds/dentabookawsSDK-LambdaLayerVersion5e648577-build.zip"
-        },
         "bookAppointment": {
           "deploymentBucketName": "amplify-dentabook-ftauth-130858-deployment",
-          "s3Key": "amplify-builds/bookAppointment-322b4e70705730436741-build.zip"
+          "s3Key": "amplify-builds/bookAppointment-3041716257564e305370-build.zip"
         },
         "findTimeSlot": {
           "deploymentBucketName": "amplify-dentabook-ftauth-130858-deployment",
-          "s3Key": "amplify-builds/findTimeSlot-545a4676784d484e7659-build.zip"
+          "s3Key": "amplify-builds/findTimeSlot-6e476e503163326b494b-build.zip"
         },
         "dentabookcee0ed10PostConfirmation": {
           "deploymentBucketName": "amplify-dentabook-ftauth-130858-deployment",
-          "s3Key": "amplify-builds/dentabookcee0ed10PostConfirmation-713142626c5257483458-build.zip"
+          "s3Key": "amplify-builds/dentabookcee0ed10PostConfirmation-722f574c693878466e65-build.zip"
+        },
+        "fetchUpcomingAppt": {
+          "deploymentBucketName": "amplify-dentabook-ftauth-130858-deployment",
+          "s3Key": "amplify-builds/fetchUpcomingAppt-38364f44573034414d32-build.zip"
+        },
+        "dentabookcee0ed10PreSignup": {
+          "deploymentBucketName": "amplify-dentabook-ftauth-130858-deployment",
+          "s3Key": "amplify-builds/dentabookcee0ed10PreSignup-2b49314e71562f363553-build.zip"
+        },
+        "dentabookLayer1": {
+          "deploymentBucketName": "amplify-dentabook-ftauth-130858-deployment",
+          "s3Key": "amplify-builds/dentabookLayer1-LambdaLayerVersion0fa5e17f-build.zip"
         }
       },
       "storage": {

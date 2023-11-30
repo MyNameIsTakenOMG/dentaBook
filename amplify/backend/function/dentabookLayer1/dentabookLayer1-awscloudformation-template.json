@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "{\"createdOn\":\"Windows\",\"createdBy\":\"Amplify\",\"createdWith\":\"12.6.0\",\"stackType\":\"function-LambdaLayer\",\"metadata\":{}}",
+  "Description": "{\"createdOn\":\"Windows\",\"createdBy\":\"Amplify\",\"createdWith\":\"12.8.2\",\"stackType\":\"function-LambdaLayer\",\"metadata\":{}}",
   "Parameters": {
     "env": {
       "Type": "String"
@@ -20,7 +20,7 @@
     }
   },
   "Resources": {
-    "LambdaLayerVersion5e648577": {
+    "LambdaLayerVersion0fa5e17f": {
       "Type": "AWS::Lambda::LayerVersion",
       "Properties": {
         "CompatibleRuntimes": {
@@ -39,7 +39,7 @@
         },
         "LayerName": {
           "Fn::Sub": [
-            "dentabookawsSDK-${env}",
+            "dentabookLayer1-${env}",
             {
               "env": {
                 "Ref": "env"
@@ -51,12 +51,12 @@
       "DeletionPolicy": "Delete",
       "UpdateReplacePolicy": "Retain"
     },
-    "LambdaLayerPermissionPublic5e648577": {
+    "LambdaLayerPermissionPublic0fa5e17f": {
       "Type": "AWS::Lambda::LayerVersionPermission",
       "Properties": {
         "Action": "lambda:GetLayerVersion",
         "LayerVersionArn": {
-          "Ref": "LambdaLayerVersion5e648577"
+          "Ref": "LambdaLayerVersion0fa5e17f"
         },
         "Principal": "*"
       }
@@ -65,7 +65,7 @@
   "Outputs": {
     "Arn": {
       "Value": {
-        "Ref": "LambdaLayerVersion5e648577"
+        "Ref": "LambdaLayerVersion0fa5e17f"
       }
     }
   }

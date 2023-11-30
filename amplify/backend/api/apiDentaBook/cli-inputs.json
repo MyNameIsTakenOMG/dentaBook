@@ -14,6 +14,13 @@
       "permissions": {
         "setting": "open"
       }
+    },
+    "/clientUpcoming": {
+      "name": "/clientUpcoming",
+      "lambdaFunction": "fetchUpcomingAppt",
+      "permissions": {
+        "setting": "open"
+      }
     }
   }
 }

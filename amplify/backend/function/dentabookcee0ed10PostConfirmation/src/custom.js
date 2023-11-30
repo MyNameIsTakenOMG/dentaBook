@@ -6,8 +6,9 @@ const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
 const {
   DynamoDBDocumentClient,
   PutCommand,
-  QueryCommand,
+  GetCommand,
 } = require('@aws-sdk/lib-dynamodb');
+const { monitorAndNotify } = require('/opt/monitorAndNotify');
 
 const marshallOptions = {
   // Whether to automatically convert empty strings, blobs, and sets to `null`.
@@ -35,49 +36,55 @@ exports.handler = async (event, context) => {
     event.request.userAttributes;
   try {
     // check if this client has booked appointments before
-    // ...
+    // sanitize the incoming data
+    let _email = email.toLowerCase().trim();
+    let _phone = phone_number.toLowerCase().trim().slice(2);
+    let _fname = family_name.toLowerCase().trim();
+    let _gname = given_name.toLowerCase().trim();
     const response = await docClient.send(
-      new QueryCommand({
+      new GetCommand({
         TableName: process.env.STORAGE_DYNAMOFTAUTH_NAME,
-        KeyConditionExpression: 'PK = :v1 and begins_with(SK, :v2)',
-        ExpressionAttributeValues: {
-          ':v1': `c#${email}`,
-          ':v2': 'c#',
+        Key: {
+          PK: `c#${_email}`,
+          SK: `c#${_email}`,
         },
-        Limit: 1,
-        ProjectionExpression: 'PK',
-        ScanIndexForward: false, // reversely searching
+        ProjectionExpression: 'PK, phone, fname, gname',
       })
     );
     // if this client has never booked an appointment before
     // then create a client profile
-    if (response.Items.length === 0) {
+    if (!response.Item) {
       await docClient.send(
         new PutCommand({
           TableName: process.env.STORAGE_DYNAMOFTAUTH_NAME,
           Item: {
-            PK: `c#${email}`,
-            SK: `c#${email}`,
+            PK: `c#${_email}`,
+            SK: `c#${_email}`,
             entity: 'client',
-            phone: phone_number,
-            fname: family_name,
-            gname: given_name,
+            phone: _phone,
+            fname: _fname,
+            gname: _gname,
             role: event.request.userAttributes['custom:role'],
             interval: undefined,
             latestAppt: undefined,
             reminder: undefined,
             confirm: false,
             active: false,
+            'GSI2-PK': 'client',
+            'GSI2-SK': `c#true#${_email}`,
           },
         })
       );
-      console.log(`user:${email} profile created successfully`);
+      console.log(`post confirm: user:${_email} profile created successfully`);
+      // return event;
+      return event;
     }
-    // return event;
-    context.done(null, event);
   } catch (error) {
-    console.log(`user:${email} profile created failed`);
-    console.log('error: ', error);
-    context.done(null, event);
+    console.log(
+      `post confirm: user:${email} profile fetched or created failed`
+    );
+    console.log('post confirm: error: ', error);
+    await monitorAndNotify('dentaBook', context, error, process.env.SNS_TOPIC);
+    return;
   }
 };

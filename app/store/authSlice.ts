@@ -46,9 +46,9 @@ const authSlice = createSlice({
       if (action.payload)
         state.authInfo = {
           email: action.payload.email,
-          phone_number: action.payload.phone_number,
-          family_name: action.payload.family_name,
-          given_name: action.payload.given_name,
+          phone_number: action.payload.phone,
+          family_name: action.payload.fname,
+          given_name: action.payload.gname,
           'custom:role': action.payload['custom:role'],
         };
     },

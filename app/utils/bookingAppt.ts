@@ -1,7 +1,9 @@
 export enum BookingErrorType {
   appt = 'appt',
   user = 'user',
+  userInput = 'userInput',
   submit = 'submit',
+  other = 'other',
 }
 
 export const appt_types = [

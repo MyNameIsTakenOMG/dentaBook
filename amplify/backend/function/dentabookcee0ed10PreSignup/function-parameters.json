@@ -1,0 +1,32 @@
+{
+  "trigger": true,
+  "modules": [
+    "custom"
+  ],
+  "parentResource": "dentabookcee0ed10",
+  "functionName": "dentabookcee0ed10PreSignup",
+  "resourceName": "dentabookcee0ed10PreSignup",
+  "parentStack": "auth",
+  "triggerEnvs": "[]",
+  "triggerDir": "C:\\snapshot\\amplify-cli\\build\\node_modules\\@aws-amplify\\amplify-category-auth\\provider-utils\\awscloudformation\\triggers\\PreSignup",
+  "triggerTemplate": "PreSignup.json.ejs",
+  "triggerEventPath": "PreSignup.event.json",
+  "roleName": "dentabookcee0ed10PreSignup",
+  "skipEdit": true,
+  "permissions": {
+    "storage": {
+      "dynamoftauth": [
+        "read"
+      ]
+    }
+  },
+  "lambdaLayers": [
+    {
+      "type": "ProjectLayer",
+      "resourceName": "dentabookLayer1",
+      "env": "ftauth",
+      "version": "Always choose latest version",
+      "isLatestVersionSelected": true
+    }
+  ]
+}

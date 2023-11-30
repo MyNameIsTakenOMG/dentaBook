@@ -21,10 +21,10 @@ export const timeslotsFinder = (
   const getEndPointer = (start_pointer: number): number => {
     return start_pointer + duration;
   };
-  // assuming the interval of timeslots is 30mins (or 0.5)
+  let slotsFinder: any;
   // if there is no existing timeslot
   if (inputArray === undefined) {
-    const slotsFinder = (
+    slotsFinder = (
       start_time: number,
       end_time: number,
       getEndPointer: (start_point: number) => number
@@ -52,7 +52,7 @@ export const timeslotsFinder = (
   let sortedNumArray = mergeSort(numArray);
   let arrayIndex = 0;
 
-  const slotsFinder = (
+  slotsFinder = (
     start_time: number,
     end_time: number,
     getEndPointer: (start_point: number) => number
@@ -96,6 +96,7 @@ export const timeslotsFinder = (
       }
     }
   };
+
   // morning  9 - 13
   slotsFinder(first_half[0], first_half[1], getEndPointer);
   // afternoon 14 - 18
@@ -129,6 +130,7 @@ export const appointmentArrayConvertor = (
 export const appointmentArrayReverseConvertor = (
   inputArray: NumberArrayItem[]
 ): TimeArrayItem[] => {
+  if (inputArray.length === 0) return [];
   return inputArray.map((item) => {
     const { start, end } = item;
     let start_time, end_time;
