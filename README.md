@@ -79,7 +79,7 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
 
 - **Booking**:
     <p align='center'>
-    <img src='https://github.com/MyNameIsTakenOMG/project-gifs/blob/main/dentaBook-booking_workflow2.PNG' alt='booking workflow' width='600' />
+    <img src='https://github.com/MyNameIsTakenOMG/project-gifs/blob/main/dentaBook-booking_workflow2.PNG' alt='booking workflow' width='700' />
   </p>
   
   **Note:**
