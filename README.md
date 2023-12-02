@@ -99,6 +99,9 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
     <img src='https://github.com/MyNameIsTakenOMG/project-gifs/blob/main/tracking_workflow(Lower).PNG' alt='tracking workflow' width='600' />
   </p>
 
+  **Note:**
+  - no need for `step functions` (long-time tasks), just lambda functions will be enough(short-time tasks)
+
 ## API endpoints
 - **/findtimeslot**:
   - **Use cases:** This API endpoint is responsible for three use cases:
@@ -139,6 +142,10 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
     - when `targetDate` is unspecified in the response body, it means it is the second use case which is the client is picking a certain date to check its available time slots.
     - `targetDate`: `targetDate` is `pickedDate` when it's specified, otherwise it will be the date with available time slots (**format:** `yyyy-mm-dd`,`2023-09-01`).
     - `availableTimeslots`: could be an empty array or an array with time slots (**format:** `[{start:'14:00',end:'15:30'},...]`)
+
+- **/book**:
+- **/clientUpcoming**:
+
 ## Challenges
 
 - ~~showing the correct info on a calendar, such as holidays, long weekends, as well as dentist's vacations~~ ✅ **Solution:** adding `customEvent` components for different views when initializing `react-big-calendar`.
