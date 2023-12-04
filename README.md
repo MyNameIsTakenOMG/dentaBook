@@ -101,6 +101,7 @@ DentalBook is a web app that is designed to serve dentists and patients. The goa
 
   **Note:**
   - no need for `step functions` (long-time tasks), just lambda functions will be enough(short-time tasks)
+  - using `EventBridge Scheduler` to set a cron job (a lambda function) to run daily at 20:00  
 
 ## API endpoints
 - **/findtimeslot**:
